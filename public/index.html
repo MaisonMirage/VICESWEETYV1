@@ -199,7 +199,7 @@ a { color:inherit; text-decoration:none; }
   background-size: 300px auto;
   background-repeat: repeat;
   background-position: center;
-  opacity: 0.04;
+  opacity: 0.02;
   pointer-events: none;
 }
 .hero::after {
@@ -242,26 +242,27 @@ a { color:inherit; text-decoration:none; }
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.85rem 2.5rem;
+  padding: 0.9rem 2.8rem;
   border-radius: 999px;
   font-family: var(--mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 600;
   color: var(--deep-purple);
-  background: var(--white);
-  border: none;
+  background: linear-gradient(135deg, var(--white) 0%, #E0F7FA 100%);
+  border: 2px solid rgba(255,255,255,0.6);
   cursor: pointer;
-  transition: all 0.3s var(--ease);
+  transition: all 0.4s var(--ease);
   text-decoration: none;
-  box-shadow: 0 8px 32px rgba(26,10,46,0.15);
+  box-shadow: 0 8px 32px rgba(26,10,46,0.2), 0 0 0 0 rgba(64,224,208,0);
 }
 .btn-hero:hover {
   background: var(--turquoise);
   color: var(--deep-purple);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(64,224,208,0.3);
+  border-color: var(--turquoise);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(64,224,208,0.35), 0 0 20px rgba(64,224,208,0.2);
 }
 .hero-scroll {
   position: absolute;
@@ -305,14 +306,14 @@ a { color:inherit; text-decoration:none; }
 .intro-band h2 {
   font-family: var(--display);
   font-size: clamp(1.8rem, 4vw, 3.5rem);
-  color: var(--deep-purple);
+  color: var(--hot-pink);
   margin-bottom: 1rem;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 .intro-band p {
   font-size: clamp(1rem, 1.6vw, 1.15rem);
-  color: var(--text-soft);
+  color: var(--text);
   max-width: 55ch;
   margin: 0 auto;
   font-weight: 300;
@@ -336,6 +337,59 @@ a { color:inherit; text-decoration:none; }
   margin-bottom: 0.3rem;
 }
 .intro-feat span { font-size:0.88rem; color:var(--text-soft); font-weight:300; }
+
+/* ═══════ NOTRE VICE — Brand Story ═══════ */
+.notre-vice {
+  padding: 5rem 4vw;
+  background: var(--deep-purple);
+  position: relative;
+  overflow: hidden;
+}
+.notre-vice::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(64,224,208,0.06) 0%, rgba(255,105,180,0.06) 100%);
+  pointer-events: none;
+}
+.notre-vice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.notre-vice-img {
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.notre-vice-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.notre-vice-text h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+.notre-vice-text p {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+.notre-vice-text .vice-highlight {
+  color: var(--turquoise);
+  font-weight: 500;
+}
 
 /* ═══════ CATEGORY BLOCKS ═══════ */
 .cat-row {
@@ -361,7 +415,7 @@ a { color:inherit; text-decoration:none; }
 .cat-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(26,10,46,0.05) 0%, rgba(26,10,46,0.6) 100%);
+  background: linear-gradient(180deg, rgba(26,10,46,0.0) 0%, rgba(26,10,46,0.55) 100%);
   display: flex; flex-direction: column;
   align-items: center; justify-content: flex-end;
   text-align: center;
@@ -437,15 +491,15 @@ a { color:inherit; text-decoration:none; }
   background: linear-gradient(135deg, var(--sky) 0%, #B2EBF2 50%, var(--sky) 100%);
 }
 .statement.pink-on-sky .statement-text {
-  color: var(--hot-pink);
-  text-shadow: 0 2px 20px rgba(255,105,180,0.15);
+  color: #E91E8C;
+  text-shadow: 0 2px 20px rgba(233,30,140,0.2);
 }
 
 .statement.turquoise-on-blush {
   background: linear-gradient(135deg, var(--blush) 0%, var(--blush-mid) 50%, var(--blush) 100%);
 }
 .statement.turquoise-on-blush .statement-text {
-  color: var(--ocean);
+  color: #008B9E;
 }
 
 /* ═══════ CTA SECTION ═══════ */
@@ -477,6 +531,58 @@ a { color:inherit; text-decoration:none; }
   font-weight: 300;
   margin-bottom: 2rem;
   position: relative;
+}
+
+/* ═══════ INSTAGRAM FEED ═══════ */
+.insta-section {
+  padding: 4rem 4vw;
+  background: var(--cream);
+  text-align: center;
+}
+.insta-section h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--deep-purple);
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+.insta-section .insta-handle {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--hot-pink);
+  margin-bottom: 2.5rem;
+  display: block;
+}
+.insta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.insta-item {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;
+}
+.insta-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease);
+}
+.insta-item:hover img { transform: scale(1.05); }
+.insta-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(26,10,46,0);
+  transition: background 0.3s;
+}
+.insta-item:hover::after {
+  background: rgba(26,10,46,0.15);
 }
 
 /* ═══════ VISIT SECTION ═══════ */
@@ -554,8 +660,8 @@ a { color:inherit; text-decoration:none; }
   display: block;
   max-width: 200px;
   margin: 0 auto 2.5rem;
-  filter: drop-shadow(0 0 12px rgba(249,144,232,0.2));
-  opacity: 0.6;
+  filter: drop-shadow(0 0 18px rgba(249,144,232,0.35));
+  opacity: 1;
   position: relative; z-index: 1;
 }
 .footer-top {
@@ -580,19 +686,19 @@ a { color:inherit; text-decoration:none; }
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-dim);
+  color: rgba(255,255,255,0.6);
   margin-right: 1.5rem;
   margin-bottom: 0.5rem;
   transition: color 0.3s;
 }
-.footer-col a:hover { color: var(--pink); }
+.footer-col a:hover { color: var(--turquoise); }
 .footer-social { display:flex; gap:1rem; margin-top:0.5rem; }
 .footer-social a {
   width:36px; height:36px;
   border-radius:50%;
-  border:1px solid rgba(64,224,208,0.2);
+  border:1px solid rgba(64,224,208,0.3);
   display:flex; align-items:center; justify-content:center;
-  color:var(--text-dim);
+  color: rgba(255,255,255,0.6);
   transition:all 0.3s;
   margin:0;
 }
@@ -602,15 +708,15 @@ a { color:inherit; text-decoration:none; }
   max-width: 1100px;
   margin: 0 auto;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
-.footer-copy { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; color:var(--text-muted); }
-.footer-legal a { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); margin-left:1.5rem; transition:color 0.3s; }
+.footer-copy { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; color:rgba(255,255,255,0.45); }
+.footer-legal a { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-left:1.5rem; transition:color 0.3s; }
 .footer-legal a:hover { color:var(--turquoise); }
 
 /* ═══════ MOBILE OVERLAY ═══════ */
@@ -660,6 +766,8 @@ a { color:inherit; text-decoration:none; }
   .cat-full { min-height:40vh; }
   .hero { height:90vh; }
   .hero-content { margin-top: -3vh; }
+  .notre-vice-grid { grid-template-columns:1fr; gap:2.5rem; }
+  .insta-grid { grid-template-columns: repeat(2, 1fr); }
   .visit-grid { grid-template-columns:1fr; gap:2.5rem; }
   .footer-top { grid-template-columns:1fr; }
 }
@@ -732,10 +840,25 @@ a { color:inherit; text-decoration:none; }
   </div>
 </section>
 
+<!-- ═══════ NOTRE VICE — Brand Story ═══════ -->
+<section class="notre-vice">
+  <div class="notre-vice-grid">
+    <div class="notre-vice-img reveal">
+      <img src="img/vitrine-boutique.webp" alt="Vice Sweety Boutique" />
+    </div>
+    <div class="notre-vice-text reveal">
+      <h2>Notre Vice</h2>
+      <p>On a commencé avec une obsession : créer des desserts <span class="vice-highlight">trop beaux pour être vrais</span>. Des fruits qui ont l'air parfaits — tu coupes, et l'illusion se révèle. Ganache veloutée, mousse onctueuse, cœur fondant.</p>
+      <p>Aujourd'hui c'est devenu un univers. Des smoothies sunset, des cookies addictifs, de la cookie dough à la cuillère, des crêpes qui font fermer les yeux. Tout est <span class="vice-highlight">fait main, à Marseille</span>, avec des ingrédients qu'on choisit nous-mêmes.</p>
+      <p>Vice Sweety, c'est le plaisir coupable qui ne s'excuse pas.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════ BLOC 1 — Smoothies + Milkshakes ═══════ -->
 <div class="cat-row">
   <a href="menu.html" class="cat-block reveal">
-    <img src="img/smoothie-sunset-2.png" alt="Smoothie Sunset Vice Sweety" />
+    <img src="img/smoothie-sunset-2.webp" alt="Smoothie Sunset Vice Sweety" />
     <div class="cat-overlay">
       <span class="cat-tag">Nouveau</span>
       <h2 class="cat-title">Smoothies</h2>
@@ -743,7 +866,7 @@ a { color:inherit; text-decoration:none; }
     </div>
   </a>
   <a href="menu.html" class="cat-block reveal">
-    <img src="img/milkshake-fraise-1.png" alt="Milkshake Fraise Vice Sweety" />
+    <img src="img/milkshake-fraise-1.webp" alt="Milkshake Fraise Vice Sweety" />
     <div class="cat-overlay">
       <h2 class="cat-title">Milkshakes</h2>
       <p class="cat-sub">Crémeux, rosé, surmonté de chantilly. Le plaisir coupable.</p>
@@ -768,14 +891,14 @@ a { color:inherit; text-decoration:none; }
 <!-- ═══════ BLOC 3 — Cookies + Cookie Dough ═══════ -->
 <div class="cat-row">
   <a href="menu.html" class="cat-block reveal">
-    <img src="img/cookie-bag.png" alt="Cookie Vice Sweety" />
+    <img src="img/cookie-bag.webp" alt="Cookie Vice Sweety" />
     <div class="cat-overlay">
       <h2 class="cat-title">Cookies</h2>
       <p class="cat-sub">Fondants, chocolatés, addictifs. Tu ne t'arrêteras pas à un.</p>
     </div>
   </a>
   <a href="menu.html" class="cat-block reveal">
-    <img src="img/cookie-dough-1.png" alt="Cookie Dough Vice Sweety" />
+    <img src="img/cookie-dough-1.webp" alt="Cookie Dough Vice Sweety" />
     <div class="cat-overlay">
       <span class="cat-tag">Best-seller</span>
       <h2 class="cat-title">Cookie Dough</h2>
@@ -792,14 +915,14 @@ a { color:inherit; text-decoration:none; }
 <!-- ═══════ BLOC 4 — Pancakes + Crêpes ═══════ -->
 <div class="cat-row">
   <a href="menu.html" class="cat-block reveal">
-    <img src="img/pancakes-2.png" alt="Mini Pancakes Vice Sweety" />
+    <img src="img/pancakes-2.webp" alt="Mini Pancakes Vice Sweety" />
     <div class="cat-overlay">
       <h2 class="cat-title">Mini Pancakes</h2>
       <p class="cat-sub">Dorés, nappés, garnis. La douceur qui se partage.</p>
     </div>
   </a>
   <a href="menu.html" class="cat-block reveal">
-    <img src="img/crepes-2.png" alt="Crêpes Vice Sweety" />
+    <img src="img/crepes-2.webp" alt="Crêpes Vice Sweety" />
     <div class="cat-overlay">
       <h2 class="cat-title">Crêpes</h2>
       <p class="cat-sub">Nutella, fruits frais, chantilly. Tu choisis, on régale.</p>
@@ -812,6 +935,18 @@ a { color:inherit; text-decoration:none; }
   <div class="cta-title reveal">Prête à craquer ?</div>
   <p class="cta-sub reveal">Commande en ligne et récupère en boutique.</p>
   <a href="menu.html" class="btn-cta btn-cta-turquoise" style="position:relative;">Voir la carte →</a>
+</section>
+
+<!-- ═══════ INSTAGRAM ═══════ -->
+<section class="insta-section">
+  <h2 class="reveal">Vice sur Instagram</h2>
+  <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-handle reveal">@vicesweety</a>
+  <div class="insta-grid reveal">
+    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/smoothie-sunset-1.webp" alt="Vice Sweety" /></a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/cookie-dough-2.webp" alt="Vice Sweety" /></a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/pancakes-1.webp" alt="Vice Sweety" /></a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/crepes-1.webp" alt="Vice Sweety" /></a>
+  </div>
 </section>
 
 <!-- ═══════ NOUS TROUVER ═══════ -->
@@ -833,6 +968,7 @@ a { color:inherit; text-decoration:none; }
       <p class="address-text">
         <strong>Vice Sweety — Marseille</strong>
         Take-away · Commande sur place<br><br>
+        47 Rue de la République, 13002 Marseille<br><br>
         <a href="tel:+33622356575">+33 6 22 35 65 75</a><br>
         <a href="mailto:hello@vicesweety.com">hello@vicesweety.com</a><br><br>
         Commandes préparées en 5 minutes.<br>
