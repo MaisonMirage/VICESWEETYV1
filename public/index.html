@@ -19,7 +19,7 @@
   <meta name="theme-color" content="#1a1025" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="preload" as="image" href="img/hero-trio-trans.webp" media="(min-width: 901px)" />
-  <link rel="preload" as="image" href="img/hero-trio-trans-mobile.webp" media="(max-width: 900px)" imagesrcset="img/hero-trio-trans-mobile.webp 768w, img/hero-trio-trans-960w.webp 960w, img/hero-trio-trans-1280w.webp 1280w" imagesizes="95vw" />
+  <link rel="preload" as="image" href="img/hero-trio-trans-mobile.webp" media="(max-width: 900px)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -264,6 +264,22 @@ a { color:inherit; text-decoration:none; }
   pointer-events: none;
   z-index: 0;
 }
+/* Gradient fade over hero image on mobile — cream to transparent */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, var(--cream) 0%, rgba(254,252,255,0.92) 35%, rgba(254,252,255,0.4) 65%, rgba(254,252,255,0) 100%);
+  pointer-events: none;
+  z-index: 2;
+  display: none;
+}
+@media (max-width: 900px) {
+  .hero::before { display: none; }
+  .hero::after { display: block; }
+  .hero { background: linear-gradient(180deg, var(--cream) 0%, #fdf0f4 100%); }
+}
 .hero-img {
   position: absolute;
   bottom: -2%; left: 50%;
@@ -275,13 +291,40 @@ a { color:inherit; text-decoration:none; }
   opacity: 0;
   animation: heroImgIn 1.2s 0.6s var(--ease) forwards;
 }
+.hero-img-mobile { display: none; }
+@media (max-width: 900px) {
+  .hero-img-desktop { display: none !important; }
+  .hero-img.hero-img-mobile {
+    display: block;
+    position: absolute;
+    width: 100% !important;
+    max-width: none !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    transform: none !important;
+    object-fit: contain;
+    object-position: center bottom;
+    height: 85%;
+    opacity: 0;
+    animation: heroImgInMobile 1.4s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    z-index: 1;
+    filter: drop-shadow(0 -10px 60px rgba(230,59,122,0.15)) drop-shadow(0 -4px 20px rgba(91,45,142,0.08));
+  }
+}
 @keyframes heroImgIn {
   from { opacity:0; transform:translateX(-50%) translateY(40px) scale(0.97); }
   to { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
 }
+@keyframes heroImgInMobile {
+  0% { opacity:0; transform:translateY(60px) scale(0.93); }
+  60% { opacity:1; }
+  100% { opacity:1; transform:translateY(0) scale(1); }
+}
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   padding: 2rem;
   max-width: 800px;
@@ -362,6 +405,7 @@ a { color:inherit; text-decoration:none; }
   transition: opacity 0.4s;
 }
 .hero-scroll.hidden { opacity:0 !important; animation:none; }
+@media (max-width: 900px) { .hero-scroll { display: none; } }
 @keyframes scrollIndicatorIn {
   from { opacity:0; transform:translateX(-50%) translateY(-10px); }
   to { opacity:0.6; transform:translateX(-50%) translateY(0); }
@@ -1107,9 +1151,9 @@ a { color:inherit; text-decoration:none; }
   .nav-links { display:none; }
   .nav { padding:0 1rem; height:64px; }
   .nav-burger { left:1rem; }
-  .hero { height:90vh; height: 90dvh; }
-  .hero-img { width:90%; max-width:500px; }
-  .hero-content { margin-top: 10vh; }
+  .hero { height: 100vh; height: 100dvh; min-height: 0; }
+  .hero-img-desktop { width:90%; max-width:500px; }
+  .hero-content { margin-top: max(10vh, calc(env(safe-area-inset-top) + 80px)); padding: 0 1.5rem; }
   .nav-right { right:1rem; }
   .nav-logo img { height:70px; }
   .btn-cta { padding:0.65rem 1.4rem; font-size:0.6rem; min-height: 44px; display: inline-flex; align-items: center; }
@@ -1152,10 +1196,11 @@ a { color:inherit; text-decoration:none; }
 }
 
 @media (max-width: 500px) {
-  .hero { height:85vh; height: 85dvh; }
+  .hero { height: 100vh; height: 100dvh; }
   .hero-title { font-size:clamp(1.8rem,7vw,2.8rem); }
-  .hero-content { margin-top: 10vh; padding-top: 0; }
-  .hero-img { width:95%; max-width:none; }
+  .hero-content { margin-top: max(8vh, calc(env(safe-area-inset-top) + 70px)); }
+  .hero-img-desktop { width:95%; max-width:none; }
+  .hero-sub { margin-bottom: 1.5rem; }
   .statement-text { font-size:clamp(2.5rem,10vw,4rem); }
   .tl-flavors { grid-template-columns: 1fr; gap: 0.3rem; }
   .tl-panel { padding: 2.5rem 1.5rem; }
@@ -1856,17 +1901,12 @@ a { color:inherit; text-decoration:none; }
     <p class="hero-sub">Tu ne devineras jamais que c'est un gâteau.</p>
     <a href="menu.html" class="btn-hero">Découvrir nos créations</a>
   </div>
-  <picture>
-    <source media="(max-width: 600px)"
-            srcset="img/hero-trio-trans-mobile.webp" />
-    <source media="(max-width: 900px)"
-            srcset="img/hero-trio-trans-960w.webp 960w, img/hero-trio-trans-1280w.webp 1280w"
-            sizes="95vw" />
-    <img class="hero-img" src="img/hero-trio-trans.webp"
-         srcset="img/hero-trio-trans-960w.webp 960w, img/hero-trio-trans-1280w.webp 1280w, img/hero-trio-trans.webp 1536w"
-         sizes="70vw"
-         alt="Trio trompe-l'œil framboise, fraise, framboise" width="1536" height="1024" fetchpriority="high" />
-  </picture>
+  <img class="hero-img hero-img-desktop" src="img/hero-trio-trans.webp"
+       srcset="img/hero-trio-trans-1280w.webp 1280w, img/hero-trio-trans.webp 1536w"
+       sizes="60vw"
+       alt="Trio trompe-l'œil framboise, fraise, framboise" width="1536" height="1024" fetchpriority="high" />
+  <img class="hero-img hero-img-mobile" src="img/hero-trio-trans-mobile.webp"
+       alt="Trio trompe-l'œil framboise, fraise, framboise" width="768" height="512" fetchpriority="high" loading="eager" />
   <div class="hero-scroll">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
   </div>
@@ -2310,7 +2350,7 @@ a { color:inherit; text-decoration:none; }
 
   /* ── Nav + Hero ── */
   const nav = document.getElementById('nav');
-  const heroImg = document.querySelector('.hero-img');
+  const heroImg = document.querySelector('.hero-img-desktop') || document.querySelector('.hero-img');
   const heroScroll = document.querySelector('.hero-scroll');
   const hero = document.querySelector('.hero');
   let heroReady = false;
