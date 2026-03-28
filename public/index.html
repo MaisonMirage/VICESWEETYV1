@@ -774,49 +774,71 @@ a { color:inherit; text-decoration:none; }
   text-shadow: var(--glow-teal-text);
 }
 
-/* ═══════ CTA SECTION ═══════ */
-.cta-section {
-  background: linear-gradient(180deg, #1a1025 0%, #2d1040 25%, #4a1545 45%, #e63b7a 70%, #e8775a 85%, #c8963e 95%, #FEFCFF 100%);
-  padding: 6rem 4vw 8rem;
-  text-align: center;
+/* ═══════ CTA + SOCIAL PROOF — CONTINUOUS SUNSET ═══════ */
+.sunset-flow {
+  background: linear-gradient(180deg,
+    #1a1025 0%,
+    #2d1040 10%,
+    #4a1545 20%,
+    #e63b7a 32%,
+    #e8775a 40%,
+    #d4884a 47%,
+    #a06a38 53%,
+    #6b4530 58%,
+    #4d3028 63%,
+    #3a2228 68%,
+    #2d1830 74%,
+    #231230 80%,
+    #1e1028 88%,
+    #1a1025 100%
+  );
   position: relative;
   overflow: hidden;
 }
-.cta-section::before {
+/* Pattern overlay — couvre tout le flow */
+.sunset-flow::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
     url('img/pattern-miami.webp') center / 400px repeat,
-    radial-gradient(ellipse 50% 40% at 50% 30%, rgba(11,191,191,0.1) 0%, transparent 70%),
-    radial-gradient(ellipse 80% 50% at 30% 70%, rgba(230,59,122,0.15) 0%, transparent 60%);
+    radial-gradient(ellipse 50% 40% at 50% 20%, rgba(11,191,191,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 30% 50%, rgba(230,59,122,0.15) 0%, transparent 60%);
   mix-blend-mode: soft-light;
-  opacity: 0.35;
+  opacity: 0.3;
   pointer-events: none;
 }
-/* Synthwave grid floor */
-.cta-section::after {
+/* Synthwave grid — positionné au milieu du flow */
+.sunset-flow::after {
   content: '';
   position: absolute;
-  bottom: 0; left: -10%; right: -10%;
-  height: 45%;
+  top: 25%; left: -10%; right: -10%;
+  height: 35%;
   background:
     linear-gradient(0deg, rgba(230,59,122,0.15) 1px, transparent 1px),
     linear-gradient(90deg, rgba(230,59,122,0.1) 1px, transparent 1px);
   background-size: 60px 40px;
   transform: perspective(400px) rotateX(55deg);
-  transform-origin: bottom center;
-  opacity: 0.4;
+  transform-origin: center center;
+  opacity: 0.3;
   pointer-events: none;
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,0,0,0.5) 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,0,0,0.5) 0%, transparent 70%);
+}
+
+/* ═══════ CTA SECTION ═══════ */
+.cta-section {
+  background: transparent;
+  padding: 6rem 4vw 6rem;
+  text-align: center;
+  position: relative;
 }
 .cta-section .cta-title {
   font-family: var(--display);
   font-size: clamp(2.5rem, 6vw, 5rem);
   color: var(--white);
   margin-bottom: 0.5rem;
-  position: relative;
+  position: relative; z-index: 1;
   text-shadow: var(--glow-pink-text);
 }
 .cta-section .cta-sub {
@@ -825,9 +847,9 @@ a { color:inherit; text-decoration:none; }
   color: rgba(255,255,255,0.5);
   font-weight: 300;
   margin-bottom: 2rem;
-  position: relative;
+  position: relative; z-index: 1;
 }
-.cta-section .btn-cta { position: relative; }
+.cta-section .btn-cta { position: relative; z-index: 1; }
 
 /* ═══════ INSTAGRAM FEED ═══════ */
 .insta-section {
@@ -1325,8 +1347,8 @@ a { color:inherit; text-decoration:none; }
 
 /* ═══════ SOCIAL PROOF — ELLES EN PARLENT ═══════ */
 .social-proof {
-  padding: 5rem 4vw;
-  background: linear-gradient(170deg, #1a1025 0%, #2a1035 50%, #1a1025 100%);
+  padding: 5rem 4vw 6rem;
+  background: transparent;
   position: relative;
   overflow: hidden;
 }
@@ -1904,8 +1926,8 @@ a { color:inherit; text-decoration:none; }
   <div class="reveal-slider reveal">
     <div class="reveal-placeholder">
       <div class="reveal-placeholder-icon">🔪</div>
-      <span class="reveal-placeholder-text">Photo before / after</span>
-      <span class="reveal-placeholder-detail">Karim : ajoute ici 2 photos Pomelli — le trompe-l'œil entier + coupé en deux. Fond crème, belle lumière.</span>
+      <span class="reveal-placeholder-text">Coming soon</span>
+      <span class="reveal-placeholder-detail">Le moment de vérité arrive bientôt.</span>
     </div>
   </div>
 </section>
@@ -1952,7 +1974,8 @@ a { color:inherit; text-decoration:none; }
   </a>
 </div>
 
-<!-- ═══════ CTA ═══════ -->
+<!-- ═══════ CTA + SOCIAL PROOF — SUNSET FLOW ═══════ -->
+<div class="sunset-flow">
 <section class="cta-section">
   <div class="cta-title reveal">Ton prochain vice.</div>
   <p class="cta-sub reveal">Commande en ligne, récupère en 5 min à la boutique.</p>
@@ -2001,6 +2024,7 @@ a { color:inherit; text-decoration:none; }
     </div>
   </div>
 </section>
+</div><!-- /sunset-flow -->
 
 <!-- ═══════ INSTAGRAM — CARROUSEL INFINI ═══════ -->
 <section class="insta-section-v2">
@@ -2058,8 +2082,8 @@ a { color:inherit; text-decoration:none; }
     <div class="visit-photo reveal">
       <div class="visit-photo-placeholder">
         <span>📍</span>
-        <span>Photo de la boutique (intérieur néon ou devanture)</span>
-        <span style="font-size:0.75rem; color:rgba(26,16,37,0.4);">Karim : ajoute ici une belle photo de Vice Sweety, l'ambiance du lieu</span>
+        <span>Vice Sweety — Marseille</span>
+        <span style="font-size:0.75rem; color:rgba(26,16,37,0.4);">Photo à venir</span>
       </div>
     </div>
     <div class="visit-col reveal">
