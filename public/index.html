@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vice Sweety — Desserts Artisanaux · Marseille</title>
-  <meta name="description" content="Vice Sweety — Desserts trompe-l'œil, smoothies, cookies, plaisirs coupables artisanaux à Marseille. Too pretty to eat." />
+  <meta name="description" content="Vice Sweety — Desserts trompe-l'œil, smoothies, cookies artisanaux à Marseille. Too pretty to eat." />
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Vice Sweety — Desserts Artisanaux · Marseille" />
@@ -16,7 +16,10 @@
   <meta name="twitter:title" content="Vice Sweety — Desserts Artisanaux · Marseille" />
   <meta name="twitter:description" content="Des desserts trop beaux pour être vrais. Faits main à Marseille." />
   <meta name="twitter:image" content="https://vicesweety.com/img/hero-trio.webp" />
+  <meta name="theme-color" content="#1a0a2e" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
+  <link rel="preload" as="image" href="img/hero-trio.webp" media="(min-width: 901px)" />
+  <link rel="preload" as="image" href="img/hero-trio-mobile.webp" media="(max-width: 900px)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -60,6 +63,23 @@
   --mono: 'JetBrains Mono', monospace;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--turquoise);
+  color: var(--deep-purple);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: 0 0 8px 8px;
+  z-index: 999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; scroll-padding-top:90px; }
@@ -432,7 +452,7 @@ a { color:inherit; text-decoration:none; }
 .cat-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(26,10,46,0.0) 0%, rgba(26,10,46,0.55) 100%);
+  background: linear-gradient(180deg, rgba(26,10,46,0.0) 0%, rgba(26,10,46,0.35) 40%, rgba(26,10,46,0.72) 100%);
   display: flex; flex-direction: column;
   align-items: center; justify-content: flex-end;
   text-align: center;
@@ -440,7 +460,7 @@ a { color:inherit; text-decoration:none; }
   transition: background 0.4s;
 }
 .cat-block:hover .cat-overlay {
-  background: linear-gradient(180deg, rgba(26,10,46,0.1) 0%, rgba(26,10,46,0.7) 100%);
+  background: linear-gradient(180deg, rgba(26,10,46,0.1) 0%, rgba(26,10,46,0.45) 40%, rgba(26,10,46,0.82) 100%);
 }
 .cat-title {
   font-family: var(--display);
@@ -454,8 +474,9 @@ a { color:inherit; text-decoration:none; }
 .cat-sub {
   font-family: var(--sans);
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255,255,255,0.9);
   font-weight: 300;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
 }
 .cat-tag {
   display: inline-block;
@@ -549,6 +570,7 @@ a { color:inherit; text-decoration:none; }
   margin-bottom: 2rem;
   position: relative;
 }
+.cta-section .btn-cta { position: relative; }
 
 /* ═══════ INSTAGRAM FEED ═══════ */
 .insta-section {
@@ -771,6 +793,17 @@ a { color:inherit; text-decoration:none; }
 .mm-footer { margin-top:auto; border-top:1px solid rgba(64,224,208,0.1); padding-top:1rem; }
 .mm-footer a { font-family:var(--mono); font-size:0.6rem !important; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted) !important; text-shadow:none !important; }
 
+/* ═══════ FOCUS VISIBLE ═══════ */
+:focus-visible {
+  outline: 2px solid var(--turquoise);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.btn-cta:focus-visible, .btn-hero:focus-visible {
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(64,224,208,0.3);
+}
+
 /* ═══════ RESPONSIVE ═══════ */
 @media (min-width: 901px) {
   .nav-burger { display:none; }
@@ -845,17 +878,20 @@ a { color:inherit; text-decoration:none; }
   </script>
 </head>
 <body>
+<a href="#main" class="skip-link">Aller au contenu principal</a>
 
 <!-- ═══════ MOBILE MENU ═══════ -->
 <div class="mobile-menu" id="mm">
   <button class="mm-close" id="mmClose" aria-label="Fermer le menu">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
   </button>
+  <a href="menu.html">Nos Créations</a>
+  <a href="#notre-vice">Notre Vice</a>
   <a href="menu.html">Commander</a>
   <a href="#visit">Nous Trouver</a>
   <div class="mm-footer">
     <a href="mailto:hello@vicesweety.com">hello@vicesweety.com</a><br>
-    <a href="https://www.instagram.com/vicesweety" target="_blank">@vicesweety</a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener">@vicesweety</a>
   </div>
 </div>
 
@@ -866,10 +902,10 @@ a { color:inherit; text-decoration:none; }
   </button>
   <div class="nav-links">
     <a href="menu.html">Nos Cr\u00e9ations</a>
-    <a href="notre-histoire.html">Notre Vice</a>
+    <a href="#notre-vice">Notre Vice</a>
     <a href="#visit">Nous Trouver</a>
   </div>
-  <a href="#" class="nav-logo">
+  <a href="/" class="nav-logo">
     <img src="assets/Vice_Sweety_Logo.png" alt="Vice Sweety" />
   </a>
   <div class="nav-right">
@@ -877,11 +913,12 @@ a { color:inherit; text-decoration:none; }
   </div>
 </nav>
 
+<main id="main">
 <!-- ═══════ HERO — Miami Sunset rose → bleu ═══════ -->
 <section class="hero">
   <div class="hero-content">
     <h1 class="hero-title">Trop beaux pour être vrais.</h1>
-    <p class="hero-sub">Des desserts trop beaux pour être vrais. Faits main, avec amour, à Marseille.</p>
+    <p class="hero-sub">Trompe-l'œil, smoothies, cookies — faits main avec obsession à Marseille.</p>
     <a href="menu.html" class="btn-hero">Découvrir →</a>
   </div>
   <div class="hero-scroll">
@@ -901,10 +938,13 @@ a { color:inherit; text-decoration:none; }
 </section>
 
 <!-- ═══════ NOTRE VICE — Brand Story ═══════ -->
-<section class="notre-vice">
+<section class="notre-vice" id="notre-vice">
   <div class="notre-vice-grid">
     <div class="notre-vice-img reveal">
-      <img src="img/equipe-boutique.webp" alt="L'équipe Vice Sweety dans la boutique à Marseille" width="1200" height="900" loading="lazy" />
+      <img src="img/equipe-boutique.webp"
+           srcset="img/equipe-boutique-600w.webp 600w, img/equipe-boutique.webp 1200w"
+           sizes="(max-width: 900px) 100vw, 50vw"
+           alt="L'équipe Vice Sweety dans la boutique à Marseille" width="1200" height="900" loading="lazy" />
     </div>
     <div class="notre-vice-text reveal">
       <h2>Notre Vice</h2>
@@ -936,12 +976,15 @@ a { color:inherit; text-decoration:none; }
 
 <!-- ═══════ STATEMENT 1 ═══════ -->
 <section class="statement pink-on-sky">
-  <div class="statement-text reveal">Too pretty to eat.</div>
+  <div class="statement-text reveal" lang="en">Too pretty to eat.</div>
 </section>
 
 <!-- ═══════ BLOC 2 — Trompe-l'œil full-width ═══════ -->
 <a href="menu.html" class="cat-full reveal">
-  <img src="img/trompeloeil-lineup.webp" alt="Les trompe-l'œil Vice Sweety — citron, passion, fraise, litchi, pêche, mandarine" width="2560" height="1440" loading="lazy" />
+  <img src="img/trompeloeil-lineup.webp"
+       srcset="img/trompeloeil-lineup-800w.webp 800w, img/trompeloeil-lineup-1280w.webp 1280w, img/trompeloeil-lineup.webp 2560w"
+       sizes="100vw"
+       alt="Les trompe-l'œil Vice Sweety — citron, passion, fraise, litchi, pêche, mandarine" width="2560" height="1440" loading="lazy" />
   <div class="cat-overlay">
     <h2 class="cat-title">Trompe-l'œil</h2>
     <p class="cat-sub">Des fruits parfaits. Sauf que dedans, c'est encore mieux.</p>
@@ -969,7 +1012,7 @@ a { color:inherit; text-decoration:none; }
 
 <!-- ═══════ STATEMENT 2 ═══════ -->
 <section class="statement turquoise-on-blush">
-  <div class="statement-text reveal">Made with love in Marseille.</div>
+  <div class="statement-text reveal" lang="en">Made with love in Marseille.</div>
 </section>
 
 <!-- ═══════ BLOC 4 — Pancakes + Crêpes ═══════ -->
@@ -994,18 +1037,18 @@ a { color:inherit; text-decoration:none; }
 <section class="cta-section">
   <div class="cta-title reveal">Impossible de résister.</div>
   <p class="cta-sub reveal">Commande en ligne et récupère en boutique.</p>
-  <a href="menu.html" class="btn-cta btn-cta-turquoise" style="position:relative;">Voir la carte →</a>
+  <a href="menu.html" class="btn-cta btn-cta-turquoise">Voir la carte →</a>
 </section>
 
 <!-- ═══════ INSTAGRAM ═══════ -->
 <section class="insta-section">
   <h2 class="reveal">Vice sur Instagram</h2>
-  <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-handle reveal">@vicesweety</a>
+  <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-handle reveal">@vicesweety</a>
   <div class="insta-grid reveal">
-    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/smoothie-sunset-1.webp" alt="Smoothie sunset Vice Sweety" width="600" height="600" loading="lazy" /></a>
-    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/cookie-dough-2.webp" alt="Cookie dough Vice Sweety" width="600" height="600" loading="lazy" /></a>
-    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/pancakes-1.webp" alt="Mini pancakes Vice Sweety" width="600" height="600" loading="lazy" /></a>
-    <a href="https://www.instagram.com/vicesweety" target="_blank" class="insta-item"><img src="img/crepes-1.webp" alt="Crêpes Vice Sweety" width="600" height="600" loading="lazy" /></a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/smoothie-sunset-1.webp" alt="Smoothie sunset Vice Sweety" width="600" height="600" loading="lazy" /></a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/cookie-dough-2.webp" alt="Cookie dough Vice Sweety" width="600" height="600" loading="lazy" /></a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/pancakes-1.webp" alt="Mini pancakes Vice Sweety" width="600" height="600" loading="lazy" /></a>
+    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/crepes-1.webp" alt="Crêpes Vice Sweety" width="600" height="600" loading="lazy" /></a>
   </div>
 </section>
 
@@ -1038,6 +1081,8 @@ a { color:inherit; text-decoration:none; }
   </div>
 </section>
 
+</main>
+
 <!-- ═══════ FOOTER ═══════ -->
 <footer class="footer">
   <img src="assets/Vice_Sweety_Logo.png" alt="Vice Sweety" class="footer-logo" />
@@ -1064,7 +1109,7 @@ a { color:inherit; text-decoration:none; }
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">All rights reserved. Vice Sweety &copy; 2026.</span>
+    <span class="footer-copy">Tous droits réservés. Vice Sweety &copy; 2026.</span>
     <div class="footer-legal">
       <a href="mentions-legales.html">Mentions L&eacute;gales</a>
       <a href="#">Politique de confidentialit&eacute;</a>

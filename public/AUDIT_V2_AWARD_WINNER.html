@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vice Sweety — Audit Award-Winner V2 · Mars 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+  :root { --bg:#0c0a14; --card:#151222; --border:#2a2345; --pink:#FF69B4; --turquoise:#40E0D0; --gold:#f5b041; --red:#e74c3c; --green:#2ecc71; --text:#e8e0f0; --dim:#7a6b8a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Space Grotesk',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; padding:2rem; max-width:1100px; margin:0 auto; }
+  h1 { font-size:2.2rem; font-weight:700; margin-bottom:0.3rem; }
+  h1 span { color:var(--pink); }
+  .subtitle { color:var(--dim); font-size:0.9rem; margin-bottom:3rem; }
+  .score-hero { display:flex; align-items:center; gap:2rem; padding:2rem; background:var(--card); border:1px solid var(--border); border-radius:16px; margin-bottom:3rem; }
+  .score-big { font-size:4.5rem; font-weight:700; font-family:'JetBrains Mono',monospace; }
+  .score-big .out-of { font-size:1.5rem; color:var(--dim); }
+  .score-label { font-size:1rem; color:var(--dim); }
+  .score-bar { flex:1; height:8px; background:var(--border); border-radius:99px; overflow:hidden; }
+  .score-bar-fill { height:100%; border-radius:99px; }
+  .delta { display:inline-block; padding:0.2rem 0.6rem; border-radius:99px; font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:600; }
+  .delta-up { background:rgba(46,204,113,0.15); color:var(--green); }
+  .section { margin-bottom:2.5rem; }
+  .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border); }
+  .section-title { font-size:1.3rem; font-weight:600; }
+  .section-score { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:600; }
+  .grade-a { color:var(--green); } .grade-b { color:var(--turquoise); } .grade-c { color:var(--gold); } .grade-d { color:var(--red); }
+  table { width:100%; border-collapse:collapse; margin-bottom:1rem; }
+  th { text-align:left; font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); padding:0.6rem 0.8rem; border-bottom:1px solid var(--border); }
+  td { padding:0.6rem 0.8rem; border-bottom:1px solid rgba(42,35,69,0.5); font-size:0.88rem; vertical-align:top; }
+  tr:hover { background:rgba(255,255,255,0.02); }
+  .tag { display:inline-block; padding:0.15rem 0.55rem; border-radius:99px; font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; }
+  .tag-fixed { background:rgba(46,204,113,0.15); color:var(--green); }
+  .tag-new { background:rgba(64,224,208,0.15); color:var(--turquoise); }
+  .tag-bug { background:rgba(231,76,60,0.15); color:var(--red); }
+  .tag-ux { background:rgba(245,176,65,0.15); color:var(--gold); }
+  .tag-seo { background:rgba(255,105,180,0.15); color:var(--pink); }
+  .tag-perf { background:rgba(155,89,182,0.15); color:#bb6bd9; }
+  .tag-a11y { background:rgba(52,152,219,0.15); color:#3498db; }
+  .tag-copy { background:rgba(230,126,34,0.15); color:#e67e22; }
+  .tag-v2 { background:rgba(127,140,141,0.15); color:#95a5a6; }
+  .priority { font-family:'JetBrains Mono',monospace; font-size:0.7rem; font-weight:700; }
+  .p0 { color:var(--red); } .p1 { color:var(--gold); } .p2 { color:var(--turquoise); } .p3 { color:var(--dim); }
+  .comparison { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin:1.5rem 0; }
+  .comp-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.2rem; }
+  .comp-card h4 { font-family:'JetBrains Mono',monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.8rem; }
+  .comp-card.before h4 { color:var(--red); }
+  .comp-card.after h4 { color:var(--green); }
+  .comp-card code { display:block; font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--dim); line-height:1.8; white-space:pre-wrap; }
+  .comp-card code em { font-style:normal; color:var(--green); }
+  .summary-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:1rem; margin:2rem 0; }
+  .summary-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.2rem; text-align:center; }
+  .summary-card .num { font-family:'JetBrains Mono',monospace; font-size:2rem; font-weight:700; }
+  .summary-card .label { font-size:0.75rem; color:var(--dim); margin-top:0.3rem; }
+  .verdict { background: linear-gradient(135deg, rgba(64,224,208,0.08) 0%, rgba(255,105,180,0.08) 100%); border:1px solid var(--border); border-radius:16px; padding:2rem; margin-top:2rem; }
+  .verdict h3 { font-size:1.2rem; margin-bottom:1rem; }
+  .verdict p { color:var(--dim); font-size:0.92rem; line-height:1.7; margin-bottom:0.8rem; }
+  .checklist { list-style:none; }
+  .checklist li { padding:0.3rem 0; font-size:0.88rem; }
+  .checklist li::before { content:'✓ '; color:var(--green); font-weight:700; }
+  .checklist li.pending::before { content:'○ '; color:var(--gold); }
+  @media(max-width:700px) { body{padding:1rem;} .comparison,.summary-grid{grid-template-columns:1fr;} .score-hero{flex-direction:column;text-align:center;} }
+</style>
+</head>
+<body>
+
+<h1>Vice Sweety — Audit <span>Award-Winner</span> V2</h1>
+<p class="subtitle">28 mars 2026 · Post-intégration Pomelli + corrections audit V1 · index.html (1 092 lignes, 36 Ko)</p>
+
+<!-- ═══════ SCORE GLOBAL ═══════ -->
+<div class="score-hero">
+  <div>
+    <div class="score-big">7.9<span class="out-of">/10</span></div>
+    <div class="score-label">Score global</div>
+  </div>
+  <div style="flex:1;">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+      <span class="score-label">V1 : 6.8</span>
+      <span class="delta delta-up">↑ +1.1</span>
+    </div>
+    <div class="score-bar"><div class="score-bar-fill" style="width:79%;background:linear-gradient(90deg,var(--turquoise),var(--pink));"></div></div>
+    <div style="margin-top:0.8rem;font-size:0.8rem;color:var(--dim);">Progrès solide. Les fondations sont maintenant propres. Les prochains points sont principalement UX avancé et performance.</div>
+  </div>
+</div>
+
+<!-- ═══════ RÉSUMÉ DES CORRECTIONS ═══════ -->
+<div class="summary-grid">
+  <div class="summary-card"><div class="num" style="color:var(--green);">12</div><div class="label">Problèmes corrigés</div></div>
+  <div class="summary-card"><div class="num" style="color:var(--gold);">8</div><div class="label">Nouveaux points</div></div>
+  <div class="summary-card"><div class="num" style="color:var(--turquoise);">5</div><div class="label">Images optimisées</div></div>
+  <div class="summary-card"><div class="num" style="color:var(--pink);">3</div><div class="label">Catégorie "Excellent"</div></div>
+</div>
+
+<!-- ═══════ 1. HERO ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">1. Hero</span>
+    <span class="section-score grade-b">8/10 <span class="delta delta-up" style="font-size:0.65rem;">↑1</span></span>
+  </div>
+  <table>
+    <tr><th>Point</th><th>Statut</th><th>Détail</th><th>Priorité</th></tr>
+    <tr>
+      <td>Image Pomelli trio intégrée</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>hero-trio.webp (2560×1440) + hero-trio-mobile.webp (1080×1920) avec media query swap</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Fond cream + texte dark</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>Background #F3E7D3, titre deep-purple, sous-titre rgba(26,10,46,0.7), bouton dark — cohérent</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Scroll indicator SVG</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>stroke="currentColor" — hérite de la couleur CSS, plus de blanc hardcodé</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Titre + sous-titre redondants</strong></td>
+      <td><span class="tag tag-bug">Bug</span></td>
+      <td>H1 = "Trop beaux pour être vrais." puis sub = "Des desserts <strong>trop beaux pour être vrais</strong>." — mot pour mot identique. Le sous-titre devrait apporter une info nouvelle.</td>
+      <td><span class="priority p0">P0</span></td>
+    </tr>
+    <tr>
+      <td><strong>Hero LCP : pas de preload</strong></td>
+      <td><span class="tag tag-perf">Perf</span></td>
+      <td>hero-trio.webp est le Largest Contentful Paint. Ajouter <code>&lt;link rel="preload" as="image" href="img/hero-trio.webp"&gt;</code> dans &lt;head&gt; pour gagner ~200ms.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td>Mobile hero margin cleanup</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>Doublon margin-top nettoyé → valeur unique 6vh dans le media query 900px</td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ 2. IDENTITÉ VISUELLE ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">2. Identité Visuelle & Palette</span>
+    <span class="section-score grade-a">9/10 <span class="delta delta-up" style="font-size:0.65rem;">↑0.5</span></span>
+  </div>
+  <table>
+    <tr><th>Point</th><th>Statut</th><th>Détail</th></tr>
+    <tr>
+      <td>var(--deep) bug</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>Toutes les occurrences remplacées par var(--deep-purple)</td>
+    </tr>
+    <tr>
+      <td>Bebas Neue supprimé</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>Google Fonts allégé — plus que Abril Fatface + Space Grotesk + JetBrains Mono</td>
+    </tr>
+    <tr>
+      <td>Gradient turquoise/pink navbar + footer</td>
+      <td><span class="tag tag-fixed">OK</span></td>
+      <td>Signature visuelle cohérente sur les bandes 3px</td>
+    </tr>
+    <tr>
+      <td>Palette custom properties</td>
+      <td><span class="tag tag-fixed">OK</span></td>
+      <td>19 variables bien nommées, aucune valeur hardcodée orpheline</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ 3. PHOTOGRAPHIE ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">3. Photographie & Images</span>
+    <span class="section-score grade-b">8.5/10 <span class="delta delta-up" style="font-size:0.65rem;">↑0.5</span></span>
+  </div>
+  <table>
+    <tr><th>Point</th><th>Statut</th><th>Détail</th><th>Priorité</th></tr>
+    <tr>
+      <td>Trompe-l'œil lineup intégré</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>trompeloeil-lineup.webp (2560×1440) remplace hero-flatlay.webp — alt descriptif avec les 6 fruits</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Équipe boutique intégrée</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>equipe-boutique.webp (1200×900) crop 4:3 depuis Pomelli</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Lazy loading universel</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>12/14 images ont loading="lazy" (les 2 logos nav/footer sont intentionnellement eager)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>width/height sur toutes les images</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>CLS (Cumulative Layout Shift) réduit à ~0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Pas de srcset responsive</strong></td>
+      <td><span class="tag tag-perf">Perf</span></td>
+      <td>trompeloeil-lineup.webp fait 2560px — surdimensionné sur mobile. Fournir un srcset 800w/1280w/2560w.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td><strong>Images atelier manquantes</strong></td>
+      <td><span class="tag tag-ux">Pomelli</span></td>
+      <td>L'atelier/glaçage (Prompt 6) et les images lifestyle Instagram (Prompt 7A-D) ne sont pas encore générées.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ 4. UX & NAVIGATION ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">4. UX & Navigation</span>
+    <span class="section-score grade-b">7.5/10 <span class="delta delta-up" style="font-size:0.65rem;">↑1.5</span></span>
+  </div>
+  <table>
+    <tr><th>Point</th><th>Statut</th><th>Détail</th><th>Priorité</th></tr>
+    <tr>
+      <td>Desktop nav links</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>3 liens desktop (Nos Créations, Notre Vice, Nous Trouver) avec hide/show responsive propre</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Burger caché en desktop</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>display:none au-dessus de 901px</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Mobile menu incomplet</strong></td>
+      <td><span class="tag tag-bug">Bug</span></td>
+      <td>Le menu mobile n'a que 2 liens (Commander, Nous Trouver). Il manque "Nos Créations" et "Notre Vice" présents dans le desktop nav.</td>
+      <td><span class="priority p0">P0</span></td>
+    </tr>
+    <tr>
+      <td><strong>Logo lien vers #</strong></td>
+      <td><span class="tag tag-bug">Bug</span></td>
+      <td><code>&lt;a href="#" class="nav-logo"&gt;</code> — devrait pointer vers "/" ou "index.html" pour le retour accueil.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>notre-histoire.html n'existe pas</strong></td>
+      <td><span class="tag tag-bug">Bug</span></td>
+      <td>Le lien "Notre Vice" pointe vers notre-histoire.html — page non trouvée dans le dossier. 404 assuré.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>Pas de skip-to-content</strong></td>
+      <td><span class="tag tag-a11y">A11y</span></td>
+      <td>Aucun lien "Aller au contenu" pour la navigation clavier. Standard WCAG 2.1 AA.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td><strong>Pas de &lt;main&gt; landmark</strong></td>
+      <td><span class="tag tag-a11y">A11y</span></td>
+      <td>Tout le contenu est directement dans &lt;body&gt;. Wraper dans &lt;main id="main"&gt; pour les lecteurs d'écran.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td><strong>CTA inline style</strong></td>
+      <td><span class="tag tag-ux">UX</span></td>
+      <td><code>style="position:relative;"</code> sur le bouton CTA "Voir la carte" — devrait être dans le CSS.</td>
+      <td><span class="priority p3">P3</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ 5. COPYWRITING ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">5. Copywriting</span>
+    <span class="section-score grade-b">8/10 <span class="delta delta-up" style="font-size:0.65rem;">↑1</span></span>
+  </div>
+  <table>
+    <tr><th>Point</th><th>Statut</th><th>Détail</th><th>Priorité</th></tr>
+    <tr>
+      <td>"Prête à craquer ?" → inclusif</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>Remplacé par "Impossible de résister." — neutre, puissant</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>"plaisir coupable" × 2 → varié</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>Milkshakes = "L'addiction douce", Notre Vice = "le vice assumé"</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>"fermer les yeux" × 3 → réduit</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>1 seule occurrence restante (intro-band) — plus de répétition audible</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Hero titre ≡ sous-titre</strong></td>
+      <td><span class="tag tag-copy">Copy</span></td>
+      <td>"Trop beaux pour être vrais." (H1) suivi de "Des desserts trop beaux pour être vrais." (sub) — le sous-titre devrait apporter un message différent.</td>
+      <td><span class="priority p0">P0</span></td>
+    </tr>
+    <tr>
+      <td><strong>Meta description "plaisirs coupables"</strong></td>
+      <td><span class="tag tag-seo">SEO</span></td>
+      <td>La meta description dit encore "plaisirs coupables artisanaux" alors qu'on a supprimé l'expression du body. Incohérence.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>Mélange français/anglais</strong></td>
+      <td><span class="tag tag-copy">Copy</span></td>
+      <td>"Too pretty to eat." et "Made with love in Marseille." — les statements sont en anglais alors que tout le reste est en français. C'est un choix de brand assumé ? Si oui, ajouter <code>lang="en"</code> sur ces éléments.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td><strong>Footer anglais</strong></td>
+      <td><span class="tag tag-copy">Copy</span></td>
+      <td>"All rights reserved." — devrait être "Tous droits réservés." pour la cohérence.</td>
+      <td><span class="priority p3">P3</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ 6. TECHNIQUE & SEO ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">6. Technique & SEO</span>
+    <span class="section-score grade-b">7.5/10 <span class="delta delta-up" style="font-size:0.65rem;">↑2</span></span>
+  </div>
+  <table>
+    <tr><th>Point</th><th>Statut</th><th>Détail</th><th>Priorité</th></tr>
+    <tr>
+      <td>Open Graph + Twitter Cards</td>
+      <td><span class="tag tag-fixed">Corrigé</span></td>
+      <td>8 meta tags avec image, titre, description, locale</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Schema.org JSON-LD</td>
+      <td><span class="tag tag-new">Nouveau</span></td>
+      <td>Restaurant avec adresse, horaires, téléphone, géo, sameAs — Google Rich Results prêt</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>prefers-reduced-motion</td>
+      <td><span class="tag tag-fixed">OK</span></td>
+      <td>Désactive toutes les animations — accessibilité exemplaire</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Pas de &lt;meta name="theme-color"&gt;</strong></td>
+      <td><span class="tag tag-seo">SEO</span></td>
+      <td>Ajouter <code>&lt;meta name="theme-color" content="#1a0a2e"&gt;</code> pour colorer la barre de navigateur mobile.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>JS sans DOMContentLoaded</strong></td>
+      <td><span class="tag tag-bug">Bug</span></td>
+      <td>Le script accède aux éléments DOM sans wrapper. Fonctionne parce que le &lt;script&gt; est en bas, mais fragile. Un <code>defer</code> ou <code>DOMContentLoaded</code> serait plus solide.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td><strong>rel="noopener" manquant sur Instagram</strong></td>
+      <td><span class="tag tag-a11y">Sécurité</span></td>
+      <td>Les 4 liens Instagram dans la grille ont <code>target="_blank"</code> sans <code>rel="noopener"</code>. Le footer en a — incohérence.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>Pas de 404.html</strong></td>
+      <td><span class="tag tag-ux">UX</span></td>
+      <td>Notre-histoire.html, mentions-legales.html, menu.html — si un lien casse, l'utilisateur voit une erreur brute.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td><strong>Adresse placeholder ?</strong></td>
+      <td><span class="tag tag-ux">Vérifier</span></td>
+      <td>"47 Rue de la République, 13002" — la même adresse est dans le Schema.org. Confirmer que c'est l'adresse réelle avant déploiement.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ 7. ACCESSIBILITÉ ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">7. Accessibilité (WCAG 2.1 AA)</span>
+    <span class="section-score grade-c">6.5/10</span>
+  </div>
+  <table>
+    <tr><th>Point</th><th>Catégorie</th><th>Détail</th><th>Priorité</th></tr>
+    <tr>
+      <td><strong>Pas de skip-to-content</strong></td>
+      <td><span class="tag tag-a11y">A11y</span></td>
+      <td>Premier élément focusable devrait être un lien "Aller au contenu principal" pointant vers #main</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>Pas de &lt;main&gt;</strong></td>
+      <td><span class="tag tag-a11y">A11y</span></td>
+      <td>Aucun landmark &lt;main&gt; — les lecteurs d'écran ne peuvent pas sauter au contenu</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>Contraste texte sur images</strong></td>
+      <td><span class="tag tag-a11y">A11y</span></td>
+      <td>Le texte blanc sur les overlays de catégories dépend d'un gradient semi-transparent. Si l'image est claire, le contraste chute sous 4.5:1. Ajouter un text-shadow plus fort ou un gradient plus opaque.</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td><strong>Focus visible absent</strong></td>
+      <td><span class="tag tag-a11y">A11y</span></td>
+      <td>Aucun style :focus-visible personnalisé. Les outlines par défaut du navigateur sont masquées par les transitions. Les utilisateurs clavier ne voient pas quel élément est actif.</td>
+      <td><span class="priority p1">P1</span></td>
+    </tr>
+    <tr>
+      <td><strong>lang="en" sur texte anglais</strong></td>
+      <td><span class="tag tag-a11y">A11y</span></td>
+      <td>"Too pretty to eat." et "Made with love in Marseille." — les lecteurs d'écran les prononceront en français. Ajouter lang="en".</td>
+      <td><span class="priority p2">P2</span></td>
+    </tr>
+    <tr>
+      <td>aria-label sur burger + close</td>
+      <td><span class="tag tag-fixed">OK</span></td>
+      <td>Présents et corrects</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Alt textes descriptifs</td>
+      <td><span class="tag tag-fixed">OK</span></td>
+      <td>Tous les alt textes sont maintenant descriptifs et contextuels</td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ COMPARAISON V1 → V2 ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">Évolution V1 → V2</span>
+  </div>
+  <table>
+    <tr><th>Catégorie</th><th>V1</th><th>V2</th><th>Delta</th></tr>
+    <tr><td>Hero</td><td>7.0</td><td class="grade-b">8.0</td><td><span class="delta delta-up">+1.0</span></td></tr>
+    <tr><td>Identité Visuelle</td><td>8.5</td><td class="grade-a">9.0</td><td><span class="delta delta-up">+0.5</span></td></tr>
+    <tr><td>Photographie</td><td>8.0</td><td class="grade-b">8.5</td><td><span class="delta delta-up">+0.5</span></td></tr>
+    <tr><td>UX & Navigation</td><td>6.0</td><td class="grade-b">7.5</td><td><span class="delta delta-up">+1.5</span></td></tr>
+    <tr><td>Copywriting</td><td>7.0</td><td class="grade-b">8.0</td><td><span class="delta delta-up">+1.0</span></td></tr>
+    <tr><td>Technique & SEO</td><td>5.5</td><td class="grade-b">7.5</td><td><span class="delta delta-up">+2.0</span></td></tr>
+    <tr><td>Accessibilité</td><td>—</td><td class="grade-c">6.5</td><td><span class="tag tag-new">Nouveau</span></td></tr>
+    <tr><td style="font-weight:700;">GLOBAL</td><td style="font-weight:700;">6.8</td><td style="font-weight:700;" class="grade-b">7.9</td><td><span class="delta delta-up" style="font-size:0.85rem;">+1.1</span></td></tr>
+  </table>
+</div>
+
+<!-- ═══════ MATRICE DE PRIORITÉ ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-title">Matrice de Priorité — Prochaines actions</span>
+  </div>
+  <table>
+    <tr><th>Priorité</th><th>Action</th><th>Impact</th><th>Effort</th></tr>
+    <tr>
+      <td><span class="priority p0">P0</span></td>
+      <td>Réécrire le hero-sub pour ne pas répéter le H1</td>
+      <td>Copy — impression d'erreur</td>
+      <td>2 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p0">P0</span></td>
+      <td>Ajouter les liens manquants dans le mobile menu</td>
+      <td>UX — navigation cassée sur mobile</td>
+      <td>3 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Corriger meta description (retirer "plaisirs coupables")</td>
+      <td>SEO — cohérence brand</td>
+      <td>1 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Ajouter &lt;link rel="preload"&gt; pour hero-trio.webp</td>
+      <td>Perf — LCP -200ms</td>
+      <td>1 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Logo → href="/" au lieu de "#"</td>
+      <td>UX — standard web</td>
+      <td>30 sec</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Ajouter &lt;meta name="theme-color" content="#1a0a2e"&gt;</td>
+      <td>Mobile — barre navigateur brandée</td>
+      <td>30 sec</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Ajouter rel="noopener" sur les 4 liens Instagram grid</td>
+      <td>Sécurité — window.opener</td>
+      <td>1 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Ajouter skip-to-content + &lt;main&gt; landmark</td>
+      <td>A11y — WCAG 2.1 AA</td>
+      <td>5 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Ajouter :focus-visible styles</td>
+      <td>A11y — navigation clavier</td>
+      <td>5 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Résoudre notre-histoire.html (créer ou changer le lien)</td>
+      <td>UX — lien 404</td>
+      <td>Variable</td>
+    </tr>
+    <tr>
+      <td><span class="priority p1">P1</span></td>
+      <td>Vérifier l'adresse réelle de la boutique</td>
+      <td>Trust — Schema.org + map</td>
+      <td>Karim</td>
+    </tr>
+    <tr>
+      <td><span class="priority p2">P2</span></td>
+      <td>srcset responsive pour les grandes images</td>
+      <td>Perf mobile — bande passante</td>
+      <td>15 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p2">P2</span></td>
+      <td>Générer images atelier + lifestyle (Prompts 6-7)</td>
+      <td>Photo — richesse visuelle</td>
+      <td>Pomelli</td>
+    </tr>
+    <tr>
+      <td><span class="priority p2">P2</span></td>
+      <td>Renforcer contraste overlay sur images claires</td>
+      <td>A11y — lisibilité</td>
+      <td>5 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p2">P2</span></td>
+      <td>lang="en" sur les statements anglais</td>
+      <td>A11y — prononciation lecteur écran</td>
+      <td>2 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p3">P3</span></td>
+      <td>Footer "Tous droits réservés." en français</td>
+      <td>Cohérence linguistique</td>
+      <td>30 sec</td>
+    </tr>
+    <tr>
+      <td><span class="priority p3">P3</span></td>
+      <td>Déplacer inline style CTA vers CSS</td>
+      <td>Clean code</td>
+      <td>1 min</td>
+    </tr>
+    <tr>
+      <td><span class="priority p3">P3</span></td>
+      <td>Créer 404.html on-brand</td>
+      <td>UX — erreur élégante</td>
+      <td>20 min</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ═══════ VERDICT ═══════ -->
+<div class="verdict">
+  <h3>Verdict Award-Winner</h3>
+  <p><strong>De 6.8 à 7.9 — progression significative.</strong> L'intégration Pomelli (trio hero, lineup 6 fruits, équipe) a transformé l'impact visuel. Le Schema.org, l'Open Graph, le lazy loading universel et le nettoyage copywriting montent le niveau technique d'un cran.</p>
+  <p>Pour passer au-dessus de <strong>8.5/10</strong> (zone award-winner), il reste deux chantiers :</p>
+  <ul class="checklist">
+    <li class="pending"><strong>Accessibilité</strong> — skip-to-content, &lt;main&gt;, focus-visible, contraste overlays. C'est le domaine le plus en retard (6.5) et c'est devenu un critère éliminatoire pour les prix CSS Design Awards, Awwwards et FWA.</li>
+    <li class="pending"><strong>Micro-interactions</strong> — le site manque de mouvement. Un hero fade-in décalé (titre → sous-titre → bouton), un parallax subtil sur les category blocks, et une animation d'entrée sur le trompe-l'œil lineup élèveraient l'expérience au niveau Awwwards "Honorable Mention".</li>
+  </ul>
+  <p style="margin-top:1.2rem;">Les P0 (hero sub redondant + mobile menu incomplet) sont corrigeables en 5 minutes. Après ça, les P1 accessibilité et le polish d'animation sont le chemin vers la zone award-winner.</p>
+</div>
+
+</body>
+</html>
