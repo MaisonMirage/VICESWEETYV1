@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Vice Sweety — Desserts Artisanaux · Marseille</title>
   <meta name="description" content="Vice Sweety — Desserts trompe-l'œil, smoothies, cookies artisanaux à Marseille. Too pretty to eat." />
   <!-- Open Graph -->
@@ -18,8 +18,8 @@
   <meta name="twitter:image" content="https://vicesweety.com/img/hero-trio.webp" />
   <meta name="theme-color" content="#1a1025" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
-  <link rel="preload" as="image" href="img/hero-trio.webp" media="(min-width: 901px)" />
-  <link rel="preload" as="image" href="img/hero-trio-mobile.webp" media="(max-width: 900px)" imagesrcset="img/hero-trio-mobile.webp 768w, img/hero-trio-960w.webp 960w, img/hero-trio-1280w.webp 1280w" imagesizes="95vw" />
+  <link rel="preload" as="image" href="img/hero-trio-trans.webp" media="(min-width: 901px)" />
+  <link rel="preload" as="image" href="img/hero-trio-trans-mobile.webp" media="(max-width: 900px)" imagesrcset="img/hero-trio-trans-mobile.webp 768w, img/hero-trio-trans-960w.webp 960w, img/hero-trio-trans-1280w.webp 1280w" imagesizes="95vw" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -88,7 +88,8 @@
 .skip-link:focus { top: 0; }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-padding-top:90px; }
+html { scroll-padding-top:90px; -webkit-text-size-adjust: 100%; }
+@media (pointer: coarse) { html { scroll-behavior: smooth; } }
 body {
   font-family: var(--sans);
   background: var(--cream);
@@ -242,6 +243,7 @@ a { color:inherit; text-decoration:none; }
   position: relative;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   min-height: 600px;
   overflow: hidden;
   display: flex;
@@ -330,6 +332,10 @@ a { color:inherit; text-decoration:none; }
   transition: all 0.4s var(--ease);
   text-decoration: none;
   box-shadow: 0 8px 32px rgba(26,10,46,0.15);
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: heroTextIn 0.8s 0.6s var(--ease) forwards;
 }
 .btn-hero:hover {
   background: var(--rose);
@@ -953,6 +959,7 @@ a { color:inherit; text-decoration:none; }
 .footer {
   background: linear-gradient(180deg, #1a1025 0%, #120a1a 100%);
   padding: 4rem 4vw 2rem;
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
   position: relative;
 }
 .footer::before {
@@ -1046,12 +1053,15 @@ a { color:inherit; text-decoration:none; }
     linear-gradient(170deg, rgba(12,0,40,0.97) 0%, rgba(0,40,50,0.97) 100%);
   background-blend-mode: soft-light, normal;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index:150;
   display:flex; flex-direction:column;
   padding:6rem 2.5rem 2.5rem;
+  padding-bottom: max(2.5rem, env(safe-area-inset-bottom));
   gap:1.2rem;
   opacity:0; visibility:hidden;
   transition:all 0.35s;
+  overscroll-behavior: contain;
 }
 .mobile-menu.open { opacity:1; visibility:visible; }
 .mm-close {
@@ -1096,12 +1106,12 @@ a { color:inherit; text-decoration:none; }
   .nav-links { display:none; }
   .nav { padding:0 1rem; height:64px; }
   .nav-burger { left:1rem; }
-  .hero { height:90vh; }
+  .hero { height:90vh; height: 90dvh; }
   .hero-img { width:90%; max-width:500px; }
-  .hero-content { margin-top: 6vh; }
+  .hero-content { margin-top: 10vh; }
   .nav-right { right:1rem; }
-  .nav-logo img { height:100px; }
-  .btn-cta { padding:0.5rem 1.2rem; font-size:0.6rem; }
+  .nav-logo img { height:70px; }
+  .btn-cta { padding:0.65rem 1.4rem; font-size:0.6rem; min-height: 44px; display: inline-flex; align-items: center; }
   .cat-row { grid-template-columns:1fr; }
   .cat-block { min-height:45vh; }
   .tl-showcase { grid-template-columns: 1fr; min-height: auto; }
@@ -1111,15 +1121,72 @@ a { color:inherit; text-decoration:none; }
   .insta-grid { grid-template-columns: repeat(2, 1fr); }
   .visit-grid { grid-template-columns:1fr; gap:2.5rem; }
   .footer-top { grid-template-columns:1fr; }
+
+  /* Marquee mobile */
+  .marquee-item { font-size: clamp(2rem, 6vw, 4rem); padding: 0 1rem; }
+  .marquee-sep { font-size: clamp(2rem, 6vw, 4rem); padding: 0 1rem; }
+  .marquee-wrap { padding: 2.5rem 0; }
+
+  /* Le Reveal mobile */
+  .reveal-section { padding: 4rem 2rem; }
+  .reveal-slider { aspect-ratio: 1/1; }
+
+  /* Social proof mobile */
+  .testimonials { grid-template-columns: 1fr; max-width: 500px; }
+  .social-proof { padding: 4rem 2rem 5rem; }
+
+  /* Instagram carrousel mobile */
+  .insta-marquee-item, .insta-marquee-placeholder { width: 200px; height: 200px; }
+
+  /* Visit photo mobile */
+  .visit-photo { aspect-ratio: 16/9; }
+
+  /* Newsletter mobile */
+  .newsletter-form { max-width: 100%; }
+  .footer-newsletter { padding: 1.5rem 0; }
+  .footer-newsletter h4 { font-size: 1.2rem; }
+
+  /* CTA mobile */
+  .cta-section { padding: 4rem 2rem 4rem; }
 }
+
 @media (max-width: 500px) {
-  .hero { height:85vh; }
+  .hero { height:85vh; height: 85dvh; }
   .hero-title { font-size:clamp(1.8rem,7vw,2.8rem); }
-  .hero-content { margin-top: 0; }
+  .hero-content { margin-top: 10vh; padding-top: 0; }
   .hero-img { width:95%; max-width:none; }
   .statement-text { font-size:clamp(2.5rem,10vw,4rem); }
   .tl-flavors { grid-template-columns: 1fr; gap: 0.3rem; }
   .tl-panel { padding: 2.5rem 1.5rem; }
+
+  /* Marquee petit écran */
+  .marquee-item { font-size: clamp(1.6rem, 8vw, 2.5rem); padding: 0 0.8rem; }
+  .marquee-sep { font-size: clamp(1.6rem, 8vw, 2.5rem); padding: 0 0.8rem; }
+  .marquee-wrap { padding: 2rem 0; }
+
+  /* Hero CTA */
+  .btn-hero { padding: 0.7rem 2rem; font-size: 0.65rem; }
+
+  /* Testimonials */
+  .testimonial-card { padding: 1.5rem; }
+  .testimonial-text { font-size: 0.88rem; }
+
+  /* Le Reveal */
+  .reveal-section { padding: 3rem 1.5rem; }
+  .reveal-section h2 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+
+  /* Newsletter */
+  .newsletter-form { flex-direction: column; border-radius: 12px; }
+  .newsletter-input { border-radius: 12px 12px 0 0; text-align: center; }
+  .newsletter-btn { border-radius: 0 0 12px 12px; padding: 0.9rem; }
+
+  /* Instagram */
+  .insta-marquee-item, .insta-marquee-placeholder { width: 160px; height: 160px; }
+  .insta-section-v2 h2 { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+
+  /* Visit */
+  .visit-photo { aspect-ratio: 4/3; }
+  .visit-map-link { font-size: 0.6rem; padding: 0.6rem 1.4rem; }
 }
 
 /* ═══════ SCROLL REVEAL ═══════ */
@@ -1214,7 +1281,7 @@ a { color:inherit; text-decoration:none; }
 .grain {
   position: fixed;
   inset: 0;
-  z-index: 9000;
+  z-index: 90;
   pointer-events: none;
   opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -1790,10 +1857,10 @@ a { color:inherit; text-decoration:none; }
   </div>
   <picture>
     <source media="(max-width: 900px)"
-            srcset="img/hero-trio-mobile.webp 768w, img/hero-trio-960w.webp 960w, img/hero-trio-1280w.webp 1280w"
+            srcset="img/hero-trio-trans-mobile.webp 768w, img/hero-trio-trans-960w.webp 960w, img/hero-trio-trans-1280w.webp 1280w"
             sizes="95vw" />
-    <img class="hero-img" src="img/hero-trio.webp"
-         srcset="img/hero-trio-960w.webp 960w, img/hero-trio-1280w.webp 1280w, img/hero-trio.webp 1536w"
+    <img class="hero-img" src="img/hero-trio-trans.webp"
+         srcset="img/hero-trio-trans-960w.webp 960w, img/hero-trio-trans-1280w.webp 1280w, img/hero-trio-trans.webp 1536w"
          sizes="70vw"
          alt="Trio trompe-l'œil framboise, fraise, framboise" width="1536" height="1024" fetchpriority="high" />
   </picture>
@@ -2174,9 +2241,10 @@ a { color:inherit; text-decoration:none; }
     setTimeout(() => { loader.style.display = 'none'; }, 2500);
   });
 
-  /* ── Lenis Smooth Scroll ── */
+  /* ── Lenis Smooth Scroll (desktop only — causes jank on iOS touch) ── */
   let lenis;
-  if (!prefersReduced) {
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!prefersReduced && !isTouch) {
     lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -2195,6 +2263,18 @@ a { color:inherit; text-decoration:none; }
         if (target) {
           e.preventDefault();
           lenis.scrollTo(target, { offset: -90 });
+        }
+      });
+    });
+  } else {
+    // Fallback: native smooth scroll for anchor links on touch/reduced-motion
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const y = target.getBoundingClientRect().top + window.scrollY - 90;
+          window.scrollTo({ top: y, behavior: 'smooth' });
         }
       });
     });
@@ -2243,7 +2323,7 @@ a { color:inherit; text-decoration:none; }
       const sy = window.scrollY;
       nav.classList.toggle('scrolled', sy > 60);
 
-      if (heroImg && !prefersReduced && heroReady) {
+      if (heroImg && !prefersReduced && heroReady && window.innerWidth > 900) {
         const heroH = hero.offsetHeight;
         if (sy < heroH) {
           heroImg.style.transform = 'translateX(-50%) translateY(' + (sy * 0.18) + 'px) scale(1)';
@@ -2262,9 +2342,20 @@ a { color:inherit; text-decoration:none; }
   /* ── Mobile menu ── */
   const burger = document.getElementById('burger');
   const mm = document.getElementById('mm');
-  burger.addEventListener('click', () => mm.classList.toggle('open'));
-  document.getElementById('mmClose').addEventListener('click', () => mm.classList.remove('open'));
-  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+  function toggleMenu(open) {
+    if (open) {
+      mm.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (lenis) lenis.stop();
+    } else {
+      mm.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lenis) lenis.start();
+    }
+  }
+  burger.addEventListener('click', () => toggleMenu(!mm.classList.contains('open')));
+  document.getElementById('mmClose').addEventListener('click', () => toggleMenu(false));
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 
   /* ── Intersection Observer — staggered reveals ── */
   const obs = new IntersectionObserver(entries => {
