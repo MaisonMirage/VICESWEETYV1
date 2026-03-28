@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vice Sweety — Audit Award-Winner V4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #0c0a14;
+  --card: #141020;
+  --card-hover: #1a1530;
+  --border: rgba(255,255,255,0.06);
+  --pink: #e63b7a;
+  --teal: #0BBFBF;
+  --gold: #f5b041;
+  --green: #2ecc71;
+  --red: #e74c3c;
+  --orange: #e67e22;
+  --cream: #FEFCFF;
+  --text: rgba(255,255,255,0.85);
+  --text-dim: rgba(255,255,255,0.45);
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Space Grotesk', system-ui, sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.6; }
+
+/* ═══ HEADER ═══ */
+.audit-header {
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+  background: linear-gradient(180deg, #1a1030 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.audit-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(230,59,122,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.audit-badge {
+  display: inline-block;
+  padding: 0.35rem 1.2rem;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: rgba(230,59,122,0.15);
+  color: var(--pink);
+  border: 1px solid rgba(230,59,122,0.25);
+  margin-bottom: 1.5rem;
+}
+.audit-header h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 0.5rem;
+}
+.audit-header .sub {
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-weight: 300;
+}
+.audit-date {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-top: 1rem;
+  letter-spacing: 0.1em;
+}
+
+/* ═══ SCORE GLOBAL ═══ */
+.global-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  padding: 3rem 2rem;
+  flex-wrap: wrap;
+}
+.score-ring {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.score-ring circle {
+  fill: none;
+  stroke-width: 8;
+  cx: 80; cy: 80; r: 70;
+}
+.score-ring .bg { stroke: rgba(255,255,255,0.06); }
+.score-ring .fill { stroke: var(--teal); stroke-linecap: round; stroke-dasharray: 440; transition: stroke-dashoffset 1.5s ease; }
+.score-ring .label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.score-ring .num { font-size: 2.5rem; font-weight: 700; color: var(--cream); }
+.score-ring .of { font-family: var(--mono); font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; }
+
+.score-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.sb-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 280px;
+}
+.sb-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  width: 140px;
+  flex-shrink: 0;
+}
+.sb-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sb-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+.sb-val {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  width: 32px;
+  text-align: right;
+}
+
+/* ═══ NAV ═══ */
+.audit-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  background: rgba(12,10,20,0.95);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+.audit-nav a {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+}
+.audit-nav a:hover { color: var(--teal); border-color: rgba(11,191,191,0.2); }
+
+/* ═══ SECTIONS ═══ */
+.audit-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.section-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--teal);
+  padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(11,191,191,0.2);
+  border-radius: 4px;
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cream);
+}
+.section-score {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+}
+.score-high { background: rgba(46,204,113,0.15); color: var(--green); }
+.score-mid { background: rgba(245,176,65,0.15); color: var(--gold); }
+.score-low { background: rgba(231,76,60,0.15); color: var(--red); }
+
+/* ═══ CARDS ═══ */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 0.5rem;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-right: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+.tag-win { background: rgba(46,204,113,0.15); color: var(--green); }
+.tag-fix { background: rgba(231,76,60,0.15); color: var(--red); }
+.tag-upgrade { background: rgba(245,176,65,0.15); color: var(--gold); }
+.tag-new { background: rgba(11,191,191,0.15); color: var(--teal); }
+.tag-critical { background: rgba(231,76,60,0.25); color: var(--red); border: 1px solid rgba(231,76,60,0.3); }
+.tag-female { background: rgba(230,59,122,0.15); color: var(--pink); }
+
+/* Checklist */
+.check-list { list-style: none; padding: 0; }
+.check-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.check-list li:last-child { border-bottom: none; }
+.check-icon { flex-shrink: 0; margin-top: 2px; }
+.icon-pass { color: var(--green); }
+.icon-fail { color: var(--red); }
+.icon-warn { color: var(--gold); }
+
+/* Priority table */
+.priority-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.priority-table th {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.priority-table td {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  vertical-align: top;
+}
+.priority-table tr:last-child td { border-bottom: none; }
+.p-high { color: var(--red); font-weight: 600; }
+.p-med { color: var(--gold); font-weight: 600; }
+.p-low { color: var(--green); font-weight: 600; }
+
+/* Impact badge */
+.impact {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+}
+.impact-high { background: rgba(231,76,60,0.15); color: var(--red); }
+.impact-med { background: rgba(245,176,65,0.15); color: var(--gold); }
+
+/* Quote */
+.quote {
+  border-left: 3px solid var(--pink);
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  background: rgba(230,59,122,0.04);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .global-score { flex-direction: column; }
+  .sb-row { min-width: auto; }
+  .audit-nav { gap: 0.3rem; }
+  .audit-nav a { font-size: 0.5rem; padding: 0.3rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<header class="audit-header">
+  <div class="audit-badge">Audit Award-Winner V4</div>
+  <h1>Vice Sweety — Design Audit</h1>
+  <p class="sub">Analyse complète orientée cible féminine (80%+), viralité Instagram & standards Awwwards/FWA.</p>
+  <p class="audit-date">28 mars 2026 · index.html · ~1510 lignes · Single-page</p>
+</header>
+
+<!-- ═══════ SCORE GLOBAL ═══════ -->
+<div class="global-score">
+  <div class="score-ring">
+    <svg viewBox="0 0 160 160">
+      <circle class="bg" />
+      <circle class="fill" style="stroke-dashoffset: 132;" />
+    </svg>
+    <div class="label">
+      <span class="num">7.2</span>
+      <span class="of">/10</span>
+    </div>
+  </div>
+  <div class="score-breakdown">
+    <div class="sb-row">
+      <span class="sb-label">Visual Design</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:82%; background: var(--green);"></div></div>
+      <span class="sb-val" style="color:var(--green)">8.2</span>
+    </div>
+    <div class="sb-row">
+      <span class="sb-label">Audience Fit (♀)</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:70%; background: var(--gold);"></div></div>
+      <span class="sb-val" style="color:var(--gold)">7.0</span>
+    </div>
+    <div class="sb-row">
+      <span class="sb-label">Copywriting</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:80%; background: var(--green);"></div></div>
+      <span class="sb-val" style="color:var(--green)">8.0</span>
+    </div>
+    <div class="sb-row">
+      <span class="sb-label">Interaction</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:62%; background: var(--gold);"></div></div>
+      <span class="sb-val" style="color:var(--gold)">6.2</span>
+    </div>
+    <div class="sb-row">
+      <span class="sb-label">Mobile UX</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:65%; background: var(--gold);"></div></div>
+      <span class="sb-val" style="color:var(--gold)">6.5</span>
+    </div>
+    <div class="sb-row">
+      <span class="sb-label">Performance</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:75%; background: var(--green);"></div></div>
+      <span class="sb-val" style="color:var(--green)">7.5</span>
+    </div>
+    <div class="sb-row">
+      <span class="sb-label">Instagram-ready</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:58%; background: var(--orange);"></div></div>
+      <span class="sb-val" style="color:var(--orange)">5.8</span>
+    </div>
+    <div class="sb-row">
+      <span class="sb-label">Award Potential</span>
+      <div class="sb-bar"><div class="sb-bar-fill" style="width:68%; background: var(--gold);"></div></div>
+      <span class="sb-val" style="color:var(--gold)">6.8</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="audit-nav">
+  <a href="#s1">Résumé</a>
+  <a href="#s2">Hero</a>
+  <a href="#s3">Intro Band</a>
+  <a href="#s4">Notre Vice</a>
+  <a href="#s5">Catégories</a>
+  <a href="#s6">Trompe-l'œil</a>
+  <a href="#s7">Statements</a>
+  <a href="#s8">CTA</a>
+  <a href="#s9">Instagram</a>
+  <a href="#s10">Visit</a>
+  <a href="#s11">Footer</a>
+  <a href="#s12">Cible ♀</a>
+  <a href="#s13">Manques</a>
+  <a href="#s14">Roadmap</a>
+</nav>
+
+<!-- ═══════ 1. RÉSUMÉ EXÉCUTIF ═══════ -->
+<section class="audit-section" id="s1">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Résumé Exécutif</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Forces actuelles</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Direction artistique Miami 80's cohérente et mémorable — palette hot pink + teal + deep purple parfaitement exécutée</li>
+      <li><span class="check-icon icon-pass">✓</span> Split editorial trompe-l'œil (50/50 grid) — mise en page premium, image magnifique de Pomelli bien exploitée</li>
+      <li><span class="check-icon icon-pass">✓</span> Copywriting émotionnel et conversationnel — tutoiement naturel, ton parfait pour la cible</li>
+      <li><span class="check-icon icon-pass">✓</span> Motifs décoratifs (flamant, palmier, pattern-miami) intégrés avec subtilité via mix-blend-mode</li>
+      <li><span class="check-icon icon-pass">✓</span> Performance images (WebP + srcset + sizes) bien gérée</li>
+      <li><span class="check-icon icon-pass">✓</span> Schema.org structuré correctement</li>
+      <li><span class="check-icon icon-pass">✓</span> Accessibilité de base (skip-link, focus-visible, prefers-reduced-motion)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Faiblesses critiques pour un site award-winner</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-fail">✗</span> <strong>Zéro micro-interaction avancée</strong> — pas de smooth scroll (Lenis), pas de curseur custom, pas d'effet magnétique sur les boutons. C'est le minimum pour Awwwards.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de section "Le Reveal"</strong> — un before/after slider montrant l'intérieur des trompe-l'œil serait le moment WOW viral du site</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Section Instagram = grille statique de 4 photos</strong> — manque un carrousel infini animé, ou un feed Instagram réel. Zéro engagement.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de social proof</strong> — aucun avis client, aucune métrique (X milliers de trompe-l'œil vendus), aucun UGC. Critique pour 80% femmes.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de vidéo/TikTok embed</strong> — le produit EST visuel. Un video reveal du tranchage serait plus viral que n'importe quel texte.</li>
+      <li><span class="check-icon icon-warn">⚠</span> <strong>Hero sans CTA visible above-the-fold</strong> — le bouton hero est trop discret et le copy ne guide pas assez vers l'action</li>
+      <li><span class="check-icon icon-warn">⚠</span> <strong>Aucune animation de texte</strong> — les titres apparaissent en fadeUp basique. Un split-text reveal (mot par mot ou lettre par lettre) donnerait un impact 10x.</li>
+    </ul>
+  </div>
+
+  <div class="quote">
+    « Un site award-winner pour une marque food féminine doit créer un moment de désir instantané. Aujourd'hui le site est joli. Il doit devenir irrésistible. Chaque scroll doit provoquer un "j'en veux". »
+  </div>
+</section>
+
+<!-- ═══════ 2. HERO ═══════ -->
+<section class="audit-section" id="s2">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Hero Section</h2>
+    <span class="section-score score-mid">7.5/10</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Analyse</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Image hero trio trompe-l'œil impactante — bonne qualité, bien positionnée en bas</li>
+      <li><span class="check-icon icon-pass">✓</span> Titre "Trop beaux pour être vrais." — excellent hook émotionnel</li>
+      <li><span class="check-icon icon-pass">✓</span> Parallax subtil sur l'image (0.18 factor) — raffiné</li>
+      <li><span class="check-icon icon-pass">✓</span> Mobile responsive avec picture/source pour hero-trio-mobile</li>
+      <li><span class="check-icon icon-warn">⚠</span> Sous-titre "Tu ne devineras jamais que c'est un gâteau" — bon mais pourrait être plus aspirationnel pour la cible féminine</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de CTA hero visible</strong> — le btn-hero existe en CSS mais n'est pas dans le HTML ! Grosse perte de conversion.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Animations d'entrée basiques</strong> — fadeUp + translateY. Un site award-winner utiliserait du split text reveal avec GSAP ou du clip-path reveal.</li>
+      <li><span class="check-icon icon-warn">⚠</span> Background = var(--cream) plat. Un gradient subtil ou un effet de grain/noise donnerait plus de texture premium.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-fix">Fix</span> <span class="tag tag-critical">Critique</span>
+    <div class="card-title">Recommandations Hero</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-fail">→</span> <strong>Ajouter un CTA hero</strong> — "Découvrir nos créations →" en btn-hero, positionné sous le sous-titre. C'est le premier élément que la cible féminine cherche.</li>
+      <li><span class="check-icon icon-fail">→</span> <strong>Split text animation</strong> — Animer "Trop beaux pour être vrais." mot par mot avec un reveal élégant (clip-path ou opacity stagger). Impact émotionnel 10x.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Texture de fond</strong> — Ajouter un léger grain CSS (noise overlay) sur le hero pour profondeur premium.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Sous-titre alternatif plus féminin</strong> — Option : "Le dessert que tout le monde va te demander en story." — parle directement à la cible Instagram.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 3. INTRO BAND ═══════ -->
+<section class="audit-section" id="s3">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Intro Band</h2>
+    <span class="section-score score-mid">7.0/10</span>
+  </div>
+
+  <div class="card">
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Titre "L'art du trompe-l'œil" — bon ancrage de marque</li>
+      <li><span class="check-icon icon-pass">✓</span> Les 3 étapes (Admirer → Couper → Fondre) = storytelling produit efficace</li>
+      <li><span class="check-icon icon-pass">✓</span> Pattern flamant-deco en fond très subtil (opacity 0.05)</li>
+      <li><span class="check-icon icon-warn">⚠</span> Les 3 features sont en texte pur — manque des icônes ou des petites illustrations pour les rendre plus "scrollable" et mémorables</li>
+      <li><span class="check-icon icon-warn">⚠</span> La section est assez générique visuellement — pas de signature forte</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-upgrade">Upgrade</span> <span class="tag tag-female">Cible ♀</span>
+    <div class="card-title">Recommandations</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-warn">→</span> <strong>Iconographie custom</strong> — 3 petites illustrations (œil, couteau, cœur) en style line-art Miami pour les 3 étapes. Beaucoup plus Instagrammable.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Interaction au hover</strong> — Chaque étape pourrait révéler une micro-photo du produit au survol. Crée du désir.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Compteur animé</strong> — "Plus de 5 000 trompe-l'œil créés" avec animation de comptage au scroll. Social proof immédiate.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 4. NOTRE VICE ═══════ -->
+<section class="audit-section" id="s4">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Notre Vice — Brand Story</h2>
+    <span class="section-score score-high">8.0/10</span>
+  </div>
+
+  <div class="card">
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Grid 1fr 1fr avec image équipe + texte — layout classique bien exécuté</li>
+      <li><span class="check-icon icon-pass">✓</span> Background gradient deep-purple avec radial glows pink/teal — très immersif</li>
+      <li><span class="check-icon icon-pass">✓</span> Pattern palm en overlay screen à 4% — texture subtile</li>
+      <li><span class="check-icon icon-pass">✓</span> Copywriting authentique — "On a commencé avec une obsession" → parle au cœur</li>
+      <li><span class="check-icon icon-pass">✓</span> Les vice-highlight en teal créent des accents visuels dans le texte</li>
+      <li><span class="check-icon icon-warn">⚠</span> L'image equipe-boutique — vérifier qu'elle véhicule bien l'univers premium + féminin. Les photos d'équipe sont souvent les plus faibles.</li>
+      <li><span class="check-icon icon-warn">⚠</span> Pas d'animation à l'entrée de l'image (parallax, reveal depuis le côté, etc.)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-upgrade">Upgrade</span>
+    <div class="card-title">Recommandations</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-warn">→</span> <strong>Image parallax</strong> — L'image devrait avoir un léger parallax vertical au scroll pour créer de la profondeur.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Clip-path reveal</strong> — L'image se révèle avec un mask circulaire ou diagonal au scroll. Signature visuelle forte.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 5. CATÉGORIES ═══════ -->
+<section class="audit-section" id="s5">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Blocs Catégories (Smoothies, Milkshakes, Cookies, etc.)</h2>
+    <span class="section-score score-mid">7.5/10</span>
+  </div>
+
+  <div class="card">
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Layout grid 1fr 1fr avec images full-bleed — visuellement impactant</li>
+      <li><span class="check-icon icon-pass">✓</span> Hover effect (scale 1.04 + gradient overlay deepening + flèche reveal) — bon UX de découverte</li>
+      <li><span class="check-icon icon-pass">✓</span> Tags "Nouveau" et "Best-seller" — bons indicateurs pour la cible féminine</li>
+      <li><span class="check-icon icon-pass">✓</span> Copywriting punchy — "Game over.", "Ton guilty pleasure." — parfait pour le ton Vice Sweety</li>
+      <li><span class="check-icon icon-pass">✓</span> Animations staggered (slideInLeft / slideInRight) sur les blocs catégories</li>
+      <li><span class="check-icon icon-warn">⚠</span> 3 blocs cat-row (6 blocs au total) créent beaucoup de scroll. Risque de fatigue visuelle.</li>
+      <li><span class="check-icon icon-warn">⚠</span> Toutes les images pointent vers menu.html — aucune différenciation de destination. L'utilisatrice ne sait pas où elle va atterrir.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-upgrade">Upgrade</span> <span class="tag tag-female">Cible ♀</span>
+    <div class="card-title">Recommandations</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-warn">→</span> <strong>Ajouter des prix indicatifs</strong> — "À partir de 6,50€" sur chaque bloc. Les consommatrices veulent savoir avant de cliquer.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Hover card avec mini preview</strong> — Au lieu d'un simple zoom, une petite card slide-up avec 2-3 variantes du produit. Plus riche.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Navigation par ancres</strong> — Chaque lien devrait pointer vers la section correspondante du menu, pas juste menu.html générique.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 6. TROMPE-L'ŒIL ═══════ -->
+<section class="audit-section" id="s6">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Trompe-l'œil — Split Editorial</h2>
+    <span class="section-score score-high">8.5/10</span>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-win">Win majeur</span>
+    <div class="card-title">La meilleure section du site</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Split 50/50 editorial — layout premium, digne des meilleurs sites food</li>
+      <li><span class="check-icon icon-pass">✓</span> Image Pomelli magnifique exploitée en object-fit:cover — rendu magazine</li>
+      <li><span class="check-icon icon-pass">✓</span> Ken Burns hover lent (6s, scale 1.04) — hypnotique, premium</li>
+      <li><span class="check-icon icon-pass">✓</span> Flavor list avec dots colorés = bijou de design. Chaque parfum a sa couleur. Très féminin.</li>
+      <li><span class="check-icon icon-pass">✓</span> Micro-interactions (dot scale + glow au hover) — détail award-winner</li>
+      <li><span class="check-icon icon-pass">✓</span> Panel gradient dark avec radial glows — ambiance intimiste qui contraste avec l'image lumineuse</li>
+      <li><span class="check-icon icon-pass">✓</span> CTA pill transparent avec flèche animée — élégant</li>
+      <li><span class="check-icon icon-warn">⚠</span> La note à côté de chaque parfum (Acidulé, Exotique, etc.) est très petite (0.7rem, 35% opacity). Presque invisible.</li>
+      <li><span class="check-icon icon-warn">⚠</span> Mobile: la photo prend min-height:70vw — pourrait être plus grande pour l'impact</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-upgrade">Upgrade</span> <span class="tag tag-new">Nouveau</span>
+    <div class="card-title">Pour passer de 8.5 à 9.5</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-fail">→</span> <strong>Image parallax au scroll</strong> — L'image devrait se déplacer légèrement en sens inverse du scroll. Ça transforme une image statique en expérience.</li>
+      <li><span class="check-icon icon-fail">→</span> <strong>Stagger animation sur les flavors</strong> — Chaque ligne de parfum apparaît avec un délai de 80ms. Effet cascade élégant.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Flavor notes plus lisibles</strong> — Augmenter à 0.8rem et 50% opacity, ou passer en tag pill coloré à côté du nom.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Prix par parfum</strong> — "7,50€" à droite de chaque ligne. La cible veut savoir.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 7. STATEMENTS ═══════ -->
+<section class="audit-section" id="s7">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Statements (Interludes visuels)</h2>
+    <span class="section-score score-mid">7.0/10</span>
+  </div>
+
+  <div class="card">
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> "Too pretty to eat." en pink-on-sky — excellent statement de marque, mémorable</li>
+      <li><span class="check-icon icon-pass">✓</span> Effet striped text (repeating-linear-gradient clipped) — détail original</li>
+      <li><span class="check-icon icon-pass">✓</span> Flamant déco en bas à droite du premier statement — touche Miami</li>
+      <li><span class="check-icon icon-pass">✓</span> Scale reveal animation — l'effet "zoom in" est satisfaisant</li>
+      <li><span class="check-icon icon-warn">⚠</span> Seulement 2 statements. Le rythme pourrait bénéficier d'un 3ème plus bas.</li>
+      <li><span class="check-icon icon-warn">⚠</span> "Made with love in Marseille" est un peu générique — pourrait être plus audacieux</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-upgrade">Upgrade</span> <span class="tag tag-female">Cible ♀</span>
+    <div class="card-title">Recommandations</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-warn">→</span> <strong>Remplacer statement 2</strong> — "Made with love in Marseille" → "Ton feed va nous remercier." ou "Le dessert que tes copines vont te jalouser." — plus engageant pour la cible.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Horizontal scroll text</strong> — Pour un effet award-winner, le statement pourrait défiler horizontalement en boucle (marquee CSS). Très tendance 2026.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Ajouter un 3ème statement</strong> avant le footer — "Ton prochain vice commence ici." en full-width.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 8. CTA SECTION ═══════ -->
+<section class="audit-section" id="s8">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <h2 class="section-title">CTA Section (Sunset Gradient)</h2>
+    <span class="section-score score-high">8.0/10</span>
+  </div>
+
+  <div class="card">
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Gradient sunset (deep-purple → pink → coral → gold → cream) — magnifique, signature Miami</li>
+      <li><span class="check-icon icon-pass">✓</span> Synthwave grid floor en perspective — détail premium unique</li>
+      <li><span class="check-icon icon-pass">✓</span> Pattern miami en soft-light overlay — texture sans surcharge</li>
+      <li><span class="check-icon icon-pass">✓</span> "Ton prochain vice." — copy parfait</li>
+      <li><span class="check-icon icon-pass">✓</span> Bouton turquoise avec glow teal — bien visible, appelle au clic</li>
+      <li><span class="check-icon icon-warn">⚠</span> Le bouton "Voir la carte →" pourrait être plus direct — "Commander maintenant →" serait plus conversion-oriented</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 9. INSTAGRAM ═══════ -->
+<section class="audit-section" id="s9">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <h2 class="section-title">Section Instagram</h2>
+    <span class="section-score score-low">5.0/10</span>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-critical">Section faible</span>
+    <div class="card-title">Le point noir du site</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Le handle @vicesweety est mis en avant</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Seulement 4 images statiques</strong> — pour une marque qui cible 80% de femmes, cette section devrait être LE moment "je veux suivre ce compte". C'est trop pauvre.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de carrousel infini</strong> — Un défilement horizontal automatique (marquee) de 8-12 photos créerait du dynamisme et du FOMO.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de métriques sociales</strong> — Nombre de followers, nombre de posts, pas de preuve sociale.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas d'UGC (User Generated Content)</strong> — Les photos de clientes avec leurs trompe-l'œil seraient 10x plus convaincantes.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Hover effect = juste un zoom + overlay</strong> — Pourrait afficher un compteur de likes ou un aperçu de caption.</li>
+      <li><span class="check-icon icon-warn">⚠</span> Passe de 4 colonnes à 2 colonnes sur mobile — OK mais perd le côté "feed" immersif</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-fix">Refaire</span> <span class="tag tag-female">Cible ♀ priorité</span>
+    <div class="card-title">Recommandations — Refonte complète nécessaire</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-fail">→</span> <strong>Carrousel horizontal infini</strong> — 2 rangées de photos qui scrollent en sens opposé (gauche ← / droite →), vitesse lente, pause au hover. Signature visuelle forte.</li>
+      <li><span class="check-icon icon-fail">→</span> <strong>Intégrer des vraies stories/reels</strong> — Un embed TikTok ou un gif du tranchage d'un trompe-l'œil. Le contenu vidéo est LE déclencheur d'envie pour la cible féminine.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Section UGC</strong> — Titre "Elles en parlent" avec des screenshots de stories de clientes. Social proof ultime.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>CTA "Rejoins la Sweetyfam"</strong> avec le @handle et un bouton Follow stylisé.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 10. VISIT ═══════ -->
+<section class="audit-section" id="s10">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <h2 class="section-title">Section Nous Trouver</h2>
+    <span class="section-score score-mid">6.5/10</span>
+  </div>
+
+  <div class="card">
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Grid 1fr 1fr propre pour horaires + adresse</li>
+      <li><span class="check-icon icon-pass">✓</span> Horaires corrects (10h-02h tous les jours)</li>
+      <li><span class="check-icon icon-pass">✓</span> Style turquoise sur les jours + borders teal subtils — cohérent</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de carte/map</strong> — Un Google Maps embed ou au moins une image de la localisation. Critique pour le local.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Pas de photo de la boutique</strong> — La cible féminine veut "voir" l'endroit avant d'y aller. L'esthétique du lieu fait partie de l'expérience.</li>
+      <li><span class="check-icon icon-warn">⚠</span> Le gradient sky → cream est joli mais la section manque de personnalité comparée au reste du site</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-fix">Fix</span> <span class="tag tag-female">Cible ♀</span>
+    <div class="card-title">Recommandations</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-fail">→</span> <strong>Ajouter une photo de la devanture/intérieur</strong> — Image aspirationnelle de la boutique, ambiance néon. Ça donne envie d'y aller et de poster.</li>
+      <li><span class="check-icon icon-fail">→</span> <strong>Map interactive ou statique</strong> — Même une image Google Maps cliquable serait mieux que rien.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>CTA "M'y rendre" avec lien Google Maps</strong> — Plus direct qu'une simple adresse.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Ajouter "Commande en 5 min" bien visible</strong> — Le texte existe mais il est noyé dans l'adresse.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 11. FOOTER ═══════ -->
+<section class="audit-section" id="s11">
+  <div class="section-header">
+    <span class="section-num">11</span>
+    <h2 class="section-title">Footer</h2>
+    <span class="section-score score-mid">7.0/10</span>
+  </div>
+
+  <div class="card">
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> Gradient neon line top (pink → teal → pink) — signature</li>
+      <li><span class="check-icon icon-pass">✓</span> Pattern miami en overlay — cohérent</li>
+      <li><span class="check-icon icon-pass">✓</span> Logo avec drop-shadow rose — joli</li>
+      <li><span class="check-icon icon-pass">✓</span> Icônes sociales (Insta, TikTok, Email) avec hover teal</li>
+      <li><span class="check-icon icon-warn">⚠</span> Seulement 2 colonnes (Site / Social) — le footer paraît un peu vide</li>
+      <li><span class="check-icon icon-warn">⚠</span> Pas de newsletter signup — manque de capture d'emails, pourtant essentiel pour le marketing féminin</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-new">Nouveau</span> <span class="tag tag-female">Cible ♀</span>
+    <div class="card-title">Recommandations</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-fail">→</span> <strong>Newsletter signup</strong> — "Reçois nos nouveautés en avant-première" avec un input email + bouton. Capture de leads essentielle.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Ajouter un lien UberEats/Deliveroo</strong> si disponible — la cible commande aussi via ces plateformes.</li>
+      <li><span class="check-icon icon-warn">→</span> <strong>Ajouter une 3ème colonne "Infos"</strong> — avec horaires résumés et le téléphone, pour accès rapide.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 12. ANALYSE CIBLE FÉMININE ═══════ -->
+<section class="audit-section" id="s12">
+  <div class="section-header">
+    <span class="section-num">12</span>
+    <h2 class="section-title">Analyse Cible Féminine (80%+)</h2>
+    <span class="section-score score-mid">7.0/10</span>
+  </div>
+
+  <div class="quote">
+    « Elles découvrent Vice Sweety sur Instagram ou TikTok. Elles viennent sur le site pour commander ou voir le menu. Elles prennent une photo du trompe-l'œil. Elles la postent en story. Leurs copines demandent "c'est où ?!". Boucle virale. Le site doit servir cette boucle à chaque étape. »
+  </div>
+
+  <div class="card">
+    <div class="card-title">Ce qui fonctionne déjà pour la cible ♀</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-pass">✓</span> <strong>Palette rose/teal/gold</strong> — ces couleurs testent bien auprès de la cible 18-35 femmes. L'univers Miami/sunset est aspirationnel.</li>
+      <li><span class="check-icon icon-pass">✓</span> <strong>Tutoiement + ton conversationnel</strong> — "Tu ne devineras jamais", "Ton guilty pleasure", "Tu vas le poster" — parfait, comme une conversation entre copines.</li>
+      <li><span class="check-icon icon-pass">✓</span> <strong>Les flavor dots colorés</strong> — Esthétique "palette de maquillage" qui résonne avec la cible.</li>
+      <li><span class="check-icon icon-pass">✓</span> <strong>Tags "Nouveau" / "Best-seller"</strong> — La cible féminine est sensible aux signaux de tendance et de validation sociale.</li>
+      <li><span class="check-icon icon-pass">✓</span> <strong>"Vice assumé" comme positionnement</strong> — Le concept de guilty pleasure sans culpabilité résonne fort. C'est du self-care gourmand.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-critical">Manques critiques</span>
+    <div class="card-title">Ce qui manque pour maximiser la cible ♀</div>
+    <ul class="check-list">
+      <li><span class="check-icon icon-fail">✗</span> <strong>Social proof / témoignages</strong> — "J'ai commandé pour l'anniversaire de ma meilleure amie, elle a cru que c'était un vrai citron !" — Ce type de micro-story est LE déclencheur d'achat. Ajouter une section "Elles en parlent" avec 3-4 citations + photos.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>UGC / contenu de clientes</strong> — Photos Instagram réelles de clientes avec leur trompe-l'œil. L'authenticité bat le marketing pour cette cible.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Vidéo du reveal (couper le trompe-l'œil)</strong> — LE moment viral. Une vidéo autoplay (muted) de quelqu'un qui coupe un citron-trompe-l'œil et découvre la ganache. C'est ce qui fait cliquer "Commander" instantanément.</li>
+      <li><span class="check-icon icon-fail">✗</span> <strong>Prix visibles</strong> — La cible veut savoir combien ça coûte AVANT de cliquer sur "Commander". Pas de prix = friction = abandon.</li>
+      <li><span class="check-icon icon-warn">⚠</span> <strong>Pas de mention "cadeau parfait"</strong> — Les femmes achètent aussi pour offrir. Une mention "Le cadeau qui fait dire waouh" ou "Idéal pour un anniversaire" manque.</li>
+      <li><span class="check-icon icon-warn">⚠</span> <strong>Pas de section "occasions"</strong> — Anniversaire, EVJF, baby shower, brunch entre copines. Ce sont les moments clés d'achat pour cette cible.</li>
+      <li><span class="check-icon icon-warn">⚠</span> <strong>Pas de partage facile</strong> — Pas de bouton "Partager" ou "Envoyer à une copine" sur les produits.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════ 13. MANQUES TECHNIQUES AWARD-WINNER ═══════ -->
+<section class="audit-section" id="s13">
+  <div class="section-header">
+    <span class="section-num">13</span>
+    <h2 class="section-title">Manques Techniques — Standards Award-Winner</h2>
+    <span class="section-score score-low">5.5/10</span>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-critical">Critique</span>
+    <div class="card-title">Ce qui empêche Vice Sweety d'être nominé Awwwards/FWA aujourd'hui</div>
+    <table class="priority-table">
+      <thead>
+        <tr>
+          <th>Fonctionnalité</th>
+          <th>Impact</th>
+          <th>Difficulté</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Smooth Scroll (Lenis)</strong> — Le scroll natif est saccadé. Lenis donne un scroll buttery-smooth qui est devenu LE standard des sites award-winner.</td>
+          <td><span class="impact impact-high">Très haut</span></td>
+          <td>Facile</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Curseur personnalisé</strong> — Un petit cercle qui suit la souris, qui change de taille/couleur au survol des liens/images. Signature d'un site premium.</td>
+          <td><span class="impact impact-high">Haut</span></td>
+          <td>Facile</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Split text reveal (GSAP)</strong> — Les titres se révèlent mot par mot ou lettre par lettre. Minimum pour un site award-winner.</td>
+          <td><span class="impact impact-high">Très haut</span></td>
+          <td>Moyen</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Magnetic buttons</strong> — Les boutons "attirent" le curseur quand on s'approche. Détail qui fait "wow".</td>
+          <td><span class="impact impact-med">Moyen</span></td>
+          <td>Facile</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Page transition / loader</strong> — Un écran de chargement animé avec le logo Vice Sweety. Première impression cruciale.</td>
+          <td><span class="impact impact-high">Haut</span></td>
+          <td>Moyen</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Scroll-triggered parallax</strong> — Images qui bougent à des vitesses différentes au scroll. Crée de la profondeur.</td>
+          <td><span class="impact impact-med">Moyen</span></td>
+          <td>Moyen</td>
+          <td><span class="p-med">Partiel (hero only)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Section "Le Reveal" (before/after)</strong> — Slider interactif montrant l'extérieur puis l'intérieur du trompe-l'œil.</td>
+          <td><span class="impact impact-high">Très haut</span></td>
+          <td>Moyen</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Vidéo embed (TikTok/autoplay)</strong> — Contenu vidéo du produit. Le média le plus engageant.</td>
+          <td><span class="impact impact-high">Haut</span></td>
+          <td>Facile</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Marquee / ticker horizontal</strong> — Texte ou images défilant horizontalement en boucle. Tendance forte 2025-2026.</td>
+          <td><span class="impact impact-med">Moyen</span></td>
+          <td>Facile</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+        <tr>
+          <td><strong>Noise/grain texture overlay</strong> — Légère texture sur les fonds pour éviter le "flat digital". Détail premium.</td>
+          <td><span class="impact impact-med">Subtil</span></td>
+          <td>Très facile</td>
+          <td><span class="p-high">Manquant</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════ 14. ROADMAP PRIORITAIRE ═══════ -->
+<section class="audit-section" id="s14">
+  <div class="section-header">
+    <span class="section-num">14</span>
+    <h2 class="section-title">Roadmap Prioritaire — De 7.2 à 9.0+</h2>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-critical">Phase 1 — Quick Wins (1-2 jours)</span>
+    <div class="card-title">Impact immédiat, effort minimal</div>
+    <table class="priority-table">
+      <thead><tr><th>Action</th><th>Impact Score</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Ajouter Lenis smooth scroll</strong> — 3 lignes de JS. Transforme l'expérience entière.</td><td style="color:var(--green)">+0.5</td></tr>
+        <tr><td><strong>2. Curseur personnalisé</strong> — Cercle rose/teal qui suit la souris, grossit sur les liens.</td><td style="color:var(--green)">+0.3</td></tr>
+        <tr><td><strong>3. CTA hero</strong> — Ajouter le bouton "Découvrir" dans le HTML du hero.</td><td style="color:var(--green)">+0.2</td></tr>
+        <tr><td><strong>4. Noise texture overlay</strong> — SVG filter ou image de bruit sur le body. 5 lignes CSS.</td><td style="color:var(--green)">+0.1</td></tr>
+        <tr><td><strong>5. Marquee statement</strong> — Transformer un des statements en texte défilant horizontal.</td><td style="color:var(--green)">+0.2</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem; font-family:var(--mono); font-size:0.7rem; color:var(--teal);">Score estimé après Phase 1 : 8.5/10</p>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-fix">Phase 2 — Le Saut Qualitatif (3-5 jours)</span>
+    <div class="card-title">Les features qui font passer de "joli" à "award-winner"</div>
+    <table class="priority-table">
+      <thead><tr><th>Action</th><th>Impact Score</th></tr></thead>
+      <tbody>
+        <tr><td><strong>6. Section "Le Reveal"</strong> — Before/after slider interactif. Le moment WOW du site. La vidéo de tranchage en background ou un slider drag serait le plus viral.</td><td style="color:var(--green)">+0.4</td></tr>
+        <tr><td><strong>7. Split text animations (GSAP)</strong> — Les titres se révèlent avec style. Chaque section a son propre reveal.</td><td style="color:var(--green)">+0.3</td></tr>
+        <tr><td><strong>8. Carrousel Instagram infini</strong> — 2 rangées de photos qui scrollent en boucle. Remplace la grille statique.</td><td style="color:var(--green)">+0.2</td></tr>
+        <tr><td><strong>9. Page loader</strong> — Animation de chargement avec le logo et la tagline.</td><td style="color:var(--green)">+0.2</td></tr>
+        <tr><td><strong>10. Magnetic buttons</strong> — Effet d'attraction sur tous les CTAs.</td><td style="color:var(--green)">+0.1</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem; font-family:var(--mono); font-size:0.7rem; color:var(--teal);">Score estimé après Phase 2 : 9.7/10</p>
+  </div>
+
+  <div class="card">
+    <span class="tag tag-female">Phase 3 — Maximiser la Cible ♀ (contenu)</span>
+    <div class="card-title">Les ajouts de contenu qui maximisent conversion + viralité</div>
+    <table class="priority-table">
+      <thead><tr><th>Action</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td><strong>11. Section "Elles en parlent"</strong> — 3-4 témoignages de clientes avec photo + citation. Social proof ultime.</td><td><span class="tag tag-female">♀ Priorité</span></td></tr>
+        <tr><td><strong>12. Vidéo reveal embed</strong> — TikTok ou vidéo autoplay (muted) d'un tranchage de trompe-l'œil.</td><td><span class="tag tag-female">♀ Viralité</span></td></tr>
+        <tr><td><strong>13. Section "Occasions"</strong> — Anniversaire, EVJF, baby shower, brunch. Avec visuels aspirationnels.</td><td><span class="tag tag-female">♀ Conversion</span></td></tr>
+        <tr><td><strong>14. Prix indicatifs</strong> — "À partir de X€" sur les catégories et les parfums trompe-l'œil.</td><td><span class="tag tag-female">♀ Conversion</span></td></tr>
+        <tr><td><strong>15. Newsletter footer</strong> — "Reçois nos nouveautés" + input email. Capture de la communauté.</td><td><span class="tag tag-female">♀ Rétention</span></td></tr>
+        <tr><td><strong>16. Photo boutique</strong> — Image aspirationnelle de l'intérieur avec les néons. "L'endroit où il faut être."</td><td><span class="tag tag-female">♀ Lieu</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="background: linear-gradient(135deg, rgba(230,59,122,0.08), rgba(11,191,191,0.08)); border-color: rgba(230,59,122,0.15);">
+    <div class="card-title" style="font-size:1.1rem;">Le verdict</div>
+    <p style="margin-top:0.5rem; font-size:0.95rem; line-height:1.7;">
+      Vice Sweety a des fondations solides : une direction artistique cohérente, un copywriting qui parle à la cible, et une section trompe-l'œil magnifique. Mais pour atteindre le niveau award-winner, il manque la couche d'interaction et de motion design qui fait qu'on ne peut pas s'empêcher de scroller. Le smooth scroll (Lenis), les animations de texte (GSAP), le curseur custom et la section "Le Reveal" sont les 4 éléments qui feraient basculer le site dans une autre catégorie. Côté cible féminine, l'ajout de social proof et de contenu vidéo sera le levier de conversion le plus puissant.
+    </p>
+    <p style="margin-top:1rem; font-family:var(--mono); font-size:0.7rem; color:var(--teal); letter-spacing:0.15em;">
+      SCORE ACTUEL : 7.2 → OBJECTIF PHASE 1 : 8.5 → OBJECTIF FINAL : 9.5+
+    </p>
+  </div>
+</section>
+
+<footer style="padding:3rem 2rem; text-align:center; border-top:1px solid var(--border);">
+  <p style="font-family:var(--mono); font-size:0.6rem; color:var(--text-dim); letter-spacing:0.15em;">
+    VICE SWEETY — AUDIT AWARD-WINNER V4 — 28 MARS 2026
+  </p>
+</footer>
+
+</body>
+</html>

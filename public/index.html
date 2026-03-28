@@ -88,7 +88,7 @@
 .skip-link:focus { top: 0; }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; scroll-padding-top:90px; }
+html { scroll-padding-top:90px; }
 body {
   font-family: var(--sans);
   background: var(--cream);
@@ -1125,6 +1125,557 @@ a { color:inherit; text-decoration:none; }
   *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
   .reveal { opacity:1; transform:none; }
 }
+
+/* ═══════ PAGE LOADER ═══════ */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--deep-purple);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s var(--ease), visibility 0.6s;
+}
+.loader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-logo {
+  width: 120px;
+  filter: drop-shadow(0 0 30px rgba(230,59,122,0.4));
+  animation: loaderPulse 1.2s ease-in-out infinite;
+}
+.loader-bar {
+  width: 120px; height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin-top: 1.5rem;
+  overflow: hidden;
+}
+.loader-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--hot-pink), var(--turquoise));
+  border-radius: 2px;
+  animation: loaderFill 1.8s var(--ease) forwards;
+}
+@keyframes loaderPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+@keyframes loaderFill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* ═══════ CUSTOM CURSOR ═══════ */
+.cursor {
+  position: fixed;
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--hot-pink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  top: 0; left: 0;
+  transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s, background 0.3s, opacity 0.3s;
+  opacity: 0;
+  will-change: transform;
+}
+.cursor.visible { opacity: 1; }
+.cursor.hover {
+  width: 50px; height: 50px;
+  background: rgba(230,59,122,0.08);
+  border-color: var(--turquoise);
+}
+@media (pointer: coarse) { .cursor { display: none !important; } }
+@media (max-width: 900px) { .cursor { display: none !important; } }
+
+/* ═══════ NOISE / GRAIN TEXTURE ═══════ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ═══════ MARQUEE STATEMENT ═══════ */
+.marquee-wrap {
+  padding: 4rem 0;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, var(--sky) 0%, #B2EBF2 50%, var(--sky) 100%);
+}
+.marquee-wrap::before {
+  content: '';
+  position: absolute;
+  right: 5%; bottom: 10%;
+  width: 220px; height: 220px;
+  background: url('img/flamant-deco.webp') center / contain no-repeat;
+  opacity: 0.06;
+  pointer-events: none;
+  transform: rotate(-8deg);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 20s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item {
+  font-family: var(--display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 1;
+  white-space: nowrap;
+  padding: 0 2rem;
+  background: repeating-linear-gradient(
+    0deg,
+    var(--hot-pink) 0px, var(--hot-pink) 4px,
+    rgba(230,59,122,0.3) 4px, rgba(230,59,122,0.3) 7px
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(230,59,122,0.25));
+}
+.marquee-sep {
+  font-family: var(--display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 1;
+  padding: 0 2rem;
+  color: var(--turquoise);
+  opacity: 0.3;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ═══════ LE REVEAL — BEFORE/AFTER ═══════ */
+.reveal-section {
+  padding: 6rem 4vw;
+  background: linear-gradient(180deg, var(--cream) 0%, var(--blush) 50%, var(--cream) 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.reveal-section h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: var(--deep-purple);
+  margin-bottom: 0.5rem;
+}
+.reveal-section .reveal-sub {
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--text-soft);
+  font-weight: 300;
+  margin-bottom: 3rem;
+  max-width: 40ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.reveal-slider {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  aspect-ratio: 4/3;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--blush-mid);
+  box-shadow: 0 20px 60px rgba(26,16,37,0.12);
+}
+.reveal-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--text-dim);
+  border: 2px dashed rgba(90,61,106,0.2);
+  border-radius: 16px;
+}
+.reveal-placeholder-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(230,59,122,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hot-pink);
+  font-size: 1.5rem;
+}
+.reveal-placeholder-text {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.reveal-placeholder-detail {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  max-width: 30ch;
+  line-height: 1.5;
+}
+
+/* ═══════ SOCIAL PROOF — ELLES EN PARLENT ═══════ */
+.social-proof {
+  padding: 5rem 4vw;
+  background: linear-gradient(170deg, #1a1025 0%, #2a1035 50%, #1a1025 100%);
+  position: relative;
+  overflow: hidden;
+}
+.social-proof::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('img/flamant-deco.webp') center / 250px repeat;
+  mix-blend-mode: screen;
+  opacity: 0.025;
+  pointer-events: none;
+}
+.social-proof-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+.social-proof-header span {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--turquoise);
+  display: block;
+  margin-bottom: 1rem;
+}
+.social-proof-header h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--cream);
+  font-weight: 400;
+}
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.testimonial-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: border-color 0.3s, transform 0.3s var(--ease);
+}
+.testimonial-card:hover {
+  border-color: rgba(230,59,122,0.2);
+  transform: translateY(-4px);
+}
+.testimonial-stars {
+  color: var(--gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+.testimonial-text {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.testimonial-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--hot-pink), var(--turquoise));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.testimonial-avatar-placeholder {
+  color: white;
+  font-family: var(--display);
+  font-size: 1rem;
+}
+.testimonial-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.testimonial-name {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cream);
+}
+.testimonial-via {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--hot-pink);
+}
+@media (max-width: 900px) {
+  .testimonials { grid-template-columns: 1fr; max-width: 500px; }
+}
+
+/* ═══════ INSTAGRAM CARROUSEL INFINI ═══════ */
+.insta-section-v2 {
+  padding: 4rem 0;
+  background: var(--cream);
+  text-align: center;
+  overflow: hidden;
+}
+.insta-section-v2 h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--deep-purple);
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  padding: 0 4vw;
+}
+.insta-section-v2 .insta-handle {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--hot-pink);
+  margin-bottom: 2.5rem;
+  display: block;
+  padding: 0 4vw;
+}
+.insta-marquee {
+  display: flex;
+  width: max-content;
+  gap: 0.5rem;
+}
+.insta-marquee-row { overflow: hidden; margin-bottom: 0.5rem; }
+.insta-marquee-row .insta-marquee {
+  animation: instaScroll 30s linear infinite;
+}
+.insta-marquee-row.reverse .insta-marquee {
+  animation: instaScrollReverse 35s linear infinite;
+}
+.insta-marquee-item {
+  width: 280px; height: 280px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.insta-marquee-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease);
+}
+.insta-marquee-item:hover img { transform: scale(1.08); }
+.insta-marquee-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(26,10,46,0);
+  transition: background 0.3s;
+}
+.insta-marquee-item:hover::after {
+  background: rgba(26,10,46,0.15);
+}
+.insta-marquee-placeholder {
+  width: 280px; height: 280px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 2px dashed rgba(90,61,106,0.15);
+  background: var(--blush);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.insta-marquee-placeholder span {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+@keyframes instaScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes instaScrollReverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.insta-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--hot-pink);
+  border: 1.5px solid var(--hot-pink);
+  text-decoration: none;
+  transition: all 0.3s var(--ease);
+}
+.insta-cta:hover {
+  background: var(--hot-pink);
+  color: var(--white);
+  box-shadow: var(--glow-pink);
+  transform: translateY(-2px);
+}
+@media (max-width: 900px) {
+  .insta-marquee-item, .insta-marquee-placeholder { width: 200px; height: 200px; }
+}
+
+/* ═══════ VISIT — PHOTO BOUTIQUE PLACEHOLDER ═══════ */
+.visit-photo {
+  grid-column: 1 / -1;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  aspect-ratio: 21/9;
+}
+.visit-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.visit-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed rgba(11,191,191,0.2);
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--sky), var(--blush));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+.visit-photo-placeholder span {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.visit-map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  padding: 0.7rem 1.8rem;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--turquoise);
+  text-decoration: none;
+  transition: all 0.3s var(--ease);
+  box-shadow: var(--glow-teal);
+}
+.visit-map-link:hover {
+  background: var(--hot-pink);
+  box-shadow: var(--glow-pink);
+  transform: translateY(-2px);
+}
+
+/* ═══════ NEWSLETTER FOOTER ═══════ */
+.footer-newsletter {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.footer-newsletter h4 {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  color: var(--cream);
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+}
+.footer-newsletter p {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.45);
+  font-weight: 300;
+  margin-bottom: 1.2rem;
+}
+.newsletter-form {
+  display: flex;
+  gap: 0;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: border-color 0.3s;
+}
+.newsletter-form:focus-within {
+  border-color: var(--turquoise);
+  box-shadow: 0 0 0 3px rgba(11,191,191,0.1);
+}
+.newsletter-input {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  outline: none;
+}
+.newsletter-input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+.newsletter-btn {
+  padding: 0.8rem 1.8rem;
+  background: var(--hot-pink);
+  color: var(--white);
+  border: none;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s;
+  white-space: nowrap;
+}
+.newsletter-btn:hover {
+  background: var(--turquoise);
+  color: var(--deep-purple);
+}
+
+/* ═══════ FLAVOR STAGGER ═══════ */
+.tl-flavor.stagger-visible {
+  animation: fadeUp 0.5s var(--ease) forwards;
+}
   </style>
   <script type="application/ld+json">
   {
@@ -1160,6 +1711,18 @@ a { color:inherit; text-decoration:none; }
   </script>
 </head>
 <body>
+<!-- ═══════ PAGE LOADER ═══════ -->
+<div class="loader" id="loader">
+  <img src="assets/Vice_Sweety_Logo.png" alt="" class="loader-logo" />
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- ═══════ CUSTOM CURSOR ═══════ -->
+<div class="cursor" id="cursor"></div>
+
+<!-- ═══════ GRAIN OVERLAY ═══════ -->
+<div class="grain"></div>
+
 <a href="#main" class="skip-link">Aller au contenu principal</a>
 
 <!-- ═══════ MOBILE MENU ═══════ -->
@@ -1201,6 +1764,7 @@ a { color:inherit; text-decoration:none; }
   <div class="hero-content">
     <h1 class="hero-title">Trop beaux pour être vrais.</h1>
     <p class="hero-sub">Tu ne devineras jamais que c'est un gâteau.</p>
+    <a href="menu.html" class="btn-hero">Découvrir nos créations</a>
   </div>
   <picture>
     <source media="(max-width: 900px)"
@@ -1264,9 +1828,22 @@ a { color:inherit; text-decoration:none; }
   </a>
 </div>
 
-<!-- ═══════ STATEMENT 1 ═══════ -->
-<section class="statement pink-on-sky">
-  <div class="statement-text reveal" lang="en">Too pretty to eat.</div>
+<!-- ═══════ STATEMENT 1 — MARQUEE ═══════ -->
+<section class="marquee-wrap" lang="en">
+  <div class="marquee-track">
+    <span class="marquee-item">Too pretty to eat.</span>
+    <span class="marquee-sep">✦</span>
+    <span class="marquee-item">Trop beaux pour être vrais.</span>
+    <span class="marquee-sep">✦</span>
+    <span class="marquee-item">Too pretty to eat.</span>
+    <span class="marquee-sep">✦</span>
+    <span class="marquee-item">Trop beaux pour être vrais.</span>
+    <span class="marquee-sep">✦</span>
+    <span class="marquee-item">Too pretty to eat.</span>
+    <span class="marquee-sep">✦</span>
+    <span class="marquee-item">Trop beaux pour être vrais.</span>
+    <span class="marquee-sep">✦</span>
+  </div>
 </section>
 
 <!-- ═══════ BLOC 2 — Trompe-l'œil Split Editorial ═══════ -->
@@ -1320,6 +1897,19 @@ a { color:inherit; text-decoration:none; }
   </div>
 </section>
 
+<!-- ═══════ LE REVEAL — BEFORE/AFTER ═══════ -->
+<section class="reveal-section">
+  <h2 class="reveal">Le Reveal</h2>
+  <p class="reveal-sub reveal">Tu vois un fruit parfait. Tu coupes — et la magie opère.</p>
+  <div class="reveal-slider reveal">
+    <div class="reveal-placeholder">
+      <div class="reveal-placeholder-icon">🔪</div>
+      <span class="reveal-placeholder-text">Photo before / after</span>
+      <span class="reveal-placeholder-detail">Karim : ajoute ici 2 photos Pomelli — le trompe-l'œil entier + coupé en deux. Fond crème, belle lumière.</span>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════ BLOC 3 — Cookies + Cookie Dough ═══════ -->
 <div class="cat-row">
   <a href="menu.html" class="cat-block reveal">
@@ -1369,22 +1959,109 @@ a { color:inherit; text-decoration:none; }
   <a href="menu.html" class="btn-cta btn-cta-turquoise">Voir la carte →</a>
 </section>
 
-<!-- ═══════ INSTAGRAM ═══════ -->
-<section class="insta-section">
+<!-- ═══════ ELLES EN PARLENT — SOCIAL PROOF ═══════ -->
+<section class="social-proof">
+  <div class="social-proof-header">
+    <span class="reveal">La sweetyfam</span>
+    <h2 class="reveal">Elles en parlent</h2>
+  </div>
+  <div class="testimonials">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">« J'ai commandé le citron pour l'anniversaire de ma meilleure amie. Elle a cru que c'était un vrai fruit. Quand elle l'a coupé, sa tête 😭💛 »</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar"><span class="testimonial-avatar-placeholder">S</span></div>
+        <div>
+          <div class="testimonial-name">Sarah M.</div>
+          <div class="testimonial-via">via Instagram</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">« On est venues à 4 copines, on a toutes pris un parfum différent. Le plus dur c'était de choisir. On y retourne samedi. »</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar"><span class="testimonial-avatar-placeholder">L</span></div>
+        <div>
+          <div class="testimonial-name">Léa R.</div>
+          <div class="testimonial-via">via Google</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">« Mon feed Instagram a explosé quand j'ai posté le trompe-l'œil fraise. Tout le monde me demande c'est où. Vice Sweety, vous êtes des génies. »</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar"><span class="testimonial-avatar-placeholder">N</span></div>
+        <div>
+          <div class="testimonial-name">Nadia K.</div>
+          <div class="testimonial-via">via Instagram</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ INSTAGRAM — CARROUSEL INFINI ═══════ -->
+<section class="insta-section-v2">
   <h2 class="reveal">Vice sur Instagram</h2>
   <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-handle reveal">@vicesweety</a>
-  <div class="insta-grid reveal">
-    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/smoothie-sunset-1.webp" alt="Smoothie sunset Vice Sweety" width="600" height="600" loading="lazy" /></a>
-    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/cookie-dough-2.webp" alt="Cookie dough Vice Sweety" width="600" height="600" loading="lazy" /></a>
-    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/pancakes-1.webp" alt="Mini pancakes Vice Sweety" width="600" height="600" loading="lazy" /></a>
-    <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-item"><img src="img/crepes-1.webp" alt="Crêpes Vice Sweety" width="600" height="600" loading="lazy" /></a>
+
+  <!-- Rangée 1 → défile vers la gauche -->
+  <div class="insta-marquee-row">
+    <div class="insta-marquee">
+      <!-- Set A (réelles) -->
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/smoothie-sunset-1.webp" alt="Smoothie sunset" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/cookie-dough-2.webp" alt="Cookie dough" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/pancakes-1.webp" alt="Mini pancakes" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/crepes-1.webp" alt="Crêpes" width="600" height="600" loading="lazy" /></a>
+      <!-- Placeholders pour les nouvelles photos -->
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 5</span></div>
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 6</span></div>
+      <!-- Set A dupliqué pour boucle infinie -->
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/smoothie-sunset-1.webp" alt="Smoothie sunset" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/cookie-dough-2.webp" alt="Cookie dough" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/pancakes-1.webp" alt="Mini pancakes" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/crepes-1.webp" alt="Crêpes" width="600" height="600" loading="lazy" /></a>
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 5</span></div>
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 6</span></div>
+    </div>
   </div>
+
+  <!-- Rangée 2 → défile vers la droite (reverse) -->
+  <div class="insta-marquee-row reverse">
+    <div class="insta-marquee">
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/milkshake-fraise-1.webp" alt="Milkshake fraise" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/smoothie-sunset-2.webp" alt="Smoothie sunset" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/cookie-bag.webp" alt="Cookie bag" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/crepes-2.webp" alt="Crêpes" width="600" height="600" loading="lazy" /></a>
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 7</span></div>
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 8</span></div>
+      <!-- Dupliqué -->
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/milkshake-fraise-1.webp" alt="Milkshake fraise" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/smoothie-sunset-2.webp" alt="Smoothie sunset" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/cookie-bag.webp" alt="Cookie bag" width="600" height="600" loading="lazy" /></a>
+      <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-marquee-item"><img src="img/crepes-2.webp" alt="Crêpes" width="600" height="600" loading="lazy" /></a>
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 7</span></div>
+      <div class="insta-marquee-placeholder"><span>📸</span><span>Photo 8</span></div>
+    </div>
+  </div>
+
+  <a href="https://www.instagram.com/vicesweety" target="_blank" rel="noopener" class="insta-cta reveal">Rejoindre la Sweetyfam →</a>
 </section>
 
 <!-- ═══════ NOUS TROUVER ═══════ -->
 <section class="visit-section" id="visit">
   <div class="visit-header reveal"><h2>Nous Trouver</h2></div>
   <div class="visit-grid">
+    <!-- Photo boutique placeholder -->
+    <div class="visit-photo reveal">
+      <div class="visit-photo-placeholder">
+        <span>📍</span>
+        <span>Photo de la boutique (intérieur néon ou devanture)</span>
+        <span style="font-size:0.75rem; color:rgba(26,16,37,0.4);">Karim : ajoute ici une belle photo de Vice Sweety, l'ambiance du lieu</span>
+      </div>
+    </div>
     <div class="visit-col reveal">
       <h3>Horaires</h3>
       <div class="hours-row"><span class="hours-day">Lundi</span><span class="hours-time">10h00 – 02h00</span></div>
@@ -1406,6 +2083,10 @@ a { color:inherit; text-decoration:none; }
         Commandes préparées en 5 minutes.<br>
         Ingrédients premium, fait maison, avec amour et addiction.
       </p>
+      <a href="https://maps.google.com/?q=47+Rue+de+la+République+13002+Marseille" target="_blank" rel="noopener" class="visit-map-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        M'y rendre
+      </a>
     </div>
   </div>
 </section>
@@ -1416,6 +2097,14 @@ a { color:inherit; text-decoration:none; }
 <footer class="footer">
   <img src="assets/Vice_Sweety_Logo.png" alt="Vice Sweety" class="footer-logo" />
   <div class="footer-top">
+    <div class="footer-newsletter reveal">
+      <h4>Reçois nos nouveautés en avant-première</h4>
+      <p>Nouvelles saveurs, offres exclusives, événements — directement chez toi.</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('.newsletter-btn').textContent='Merci 💕'; this.querySelector('.newsletter-input').disabled=true;">
+        <input type="email" class="newsletter-input" placeholder="ton@email.com" required />
+        <button type="submit" class="newsletter-btn">S'inscrire</button>
+      </form>
+    </div>
     <div class="footer-col">
       <h4>Site</h4>
       <a href="menu.html">Commander</a>
@@ -1446,20 +2135,82 @@ a { color:inherit; text-decoration:none; }
   </div>
 </footer>
 
+<!-- ═══════ LENIS SMOOTH SCROLL ═══════ -->
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
 <!-- ═══════ JS ═══════ -->
 <script>
 (function(){
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Page Loader ── */
+  const loader = document.getElementById('loader');
+  window.addEventListener('load', () => {
+    setTimeout(() => { loader.classList.add('done'); }, 1800);
+    setTimeout(() => { loader.style.display = 'none'; }, 2500);
+  });
+
+  /* ── Lenis Smooth Scroll ── */
+  let lenis;
+  if (!prefersReduced) {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Handle anchor links with Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: -90 });
+        }
+      });
+    });
+  }
+
+  /* ── Custom Cursor (GPU-accelerated) ── */
+  const cursor = document.getElementById('cursor');
+  if (cursor && window.matchMedia('(pointer: fine)').matches && window.innerWidth > 900) {
+    let cx = -100, cy = -100, tx = -100, ty = -100;
+    document.addEventListener('mousemove', e => {
+      tx = e.clientX; ty = e.clientY;
+      if (!cursor.classList.contains('visible')) cursor.classList.add('visible');
+    }, { passive: true });
+
+    // Hover detection
+    document.addEventListener('mouseover', e => {
+      const hit = e.target.closest('a, button, .cat-block, .insta-marquee-item, .tl-flavor, .testimonial-card, input');
+      cursor.classList.toggle('hover', !!hit);
+    }, { passive: true });
+
+    // Smooth follow via translate3d (GPU)
+    function moveCursor() {
+      cx += (tx - cx) * 0.12;
+      cy += (ty - cy) * 0.12;
+      cursor.style.transform = 'translate3d(' + (cx - 10) + 'px,' + (cy - 10) + 'px, 0)';
+      requestAnimationFrame(moveCursor);
+    }
+    moveCursor();
+  }
+
+  /* ── Nav + Hero ── */
   const nav = document.getElementById('nav');
   const heroImg = document.querySelector('.hero-img');
   const heroScroll = document.querySelector('.hero-scroll');
   const hero = document.querySelector('.hero');
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let heroReady = false;
   if (heroImg) {
     heroImg.addEventListener('animationend', () => { heroReady = true; }, { once: true });
   }
 
-  /* ── Nav scroll state + parallax ── */
   let ticking = false;
   function onScroll() {
     if (ticking) return;
@@ -1468,7 +2219,6 @@ a { color:inherit; text-decoration:none; }
       const sy = window.scrollY;
       nav.classList.toggle('scrolled', sy > 60);
 
-      /* Hero parallax — image drifts up slower (after entrance anim) */
       if (heroImg && !prefersReduced && heroReady) {
         const heroH = hero.offsetHeight;
         if (sy < heroH) {
@@ -1476,7 +2226,6 @@ a { color:inherit; text-decoration:none; }
         }
       }
 
-      /* Hide scroll indicator after scrolling */
       if (heroScroll) {
         heroScroll.classList.toggle('hidden', sy > 80);
       }
@@ -1503,6 +2252,45 @@ a { color:inherit; text-decoration:none; }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  /* ── Stagger animation on flavor dots ── */
+  const flavorsContainer = document.querySelector('.tl-flavors');
+  if (flavorsContainer) {
+    const flavorObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const flavors = e.target.querySelectorAll('.tl-flavor');
+          flavors.forEach((f, i) => {
+            f.style.opacity = '0';
+            f.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              f.style.transition = 'opacity 0.5s var(--ease), transform 0.5s var(--ease)';
+              f.style.opacity = '1';
+              f.style.transform = 'translateY(0)';
+            }, 80 * i);
+          });
+          flavorObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    flavorObs.observe(flavorsContainer);
+  }
+
+  /* ── Magnetic effect on CTA buttons (subtle, GPU) ── */
+  if (!prefersReduced && window.innerWidth > 900) {
+    document.querySelectorAll('.btn-hero, .tl-cta, .insta-cta, .visit-map-link').forEach(btn => {
+      btn.style.transition = 'transform 0.35s cubic-bezier(0.16,1,0.3,1), background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s';
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = 'translate3d(' + (x * 0.1) + 'px,' + (y * 0.1) + 'px,0)';
+      }, { passive: true });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate3d(0,0,0)';
+      });
+    });
+  }
 
 })();
 </script>
