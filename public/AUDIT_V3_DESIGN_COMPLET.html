@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Vice Sweety — Audit Design V3 Complet</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0a0f;color:#e0e0e0;line-height:1.7;padding:2rem}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:2.2rem;color:#FF69B4;margin-bottom:0.3rem}
+.subtitle{color:#40E0D0;font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2.5rem}
+h2{font-size:1.4rem;color:#fff;margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,105,180,0.3)}
+h3{font-size:1.05rem;color:#40E0D0;margin:1.5rem 0 0.5rem}
+p,li{font-size:0.92rem;color:#c0c0c0}
+ul{padding-left:1.3rem;margin-bottom:1rem}
+li{margin-bottom:0.4rem}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.score-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:1.2rem}
+.score-card .label{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#888;margin-bottom:0.3rem}
+.score-card .value{font-size:2rem;font-weight:700}
+.score-card .value.green{color:#40E0D0}
+.score-card .value.yellow{color:#f5b041}
+.score-card .value.red{color:#e74c3c}
+.score-card .value.pink{color:#FF69B4}
+.tag{display:inline-block;padding:0.15rem 0.6rem;border-radius:99px;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;margin-right:0.3rem}
+.tag.p0{background:#e74c3c;color:#fff}
+.tag.p1{background:#f39c12;color:#000}
+.tag.p2{background:#3498db;color:#fff}
+.tag.p3{background:#2ecc71;color:#000}
+.tag.new{background:#FF69B4;color:#fff}
+.tag.inspo{background:#9b59b6;color:#fff}
+.finding{background:rgba(255,255,255,0.03);border-left:3px solid rgba(255,105,180,0.4);padding:1rem 1.2rem;margin:1rem 0;border-radius:0 8px 8px 0}
+.finding-title{font-weight:600;color:#fff;margin-bottom:0.3rem}
+.fix{color:#40E0D0;font-style:italic;font-size:0.88rem}
+.divider{height:1px;background:linear-gradient(90deg,#FF69B4,#40E0D0,#FF69B4);margin:3rem 0;opacity:0.3}
+.brand-box{background:linear-gradient(135deg,rgba(255,105,180,0.08),rgba(64,224,208,0.08));border:1px solid rgba(255,105,180,0.2);border-radius:12px;padding:1.5rem;margin:1.5rem 0}
+.brand-box h3{color:#FF69B4;margin-top:0}
+.vs-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.vs-table th{text-align:left;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:#FF69B4;padding:0.5rem;border-bottom:1px solid rgba(255,255,255,0.1)}
+.vs-table td{padding:0.5rem;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.vs-table td:first-child{color:#fff;font-weight:500}
+.emoji{font-size:1.1rem}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Audit Design V3 — Complet</h1>
+<p class="subtitle">Vice Sweety · Cible femmes · Vibe Summer Miami 80's · Award-Winner Level</p>
+
+<!-- ═══════ GLOBAL SCORE ═══════ -->
+<div class="score-grid">
+  <div class="score-card">
+    <div class="label">Score global actuel</div>
+    <div class="value yellow">7.2 / 10</div>
+  </div>
+  <div class="score-card">
+    <div class="label">Potentiel après fixes</div>
+    <div class="value green">9.4 / 10</div>
+  </div>
+  <div class="score-card">
+    <div class="label">Vibe Miami 80's</div>
+    <div class="value yellow">6 / 10</div>
+  </div>
+  <div class="score-card">
+    <div class="label">Attractivité cible femmes</div>
+    <div class="value yellow">6.5 / 10</div>
+  </div>
+</div>
+
+<p>Le site a une base technique solide (accessibilité, responsive, SEO). Mais il ne pousse pas encore assez le côté <strong>émotionnel</strong>, <strong>sensoriel</strong> et <strong>aspirationnel</strong> qui fait la différence entre "joli site" et "site award-winner qui convertit".</p>
+
+<div class="divider"></div>
+
+<!-- ═══════ MIAMI 80'S DEEP DIVE ═══════ -->
+<h2>Dossier Inspiration Miami 80's — L'ADN visuel cible</h2>
+
+<div class="brand-box" style="border-color:rgba(64,224,208,0.4)">
+<h3 style="color:#40E0D0">La palette Miami Vice Sweety (du fichier RTF)</h3>
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.8rem 0">
+  <div style="background:#FEFCFF;width:60px;height:60px;border-radius:8px;border:1px solid rgba(255,255,255,0.1)" title="#FEFCFF"></div>
+  <div style="background:#F8F4FA;width:60px;height:60px;border-radius:8px" title="#F8F4FA"></div>
+  <div style="background:#e63b7a;width:60px;height:60px;border-radius:8px" title="#e63b7a"></div>
+  <div style="background:#0BBFBF;width:60px;height:60px;border-radius:8px" title="#0BBFBF"></div>
+  <div style="background:#1a1025;width:60px;height:60px;border-radius:8px;border:1px solid rgba(255,255,255,0.1)" title="#1a1025"></div>
+  <div style="background:linear-gradient(135deg,#6b21a8,#e63b7a,#e8775a,#c8963e,#FEFCFF);width:120px;height:60px;border-radius:8px" title="Gradient Sunset"></div>
+</div>
+<ul>
+  <li><code style="color:#FEFCFF;background:rgba(255,255,255,0.1);padding:0.1rem 0.4rem;border-radius:3px">#FEFCFF</code> — blanc avec soupçon de rose chaud, façades Art Déco Collins Avenue</li>
+  <li><code style="color:#F8F4FA;background:rgba(255,255,255,0.1);padding:0.1rem 0.4rem;border-radius:3px">#F8F4FA</code> — lavande-blush, doux comme un macaron</li>
+  <li><code style="color:#e63b7a;background:rgba(255,255,255,0.1);padding:0.1rem 0.4rem;border-radius:3px">#e63b7a</code> — le pink Vice Sweety (plus chaud, plus profond que #FF69B4)</li>
+  <li><code style="color:#0BBFBF;background:rgba(255,255,255,0.1);padding:0.1rem 0.4rem;border-radius:3px">#0BBFBF</code> — teal piscine Art Déco (plus vert/frais que #40E0D0)</li>
+  <li><code style="color:#8b7daa;background:rgba(255,255,255,0.1);padding:0.1rem 0.4rem;border-radius:3px">#1a1025</code> — violet-noir profond, ADN Vice City</li>
+  <li><strong style="color:#e63b7a">Gradient sunset doré</strong> : purple → magenta → coral → or → crème — "la vitrine néon au milieu du blanc"</li>
+  <li><strong style="color:#0BBFBF">Grid floor synthwave</strong> : subtil, en fond</li>
+</ul>
+</div>
+
+<div class="brand-box">
+<h3>Analyse des 7 références visuelles</h3>
+
+<p><strong>1. Le diner neon rose</strong> — Bar rétro avec lumière rose sous le comptoir, néon bleu au plafond, damier au sol. <span style="color:#e63b7a">→ Ce que le site doit capturer : le GLOW rose qui illumine par en dessous, le contraste rose × bleu, l'ambiance "nuit qui commence".</span></p>
+
+<p style="margin-top:0.6rem"><strong>2. L'affiche Miami turquoise × pink</strong> — Palmier rose sur fond turquoise, rayures diagonales. <span style="color:#0BBFBF">→ La combinaison turquoise/pink en aplats bold. Le site utilise ces couleurs mais pas assez en mode "graphique pop". Les statements devraient avoir cette énergie.</span></p>
+
+<p style="margin-top:0.6rem"><strong>3. Le sunset synthwave</strong> — Gradient purple→pink→orange avec grille perspective, palmiers en silhouette, étoiles. <span style="color:#e63b7a">→ C'EST LE GRADIENT DU SITE. Le fond des sections dark devrait être CE dégradé, pas un deep-purple plat. Ajouter un subtle grid synthwave en perspective dans le CTA ou le footer.</span></p>
+
+<p style="margin-top:0.6rem"><strong>4. Le soleil rétro rayé</strong> — Cercle avec gradient horizontal (bleu→violet→pink→orange→jaune), lignes horizontales. <span style="color:#0BBFBF">→ Cet élément pourrait devenir un séparateur graphique entre sections ou un élément décoratif dans le footer. Un "sunset circle" en CSS pur.</span></p>
+
+<p style="margin-top:0.6rem"><strong>5. L'illustration Vice City</strong> — Voiture rose, buildings Art Déco, neon signs, palmiers, ciel sunset. <span style="color:#e63b7a">→ L'ATMOSPHÈRE. Le site doit sentir cette chaleur de nuit d'été. Pas littéralement une illustration, mais l'éclairage, les couleurs, le mood.</span></p>
+
+<p style="margin-top:0.6rem"><strong>6. Le moodboard 80's</strong> — Collage Instagram : vestes oversize, lunettes aviator, flamant neon, voiture vintage, paillettes. <span style="color:#0BBFBF">→ L'ÉNERGIE. Fun, coloré, excessif assumé, "trop c'est pas assez". Le site est trop sage par rapport à cette énergie.</span></p>
+
+<p style="margin-top:0.6rem"><strong>7. La typo striped "Miami Vibe"</strong> — Lettres avec rayures horizontales, turquoise et pink. <span style="color:#e63b7a">→ Possible de créer un effet CSS similaire sur un titre clé (gradient clip-text avec background repeating-linear-gradient). Idéal pour le statement "Too pretty to eat."</span></p>
+</div>
+
+<h3>Écart actuel vs cible Miami 80's</h3>
+<table class="vs-table">
+<tr><th>Élément</th><th>Site actuel</th><th>Cible Miami 80's</th><th>Écart</th></tr>
+<tr><td>Fond sections dark</td><td>#1a0a2e plat</td><td>Gradient sunset (purple→magenta→coral)</td><td style="color:#e74c3c">Fort</td></tr>
+<tr><td>Neon glow</td><td>Seulement le logo (drop-shadow)</td><td>Glows partout : titres, CTA, séparateurs</td><td style="color:#e74c3c">Fort</td></tr>
+<tr><td>Pink</td><td>#FF69B4 (usage limité)</td><td>#e63b7a partout, dominant</td><td style="color:#f5b041">Moyen</td></tr>
+<tr><td>Teal</td><td>#40E0D0 (tags, accents)</td><td>#0BBFBF plus présent, CTA, hovers</td><td style="color:#f5b041">Léger</td></tr>
+<tr><td>Blanc/fond clair</td><td>#FFFAF6 (cream chaud)</td><td>#FEFCFF ou #F8F4FA (lavande-blush)</td><td style="color:#f5b041">Léger</td></tr>
+<tr><td>Violet-noir</td><td>#1a0a2e</td><td>#1a1025 (plus chaud/violet)</td><td style="color:#2ecc71">Minime</td></tr>
+<tr><td>Grid synthwave</td><td>Absent</td><td>Subtil en fond CTA/footer</td><td style="color:#e74c3c">Fort</td></tr>
+<tr><td>Éléments tropicaux</td><td>Pattern flamant 2.5% opacité</td><td>Palmier silhouette, plus visible</td><td style="color:#f5b041">Moyen</td></tr>
+<tr><td>Typographie striped/retro</td><td>Absent</td><td>Au moins 1 titre avec effet stripes</td><td style="color:#e74c3c">Fort</td></tr>
+<tr><td>Énergie globale</td><td>Élégant sage</td><td>Fun, bold, excess assumé</td><td style="color:#e74c3c">Fort</td></tr>
+</table>
+
+<div class="divider"></div>
+
+<!-- ═══════ SCORES PAR CATÉGORIE ═══════ -->
+<h2>Scores par catégorie</h2>
+<div class="score-grid">
+  <div class="score-card"><div class="label">1. Identité de marque</div><div class="value yellow">6.5</div></div>
+  <div class="score-card"><div class="label">2. Hero / First Impression</div><div class="value yellow">7</div></div>
+  <div class="score-card"><div class="label">3. Direction artistique</div><div class="value yellow">6</div></div>
+  <div class="score-card"><div class="label">4. Copywriting</div><div class="value green">8</div></div>
+  <div class="score-card"><div class="label">5. Layout & Rythme</div><div class="value green">7.5</div></div>
+  <div class="score-card"><div class="label">6. Animations</div><div class="value green">7.5</div></div>
+  <div class="score-card"><div class="label">7. Mobile</div><div class="value green">7.5</div></div>
+  <div class="score-card"><div class="label">8. Technique & Perf</div><div class="value green">8.5</div></div>
+  <div class="score-card"><div class="label">9. Moment viral / Unboxing</div><div class="value red">4</div></div>
+  <div class="score-card"><div class="label">10. Univers immersif</div><div class="value red">5</div></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 1 — BRAND IDENTITY ═══════ -->
+<h2>1. Identité de marque — 6.5/10</h2>
+
+<div class="brand-box">
+<h3>L'ADN Vice Sweety selon l'inspiration</h3>
+<p>Le logo neon script rose = <strong>pur Miami Vice 80's</strong>. C'est une pépite. Mais le site ne capitalise pas assez dessus. Le logo dit "nuit, neon, fête, vice assumé" — le site dit "pâtisserie clean". Il y a un décalage entre la promesse du logo et l'expérience du site.</p>
+<p style="margin-top:0.5rem">La cible femmes + summer Miami 80's = <strong>pink neon, sunset gradients, tropical, aspirationnel mais accessible, Instagram-worthy, "guilty pleasure" assumé</strong>.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span> Le neon glow du logo n'est pas exploité dans le design system</div>
+  <p>Le logo a un glow rose parfait. Mais le site utilise des couleurs plates. Aucun effet neon, aucun glow, aucune lumière. Le design system ne reflète pas l'énergie "neon night" du logo.</p>
+  <p class="fix">→ FIX : Ajouter des glows CSS (box-shadow, text-shadow rose/turquoise) sur les éléments clés. Les titres des statements devraient avoir un subtle neon glow. Les boutons CTA devraient pulser subtilement. Le fond deep-purple des sections devrait avoir des halos de lumière rose/turquoise.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span> Pas de gradient sunset — le code signature du Miami 80's</div>
+  <p>Le Miami 80's c'est LE gradient sunset : rose → orange → violet. Actuellement le site a des fonds plats (cream, deep-purple, sky, blush). Aucun gradient qui dit "sunset".</p>
+  <p class="fix">→ FIX : Le CTA section (deep-purple) devrait avoir un gradient radial subtil rose→violet. Les sections statements devraient avoir des dégradés plus vibrants. Ajouter un gradient sunset dans le footer ou la section Notre Vice.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Le flamant/palmier en pattern est trop discret</div>
+  <p>Les assets palmier_flamant.svg existent mais sont à 2.5% d'opacité dans le footer et hidden dans la nav. C'est le symbole Miami par excellence — il devrait être plus présent.</p>
+  <p class="fix">→ FIX : Augmenter l'opacité du pattern à 4-5% dans le footer. Ajouter un palmier ou flamant en SVG décoratif (position absolute) dans la section CTA ou Notre Vice. Peut-être un flamant en grand à côté du texte hero sur desktop.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">P2</span> La typographie manque de personnalité "fun"</div>
+  <p>Abril Fatface pour les titres = élégant mais sérieux. Space Grotesk pour le body = propre mais neutre. JetBrains Mono pour les tags = technique. Aucune typo ne dit "summer, fun, playful". Pour attirer des femmes sur un concept dessert, il faut un peu plus de personnalité.</p>
+  <p class="fix">→ FIX : Garder Abril Fatface pour les gros titres (il a le côté display dramatique). Mais ajouter une touche italique sur les "accent phrases" (comme "Vice Sweety, c'est le vice assumé."). Utiliser le style italic/bold de Space Grotesk pour créer du contraste dans le copy.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 2 — HERO ═══════ -->
+<h2>2. Hero / First Impression — 7/10</h2>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span> Le hero est statique — pas de "moment"</div>
+  <p>Les sites award-winner ont un hero qui <strong>raconte une micro-histoire en 3 secondes</strong>. Actuellement : texte apparaît, image apparaît, flèche apparaît. C'est propre mais pas mémorable. Tema's Cake marche parce que chaque vidéo a un "reveal moment" — le site doit avoir le sien.</p>
+  <p class="fix">→ FIX : Créer un "reveal sequence" au chargement : le fond commence légèrement plus sombre, un light sweep horizontal balaye l'écran (comme un reflet sur du verre), puis les trompe-l'œil apparaissent. Le titre pourrait avoir un effet de "typing" ou de "dévoilement" lettre par lettre pour le mot "vrais" seulement.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Pas de gradient de lumière dans le hero</div>
+  <p>Le hero a un fond cream plat. Les sites premium ont toujours un jeu de lumière subtil — un spot, un gradient radial, quelque chose qui dit "éclairage cinématique".</p>
+  <p class="fix">→ FIX : Ajouter un radial-gradient très subtil au centre du hero (un halo blanc/rosé à 50% opacité) qui donne l'impression d'un spot de lumière éclairant les desserts depuis le haut.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Le sous-titre manque de hiérarchie émotionnelle</div>
+  <p>"Trompe-l'œil, smoothies, cookies — faits main avec obsession à Marseille." C'est informatif, pas émotionnel. La première impression devrait créer du désir, pas lister des produits.</p>
+  <p class="fix">→ FIX : Remplacer par quelque chose de plus sensoriel : "Tu ne devineras jamais que c'est un gâteau." ou "L'illusion parfaite. Le goût en plus." — puis lister les produits plus bas dans l'intro band.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">P2</span> Pas de vidéo ou micro-animation sur les desserts</div>
+  <p>Tema's Cake est 100% vidéo-first. Le site statique peut compenser avec des micro-interactions : un léger "float" sur l'image hero, un subtle parallax plus prononcé, ou une rotation très lente.</p>
+  <p class="fix">→ FIX : Ajouter un très léger CSS float animation (2px up/down en 4s) sur le hero-img quand il n'y a pas de scroll, en plus du parallax existant. Ça donne vie à l'image.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 3 — DIRECTION ARTISTIQUE ═══════ -->
+<h2>3. Direction artistique — 6/10</h2>
+<p>C'est le point le plus faible. Le site est "propre" mais pas "léché". Il manque cette couche de direction artistique qui transforme une page web en expérience de marque.</p>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span><span class="tag inspo">INSPO</span> Pas de section "unboxing / reveal" — LE concept manquant</div>
+  <p>Tema's Cake cartonne grâce au moment de reveal : on ouvre la boîte, on coupe le fruit, et l'intérieur est un gâteau. <strong>Le site n'a AUCUNE section dédiée à ce moment magique.</strong> C'est comme vendre de la magie sans montrer le tour.</p>
+  <p class="fix">→ FIX MAJEUR : Créer une section "Le Reveal" entre l'intro band et Notre Vice. Concept : une image d'un trompe-l'œil entier à gauche, une image du même coupé en deux à droite, avec un slider interactif ou une animation au scroll qui "coupe" le fruit. Texte : "Tu coupes... et la magie opère." C'est LA section qui va convertir.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span> Les sections manquent de profondeur visuelle</div>
+  <p>Chaque section est un bloc plat avec un fond uni. Les sites award-winner ont des couches : fond + pattern + grain/noise + lumière + contenu. Ça crée de la profondeur et du luxe.</p>
+  <p class="fix">→ FIX : Ajouter un CSS noise/grain overlay très léger (1-2% opacité) sur les sections dark. Ajouter des "light orbs" flottants (cercles flous roses/turquoise en position absolute) dans la section CTA et Notre Vice. Ajouter un subtle gradient mesh dans les statements.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span> Pas de curseur personnalisé — détail award-winner</div>
+  <p>Les sites Awwwards ont quasi systématiquement un curseur custom. Même subtil, ça montre un niveau de soin extrême.</p>
+  <p class="fix">→ FIX : Curseur custom petit cercle rose (mix-blend-mode: difference) qui grossit au hover sur les éléments cliquables. Pas obligatoire mais très impactant pour un jury award-winner.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Les photos de catégories n'ont pas de traitement uniforme</div>
+  <p>Les cat-blocks utilisent les photos telles quelles avec juste un overlay gradient. Les sites premium appliquent un color grading uniforme (même tonalité, même chaleur) sur toutes les photos pour créer une cohérence visuelle.</p>
+  <p class="fix">→ FIX : Appliquer un filtre CSS uniforme sur toutes les cat-block img : brightness(1.05) saturate(1.1) — pour réchauffer légèrement et uniformiser. Ou mieux : reprocesser les images avec un LUT Miami sunset.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span><span class="tag inspo">INSPO</span> Pas de mise en avant du packaging</div>
+  <p>Le packaging doc montre un travail énorme sur les boîtes (La Galerie, L'Écrin, L'Arche...). Tema's Cake montre que le packaging EST le produit sur les réseaux. Le site ne montre AUCUNE boîte.</p>
+  <p class="fix">→ FIX : Quand les visuels packaging seront prêts, créer une section "L'Écrin" dédiée avec les boîtes. En attendant, le texte dans Notre Vice pourrait mentionner le packaging.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 4 — COPYWRITING ═══════ -->
+<h2>4. Copywriting — 8/10</h2>
+<p>Le copy est bon. "Trop beaux pour être vrais", "Too pretty to eat", "le vice assumé" — ça marche. Quelques ajustements :</p>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Le ton est encore trop "artisan" et pas assez "lifestyle"</div>
+  <p>Pour attirer les femmes avec la vibe Miami, le copy devrait être plus lifestyle, plus "guilty pleasure", plus aspirationnel. Moins "fait main avec obsession", plus "ton nouveau vice".</p>
+  <p class="fix">→ FIX exemples : "Tes yeux disent fruit. Ta bouche dit gâteau." / "Le dessert que tu vas poster avant de goûter." / "Addictif. Photogénique. Marseillais."</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">P2</span> Les descriptions catégories sont génériques</div>
+  <p>"Sunset dans un verre" c'est bien. "Fondants, chocolatés, addictifs" c'est générique. Chaque catégorie devrait avoir une personnalité propre.</p>
+  <p class="fix">→ FIX : Réécrire chaque cat-sub avec plus de sensorialité et de personnalité. Smoothies → "Mangue, passion, un coucher de soleil par gorgée." Cookies → "Fondant dedans. Croustillant dehors. Game over."</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 5 — LAYOUT ═══════ -->
+<h2>5. Layout & Rythme — 7.5/10</h2>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> La page est trop linéaire — manque de ruptures</div>
+  <p>Le flow est : hero → intro band (cream) → notre vice (dark) → 2 blocs → statement → full-width → 2 blocs → statement → 2 blocs → CTA → insta → visit → footer. C'est bien structuré mais prévisible. Les award-winners surprennent le scroll.</p>
+  <p class="fix">→ FIX : Ajouter la section "reveal/unboxing" comme rupture. Ajouter un compteur/chiffre marquant quelque part ("1200+ trompe-l'œil vendus ce mois" style counter animated). Varier la largeur des sections (certaines avec max-width étroite pour du texte centré dramatique).</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">P2</span> La section Instagram pourrait être plus immersive</div>
+  <p>Actuellement c'est une grille 4x1 basique. Pour une marque visuelle comme Vice Sweety, cette section devrait être un "moodboard" vivant.</p>
+  <p class="fix">→ FIX : Transformer en carrousel horizontal infini (marquee CSS) avec des photos de tailles variées. Ou au minimum, passer à une grille masonry-style. Ajouter un hover qui montre les likes.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 6 — ANIMATIONS ═══════ -->
+<h2>6. Animations — 7.5/10</h2>
+<p>Les animations cinématiques ajoutées (parallax hero, staggered reveals, scale statements) sont un bon début. Mais :</p>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Pas de smooth scroll avec easing personnalisé</div>
+  <p>Le site utilise scroll-behavior:smooth natif. Les sites premium ont un smooth scroll custom avec Lenis ou locomotive-scroll qui donne cette sensation de "glide" ultra-fluide.</p>
+  <p class="fix">→ FIX : Intégrer Lenis (lightweight, 3KB) pour un smooth scroll buttery. C'est LE détail qui fait "award-winner" immédiatement.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Les transitions de section sont abruptes</div>
+  <p>On passe de cream → deep-purple → cream sans transition. Les sites premium ont des transitions de couleur plus douces.</p>
+  <p class="fix">→ FIX : Ajouter des separators visuels entre les sections : un SVG wave, un dégradé de 60px, ou un divider graphique avec le pattern palmier. C'est un détail qui adoucit tout le scroll.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">P2</span> Les cat-blocks hover est basique (scale 1.04)</div>
+  <p>Le zoom léger sur hover est OK. Mais on peut aller plus loin : overlay qui se clarifie, texte qui monte, un arrow ou "Voir" qui apparaît.</p>
+  <p class="fix">→ FIX : Au hover, le cat-sub slide up de 5px, et un petit arrow "→" apparaît en fade. Ça crée de l'affordance et du mouvement.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 7 — MOBILE ═══════ -->
+<h2>7. Mobile — 7.5/10</h2>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span> Le hero mobile ne montre pas assez le produit</div>
+  <p>Sur mobile (90vh), avec le texte en haut et l'image en bas, l'image hero risque d'être petite ou tronquée. Sur TikTok/Instagram (le canal principal de la cible), les utilisatrices scrollent en vertical — le hero mobile est PLUS important que le desktop.</p>
+  <p class="fix">→ FIX : Sur mobile, passer à un layout vertical : titre en haut (plus petit), image centrée grande (60% de la hauteur), sub en dessous. L'image doit dominer.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">P2</span> Le mobile menu pourrait avoir plus de personnalité</div>
+  <p>Le menu mobile est fonctionnel mais sobre (texte blanc sur dark gradient). Pour la cible femmes Miami, on peut ajouter du glow, du rose, du fun.</p>
+  <p class="fix">→ FIX : Ajouter un neon glow rose sur les liens du mobile menu au hover/tap. Ajouter le logo au centre du menu. Ajouter un subtle gradient animé en arrière-plan.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 8 — TECHNIQUE ═══════ -->
+<h2>8. Technique & Performance — 8.5/10</h2>
+<p>La technique est solide : Schema.org, OG tags, srcset, preload, WCAG, prefers-reduced-motion. Points restants :</p>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">P2</span> Pas de preload pour la font display (Abril Fatface)</div>
+  <p>La font du titre hero est chargée via Google Fonts mais sans preload font file. Ça peut causer un FOUT visible sur le H1.</p>
+  <p class="fix">→ FIX : Ajouter un font-display: swap est déjà géré par Google Fonts, mais ajouter un preload pour le fichier woff2 d'Abril Fatface si possible.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p3">P3</span> Le logo est un PNG de 762KB</div>
+  <p>Le logo Vice_Sweety_Logo.png fait 762KB. C'est lourd pour un asset nav/footer qui se charge immédiatement.</p>
+  <p class="fix">→ FIX : Convertir en WebP (devrait descendre à ~50KB) ou mieux, en SVG si possible. En attendant, au minimum redimensionner (le PNG actuel est probablement surdimensionné).</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 9 — MOMENT VIRAL ═══════ -->
+<h2>9. Moment viral / Unboxing — 4/10 <span class="emoji">⚠️</span></h2>
+<p style="color:#e74c3c;font-weight:500">C'est le point le plus critique. C'est aussi la plus grosse opportunité.</p>
+
+<div class="brand-box">
+<h3>Leçons de Tema's Cake</h3>
+<p>Les 10 screenshots TikTok montrent la recette du succès viral :</p>
+<ul>
+  <li><strong>La box train (399.8K likes)</strong> — le format WOW, spectaculaire, filmable</li>
+  <li><strong>L'unboxing en voiture</strong> — moment intime de découverte, réaction spontanée</li>
+  <li><strong>La mini box architecturale (148.8K likes)</strong> — packaging = objet d'art, les gens filment AVANT de manger</li>
+  <li><strong>Le tea time 3-tier</strong> — mise en scène luxe accessible, "je le mérite"</li>
+  <li><strong>Le packaging aquarelle rose</strong> — féminin, photogénique, "je pose ça sur ma story"</li>
+  <li><strong>Le moment coupe</strong> — on ne sait pas ce qu'il y a dedans → SURPRISE</li>
+</ul>
+<p style="margin-top:0.5rem">Le site doit CAPTURER ces moments et les transformer en sections web.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span><span class="tag new">NEW</span> Créer une section "Le Reveal" avec effet avant/après</div>
+  <p>L'atout n°1 du trompe-l'œil c'est la SURPRISE quand on coupe. Le site ne montre jamais ce moment. Un slider avant/après (fruit entier → fruit coupé) serait viral en soi.</p>
+  <p class="fix">→ FIX : Section avec un slider drag ou scroll-triggered. Image du citron entier qui se "coupe" pour révéler l'intérieur gâteau. Texte dramatique. C'est la section hero bis.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span><span class="tag new">NEW</span> Intégrer des vidéos TikTok/Instagram</div>
+  <p>Tema's Cake a 399K likes sur UN TikTok. Le contenu vidéo est ROI pour cette cible. La section Instagram actuelle montre des photos statiques. Il faut de la vidéo.</p>
+  <p class="fix">→ FIX : Remplacer ou compléter la section Instagram avec 2-3 embeds TikTok/Reels des meilleurs moments (unboxing, coupe, réactions). Ou au minimum, une section vidéo hero-width avec un autoplay muet d'une compilation de 10 secondes.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span><span class="tag inspo">INSPO</span> Pas de "social proof" visuel</div>
+  <p>Tema's Cake montre 399K likes, 28.3K partages. Vice Sweety ne montre aucun chiffre, aucun avis, aucune preuve sociale. Les femmes achètent sur la recommandation et la validation sociale.</p>
+  <p class="fix">→ FIX : Ajouter une bande de "social proof" : logos réseaux + chiffres ("2K+ followers" même modeste), ou des mini-témoignages clients, ou des screenshots d'avis Google. Même 3 avis bien choisis changent tout.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 10 — UNIVERS IMMERSIF ═══════ -->
+<h2>10. Univers immersif — 5/10</h2>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span> Le site ne "sent" pas Marseille</div>
+  <p>Vice Sweety c'est Marseille + Miami. Actuellement le site pourrait être de n'importe quelle ville. L'adresse est écrite mais l'univers visuel ne dit pas "sud, soleil, mer, terrasse".</p>
+  <p class="fix">→ FIX : Intégrer des éléments visuels marseillais subtils : une photo de la boutique avec la lumière méditerranéenne, une référence au Vieux-Port, un bleu mer dans la palette. Le palmier/flamant aide mais il faut aussi de la chaleur humaine.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">P0</span> Pas de "monde" Vice Sweety — juste un menu</div>
+  <p>Les marques award-winner créent un univers : Tema's Cake c'est "la créatrice passionnée qui prépare devant toi". Vice Sweety n'a pas de personnage, pas d'histoire visuelle, pas de récit émotionnel au-delà du texte.</p>
+  <p class="fix">→ FIX : La section Notre Vice est un bon début mais elle a besoin d'une photo HUMAINE plus forte. Les gens connectent avec des visages. Une photo de l'équipe souriante, en train de créer, avec de la lumière chaude. Montrer les mains qui sculptent un trompe-l'œil.</p>
+</div>
+
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">P1</span><span class="tag new">NEW</span> Pas de "signature sonore" ou d'interaction sensorielle</div>
+  <p>Les sites premium de food ont souvent un petit son au hover ou au scroll, ou un effet haptique (vibration mobile). C'est un extra, mais pour un award, ça compte.</p>
+  <p class="fix">→ FIX : Ajouter un son de "couteau qui coupe" ultra-court (100ms) au click sur le slider reveal. Optionnel mais mémorable.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ COMPARAISON TEMA'S CAKE ═══════ -->
+<h2>Tema's Cake vs Vice Sweety — Ce qu'ils ont, ce qu'on doit avoir</h2>
+
+<table class="vs-table">
+<tr><th>Élément</th><th>Tema's Cake</th><th>Vice Sweety (actuel)</th><th>Vice Sweety (cible)</th></tr>
+<tr><td>Moment viral</td><td style="color:#40E0D0">Box train, unboxing filmé</td><td style="color:#e74c3c">Absent</td><td>Section reveal slider + vidéo</td></tr>
+<tr><td>Packaging visible</td><td style="color:#40E0D0">Star du contenu</td><td style="color:#e74c3c">Absent</td><td>Section dédiée quand prêt</td></tr>
+<tr><td>Vidéo / mouvement</td><td style="color:#40E0D0">100% vidéo TikTok</td><td style="color:#e74c3c">0 vidéo</td><td>Embeds + autoplay reel</td></tr>
+<tr><td>Social proof</td><td style="color:#40E0D0">399K likes affichés</td><td style="color:#e74c3c">Aucun</td><td>Chiffres + avis + UGC</td></tr>
+<tr><td>Émotion humaine</td><td style="color:#40E0D0">Visage créatrice partout</td><td style="color:#f5b041">1 photo équipe</td><td>Plus de photos humaines</td></tr>
+<tr><td>Identité visuelle</td><td style="color:#f5b041">Rose aquarelle (girly)</td><td style="color:#40E0D0">Miami neon (plus fort)</td><td>Pousser le neon à fond</td></tr>
+<tr><td>Design web</td><td style="color:#e74c3c">Pas de site premium</td><td style="color:#40E0D0">Site propre, structuré</td><td>Site award-winner</td></tr>
+<tr><td>Positionnement</td><td style="color:#f5b041">Populaire, accessible</td><td style="color:#40E0D0">Premium street food</td><td>Le "luxe fun" unique</td></tr>
+</table>
+
+<p style="margin-top:1rem"><strong>L'avantage Vice Sweety</strong> : Tema's n'a pas de site premium. Leur force est 100% TikTok. Si Vice Sweety a un site award-winner + une stratégie TikTok, c'est game over. Le site doit être la "vitrine flagship" que Tema's n'a pas.</p>
+
+<div class="divider"></div>
+
+<!-- ═══════ PLAN D'ACTION PRIORITISÉ ═══════ -->
+<h2>Plan d'action — Priorité d'implémentation</h2>
+
+<h3>Phase 1 — Impact immédiat (ce qui change tout)</h3>
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">1.</span> Section "Le Reveal" — slider avant/après</div>
+  <p>Créer la section qui montre le trompe-l'œil entier → coupé. C'est le cœur du concept. Sans ça le site ne vend pas la magie.</p>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">2.</span> Neon glow design system — pousser la vibe Miami</div>
+  <p>Ajouter des glows roses/turquoise sur les titres, CTA, sections dark. Ajouter des light orbs flottants. Ça transforme l'atmosphère en 30 lignes de CSS.</p>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">3.</span> Gradient sunset dans les sections dark</div>
+  <p>Transformer les fonds deep-purple plats en gradients radials avec des touches rose/violet. Ça donne la profondeur.</p>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p0">4.</span> Hero sous-titre émotionnel</div>
+  <p>Remplacer le sous-titre informatif par un hook émotionnel qui crée du désir.</p>
+</div>
+
+<h3>Phase 2 — Premium layer</h3>
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">5.</span> Smooth scroll (Lenis)</div>
+  <p>Le "glide" qui fait award-winner instantanément.</p>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">6.</span> Section transitions (waves/dégradés entre blocs)</div>
+  <p>Adoucir les ruptures de couleur entre sections.</p>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">7.</span> Social proof (avis, chiffres, UGC)</div>
+  <p>3-5 témoignages ou chiffres clés pour la validation sociale.</p>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p1">8.</span> Hover améliorés cat-blocks</div>
+  <p>Arrow reveal, text slide, meilleur affordance.</p>
+</div>
+
+<h3>Phase 3 — Award-winner polish</h3>
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">9.</span> Curseur personnalisé</div>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">10.</span> Carrousel Instagram infini</div>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">11.</span> Noise/grain texture overlay</div>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">12.</span> Vidéo embed TikTok (quand contenu dispo)</div>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p2">13.</span> Logo WebP/SVG optimization</div>
+</div>
+<div class="finding">
+  <div class="finding-title"><span class="tag p3">14.</span> Son au reveal (optionnel)</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ BRAND MEMO ═══════ -->
+<h2>Mémo Brand — À garder en tête</h2>
+
+<div class="brand-box">
+<h3>Le positionnement unique de Vice Sweety</h3>
+<p><strong>Vice Sweety n'est PAS Tema's Cake.</strong> Tema's = populaire, girly, rose aquarelle, Paris banlieue. Vice Sweety = <strong>Miami neon, summer, Marseille soleil, luxe fun</strong>.</p>
+<p style="margin-top:0.8rem">Le logo script neon rose est l'ADN. Tout doit en découler : glow, lumière, nuit d'été, coucher de soleil, neon signs, plage, vice, addiction, plaisir assumé.</p>
+<p style="margin-top:0.8rem"><strong>La cible</strong> : femmes 18-35, Instagram-native, qui veulent poster avant de manger, qui cherchent l'expérience autant que le goût. Le "je mérite ce plaisir". Le "c'est trop beau je peux pas le manger".</p>
+<p style="margin-top:0.8rem"><strong>Le ton</strong> : complice, sensuel sans être vulgaire, un peu provocateur ("vice assumé"), jamais scolaire. Tutoiement. Phrases courtes. Impact.</p>
+<p style="margin-top:0.8rem"><strong>Les mots-clés visuels</strong> : neon glow, sunset gradient, palm trees, flamingo, tropical night, Miami Vice (la série), 80's typography, hot pink × turquoise, deep purple night sky.</p>
+</div>
+
+<div class="brand-box" style="border-color:rgba(64,224,208,0.4)">
+<h3 style="color:#40E0D0">Règles design issues du dossier Miami 80's</h3>
+<p>Ces règles découlent directement des 7 images d'inspiration + la palette RTF :</p>
+<ul>
+  <li><strong>Règle 1 — Le gradient sunset est OBLIGATOIRE</strong> : au moins une section du site doit avoir le gradient purple→magenta→coral→or. C'est décrit comme "la vitrine néon au milieu du blanc". La section CTA ou Notre Vice est le candidat idéal.</li>
+  <li><strong>Règle 2 — Le neon glow est l'identité</strong> : chaque élément important (titre, CTA, séparateur) doit avoir un glow rose ou turquoise. C'est ce qui différencie Vice Sweety de toute autre pâtisserie.</li>
+  <li><strong>Règle 3 — Le fond clair devient lavande-blush</strong> : passer de #FFFAF6 (cream tiède) à #FEFCFF ou #F8F4FA (blanc rosé Art Déco). Ça aligne le fond avec l'ADN Miami sans tout casser.</li>
+  <li><strong>Règle 4 — Le pink #e63b7a remplace #FF69B4</strong> : plus chaud, plus profond, plus "neon sign" que "bonbon". C'est le pink de Vice City.</li>
+  <li><strong>Règle 5 — Le teal #0BBFBF remplace #40E0D0</strong> : plus piscine Art Déco, moins menthe. Plus de personnalité.</li>
+  <li><strong>Règle 6 — Le synthwave grid</strong> : un élément de grille en perspective (lignes qui convergent vers l'horizon) dans au moins une section dark. Très subtil (3-5% opacité) mais il ancre tout dans le 80's.</li>
+  <li><strong>Règle 7 — Les palmiers sortent de l'ombre</strong> : le pattern palmier/flamant doit être plus visible. En silhouette sur le sunset, en SVG décoratif, ou en fond de section avec plus d'opacité.</li>
+  <li><strong>Règle 8 — Au moins 1 titre avec effet retro</strong> : gradient clip, rayures, ou outline stroke — inspiré de la typo "Miami Vibe" striped.</li>
+</ul>
+</div>
+
+<p style="text-align:center;margin-top:3rem;color:#888;font-size:0.75rem;letter-spacing:0.1em">VICE SWEETY — AUDIT V3 DESIGN COMPLET — MARS 2026</p>
+
+</div>
+</body>
+</html>

@@ -16,7 +16,7 @@
   <meta name="twitter:title" content="Vice Sweety — Desserts Artisanaux · Marseille" />
   <meta name="twitter:description" content="Des desserts trop beaux pour être vrais. Faits main à Marseille." />
   <meta name="twitter:image" content="https://vicesweety.com/img/hero-trio.webp" />
-  <meta name="theme-color" content="#1a0a2e" />
+  <meta name="theme-color" content="#1a1025" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="preload" as="image" href="img/hero-trio.webp" media="(min-width: 901px)" />
   <link rel="preload" as="image" href="img/hero-trio-mobile.webp" media="(max-width: 900px)" />
@@ -25,22 +25,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <style>
 /* ══════════════════════════════════════════════════════════════
-   VICE SWEETY — MIAMI ROSE × BLEU
-   Pink · Turquoise · Sunset · Premium Street Food
-   Palette: #FF69B4 · #40E0D0 · #1a0a2e · #FDE8EF · #E0F7FA
+   VICE SWEETY — MIAMI 80's × SUMMER NEON
+   Hot Pink · Teal Art Déco · Sunset · Vice City Night
+   Palette: #e63b7a · #0BBFBF · #1a1025 · #F8F4FA · #FEFCFF
 ══════════════════════════════════════════════════════════════ */
 
 :root {
-  --cream: #FFFAF6;
-  --blush: #FDE8EF;
-  --blush-mid: #F8D0E0;
+  --cream: #FEFCFF;
+  --blush: #F8F4FA;
+  --blush-mid: #F0E4F0;
   --rose: #F5B8CF;
-  --pink: #F990E8;
-  --hot-pink: #FF69B4;
+  --pink: #f472b6;
+  --hot-pink: #e63b7a;
 
   --sky: #E0F7FA;
   --aqua: #80DEEA;
-  --turquoise: #40E0D0;
+  --turquoise: #0BBFBF;
   --cyan: #0BD2D3;
   --ocean: #00ACC1;
 
@@ -49,13 +49,19 @@
   --sunset: #f5b041;
   --white: #FFFFFF;
   --purple: #5a3d6a;
-  --deep-purple: #1a0a2e;
+  --deep-purple: #1a1025;
 
   --text: #2d1540;
   --text-soft: #6b5070;
   --text-dim: #a48da0;
   --text-light: rgba(255,255,255,0.9);
   --text-muted: rgba(255,255,255,0.35);
+
+  /* Neon glows */
+  --glow-pink: 0 0 30px rgba(230,59,122,0.4), 0 0 60px rgba(230,59,122,0.15);
+  --glow-teal: 0 0 30px rgba(11,191,191,0.4), 0 0 60px rgba(11,191,191,0.15);
+  --glow-pink-text: 0 0 20px rgba(230,59,122,0.5), 0 0 40px rgba(230,59,122,0.2);
+  --glow-teal-text: 0 0 20px rgba(11,191,191,0.5), 0 0 40px rgba(11,191,191,0.2);
 
   --display: 'Abril Fatface', serif;
   --heading: 'Space Grotesk', system-ui, sans-serif;
@@ -103,8 +109,11 @@ a { color:inherit; text-decoration:none; }
   justify-content: center;
   padding: 0 2.5rem;
   height: 80px;
+  background: transparent;
+  transition: background 0.5s, box-shadow 0.5s;
+}
+.nav.scrolled {
   background: var(--deep-purple);
-  transition: box-shadow 0.3s;
 }
 .nav::after {
   content: '';
@@ -112,7 +121,12 @@ a { color:inherit; text-decoration:none; }
   bottom: 0; left: 0; right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--turquoise) 0%, var(--hot-pink) 50%, var(--turquoise) 100%);
-  opacity: 0.7;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.nav.scrolled::after {
+  opacity: 0.8;
+  box-shadow: 0 0 8px rgba(230,59,122,0.3), 0 0 20px rgba(11,191,191,0.15);
 }
 .nav::before {
   content: '';
@@ -122,10 +136,12 @@ a { color:inherit; text-decoration:none; }
   background-size: 400px auto;
   background-repeat: repeat-x;
   background-position: center center;
-  opacity: 0.035;
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 0.5s;
 }
-.nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
+.nav.scrolled::before { opacity: 0.035; }
+.nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
 
 .nav-burger {
   position: absolute;
@@ -135,7 +151,8 @@ a { color:inherit; text-decoration:none; }
   background: none; border: none; cursor: pointer;
   z-index: 200; padding: 10px;
 }
-.nav-burger span { width:28px; height:2.5px; background:var(--white); border-radius:2px; transition:all 0.3s; }
+.nav-burger span { width:28px; height:2.5px; background:var(--deep-purple); border-radius:2px; transition:all 0.5s; }
+.nav.scrolled .nav-burger span { background:var(--white); }
 .nav-burger:hover span { background: var(--turquoise); }
 
 .nav-links {
@@ -145,13 +162,15 @@ a { color:inherit; text-decoration:none; }
   display: flex; gap: 2rem;
 }
 .nav-links a {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  transition: color 0.3s;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--deep-purple);
+  opacity: 0.5;
+  transition: color 0.5s, opacity 0.5s;
 }
+.nav.scrolled .nav-links a { color: rgba(255,255,255,0.7); opacity: 1; }
 .nav-links a:hover { color: var(--turquoise); }
 
 .nav-logo img {
@@ -176,31 +195,32 @@ a { color:inherit; text-decoration:none; }
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--white);
+  color: var(--deep-purple);
   background: transparent;
-  border: 2px solid var(--white);
+  border: 2px solid var(--deep-purple);
   cursor: pointer;
   transition: all 0.3s var(--ease);
   text-decoration: none;
 }
+.nav.scrolled .btn-cta { color: var(--white); border-color: var(--white); }
 .btn-cta:hover {
   background: var(--turquoise);
   color: var(--deep-purple);
   border-color: var(--turquoise);
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(64,224,208,0.35);
+  box-shadow: var(--glow-teal);
 }
 .btn-cta-fill {
   background: var(--hot-pink);
   color: var(--white);
   border-color: var(--hot-pink);
-  box-shadow: 0 4px 16px rgba(255,105,180,0.25);
+  box-shadow: var(--glow-pink);
 }
 .btn-cta-fill:hover {
   background: var(--turquoise);
   color: var(--deep-purple);
   border-color: var(--turquoise);
-  box-shadow: 0 8px 32px rgba(64,224,208,0.35);
+  box-shadow: var(--glow-teal);
   transform: translateY(-2px);
 }
 .btn-cta-turquoise {
@@ -208,12 +228,13 @@ a { color:inherit; text-decoration:none; }
   color: var(--deep-purple);
   border-color: var(--turquoise);
   font-weight: 700;
+  box-shadow: var(--glow-teal);
 }
 .btn-cta-turquoise:hover {
   background: var(--hot-pink);
   color: var(--white);
   border-color: var(--hot-pink);
-  box-shadow: 0 8px 32px rgba(255,105,180,0.35);
+  box-shadow: var(--glow-pink);
 }
 
 /* ═══════ HERO — Miami Sunset rose → bleu ═══════ */
@@ -226,26 +247,34 @@ a { color:inherit; text-decoration:none; }
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  background: #F3E7D3 url('img/hero-trio.webp') no-repeat center bottom / contain;
+  background: var(--cream);
 }
+/* Subtle light spot on hero */
 .hero::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background-image: url('assets/flamant_details.svg');
-  background-size: 300px auto;
-  background-repeat: repeat;
-  background-position: center;
-  opacity: 0.02;
+  top: 10%; left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 40%;
+  background: radial-gradient(ellipse, rgba(230,59,122,0.06) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 0;
 }
-.hero::after {
-  content: '';
+.hero-img {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 15%;
-  background: linear-gradient(to top, var(--cream) 0%, transparent 100%);
-  pointer-events: none;
+  bottom: -2%; left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 820px;
+  height: auto;
+  z-index: 1;
+  opacity: 0;
+  animation: heroImgIn 1.2s 0.6s var(--ease) forwards;
+}
+@keyframes heroImgIn {
+  from { opacity:0; transform:translateX(-50%) translateY(40px) scale(0.97); }
+  to { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
 }
 .hero-content {
   position: relative;
@@ -253,7 +282,7 @@ a { color:inherit; text-decoration:none; }
   text-align: center;
   padding: 2rem;
   max-width: 800px;
-  margin-top: 15vh;
+  margin-top: 12vh;
 }
 .hero-title {
   font-family: var(--display);
@@ -263,6 +292,8 @@ a { color:inherit; text-decoration:none; }
   letter-spacing: 0.01em;
   margin-bottom: 1.2rem;
   font-weight: 400;
+  opacity: 0;
+  animation: heroTextIn 1s 0.1s var(--ease) forwards;
 }
 .hero-sub {
   font-family: var(--sans);
@@ -274,6 +305,12 @@ a { color:inherit; text-decoration:none; }
   margin-bottom: 2.5rem;
   max-width: 32ch;
   margin-left: auto; margin-right: auto;
+  opacity: 0;
+  animation: heroTextIn 1s 0.35s var(--ease) forwards;
+}
+@keyframes heroTextIn {
+  from { opacity:0; transform:translateY(25px); }
+  to { opacity:1; transform:translateY(0); }
 }
 .btn-hero {
   display: inline-flex;
@@ -305,7 +342,7 @@ a { color:inherit; text-decoration:none; }
   position: absolute;
   bottom: 2.5rem; left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 3;
   font-family: var(--mono);
   font-size: 0.55rem;
   letter-spacing: 0.3em;
@@ -313,8 +350,14 @@ a { color:inherit; text-decoration:none; }
   color: var(--deep-purple);
   display: flex; flex-direction: column;
   align-items: center; gap: 0.5rem;
-  opacity: 0.4;
-  animation: scrollBounce 2s infinite;
+  opacity: 0;
+  animation: scrollIndicatorIn 0.6s 1.6s var(--ease) forwards, scrollBounce 2s 2.2s infinite;
+  transition: opacity 0.4s;
+}
+.hero-scroll.hidden { opacity:0 !important; animation:none; }
+@keyframes scrollIndicatorIn {
+  from { opacity:0; transform:translateX(-50%) translateY(-10px); }
+  to { opacity:0.6; transform:translateX(-50%) translateY(0); }
 }
 @keyframes scrollBounce {
   0%,100% { transform:translateX(-50%) translateY(0); }
@@ -337,13 +380,14 @@ a { color:inherit; text-decoration:none; }
   background-size: 500px auto;
   background-repeat: repeat;
   background-position: center;
-  opacity: 0.025;
+  opacity: 0.04;
   pointer-events: none;
 }
 .intro-band h2 {
   font-family: var(--display);
   font-size: clamp(1.8rem, 4vw, 3.5rem);
   color: var(--hot-pink);
+  text-shadow: 0 0 30px rgba(230,59,122,0.2);
   margin-bottom: 1rem;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -378,7 +422,7 @@ a { color:inherit; text-decoration:none; }
 /* ═══════ NOTRE VICE — Brand Story ═══════ */
 .notre-vice {
   padding: 5rem 4vw;
-  background: var(--deep-purple);
+  background: linear-gradient(170deg, #1a1025 0%, #2a1035 30%, #1a1025 100%);
   position: relative;
   overflow: hidden;
 }
@@ -386,7 +430,9 @@ a { color:inherit; text-decoration:none; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(64,224,208,0.06) 0%, rgba(255,105,180,0.06) 100%);
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(230,59,122,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(11,191,191,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .notre-vice-grid {
@@ -446,8 +492,10 @@ a { color:inherit; text-decoration:none; }
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease);
+  transition: transform 0.6s var(--ease), filter 0.6s;
+  filter: brightness(1.03) saturate(1.12);
 }
+.cat-block:hover img { filter: brightness(1.08) saturate(1.2); }
 .cat-block:hover img { transform: scale(1.04); }
 .cat-overlay {
   position: absolute;
@@ -461,6 +509,29 @@ a { color:inherit; text-decoration:none; }
 }
 .cat-block:hover .cat-overlay {
   background: linear-gradient(180deg, rgba(26,10,46,0.1) 0%, rgba(26,10,46,0.45) 40%, rgba(26,10,46,0.82) 100%);
+}
+.cat-overlay::after {
+  content: '→';
+  display: block;
+  margin-top: 0.8rem;
+  font-family: var(--sans);
+  font-size: 1.2rem;
+  color: var(--turquoise);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.cat-block:hover .cat-overlay::after,
+.cat-full:hover .cat-overlay::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+.cat-sub {
+  transition: transform 0.4s var(--ease);
+}
+.cat-block:hover .cat-sub,
+.cat-full:hover .cat-sub {
+  transform: translateY(-3px);
 }
 .cat-title {
   font-family: var(--display);
@@ -495,20 +566,47 @@ a { color:inherit; text-decoration:none; }
 .cat-full {
   position: relative;
   overflow: hidden;
-  min-height: 50vh;
   cursor: pointer;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
+  padding: 4rem 4vw 2rem;
+  background: linear-gradient(170deg, #1a1025 0%, #2a1035 40%, #1a1025 100%);
 }
-.cat-full img {
+.cat-full::before {
+  content: '';
   position: absolute;
   inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s var(--ease);
+  background:
+    radial-gradient(ellipse 70% 80% at 30% 60%, rgba(230,59,122,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 70% at 70% 40%, rgba(11,191,191,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
-.cat-full:hover img { transform: scale(1.03); }
-.cat-full .cat-overlay { justify-content: flex-end; }
+.cat-full img {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 900px;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.6s var(--ease), filter 0.6s;
+  filter: brightness(1.05) saturate(1.15) drop-shadow(0 10px 40px rgba(230,59,122,0.2));
+}
+.cat-full:hover img {
+  filter: brightness(1.12) saturate(1.25) drop-shadow(0 15px 50px rgba(230,59,122,0.35));
+  transform: scale(1.03);
+}
+.cat-full .cat-overlay {
+  position: relative;
+  z-index: 2;
+  background: none;
+  padding: 2rem 2rem 1rem;
+  justify-content: center;
+  inset: auto;
+}
 
 /* ═══════ STATEMENTS ═══════ */
 .statement {
@@ -529,21 +627,31 @@ a { color:inherit; text-decoration:none; }
   background: linear-gradient(135deg, var(--sky) 0%, #B2EBF2 50%, var(--sky) 100%);
 }
 .statement.pink-on-sky .statement-text {
-  color: #E91E8C;
-  text-shadow: 0 2px 20px rgba(233,30,140,0.2);
+  background: repeating-linear-gradient(
+    0deg,
+    var(--hot-pink) 0px,
+    var(--hot-pink) 4px,
+    rgba(230,59,122,0.3) 4px,
+    rgba(230,59,122,0.3) 7px
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(230,59,122,0.3));
 }
 
 .statement.turquoise-on-blush {
   background: linear-gradient(135deg, var(--blush) 0%, var(--blush-mid) 50%, var(--blush) 100%);
 }
 .statement.turquoise-on-blush .statement-text {
-  color: #008B9E;
+  color: var(--turquoise);
+  text-shadow: var(--glow-teal-text);
 }
 
 /* ═══════ CTA SECTION ═══════ */
 .cta-section {
-  background: var(--deep-purple);
-  padding: 5rem 4vw;
+  background: linear-gradient(180deg, #1a1025 0%, #2d1040 25%, #4a1545 45%, #e63b7a 70%, #e8775a 85%, #c8963e 95%, #FEFCFF 100%);
+  padding: 6rem 4vw 8rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -552,8 +660,27 @@ a { color:inherit; text-decoration:none; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(64,224,208,0.08) 0%, rgba(255,105,180,0.08) 100%);
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 30%, rgba(11,191,191,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 30% 70%, rgba(230,59,122,0.15) 0%, transparent 60%);
   pointer-events: none;
+}
+/* Synthwave grid floor */
+.cta-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: -10%; right: -10%;
+  height: 45%;
+  background:
+    linear-gradient(0deg, rgba(230,59,122,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230,59,122,0.1) 1px, transparent 1px);
+  background-size: 60px 40px;
+  transform: perspective(400px) rotateX(55deg);
+  transform-origin: bottom center;
+  opacity: 0.4;
+  pointer-events: none;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 80%);
 }
 .cta-section .cta-title {
   font-family: var(--display);
@@ -561,6 +688,7 @@ a { color:inherit; text-decoration:none; }
   color: var(--white);
   margin-bottom: 0.5rem;
   position: relative;
+  text-shadow: var(--glow-pink-text);
 }
 .cta-section .cta-sub {
   font-family: var(--sans);
@@ -672,7 +800,7 @@ a { color:inherit; text-decoration:none; }
 
 /* ═══════ FOOTER ═══════ */
 .footer {
-  background: var(--deep-purple);
+  background: linear-gradient(180deg, #1a1025 0%, #120a1a 100%);
   padding: 4rem 4vw 2rem;
   position: relative;
 }
@@ -684,16 +812,17 @@ a { color:inherit; text-decoration:none; }
   background-size: 500px auto;
   background-repeat: repeat;
   background-position: center;
-  opacity: 0.025;
+  opacity: 0.045;
   pointer-events: none;
 }
 .footer::after {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--hot-pink) 0%, var(--turquoise) 50%, var(--hot-pink) 100%);
-  opacity: 0.6;
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(230,59,122,0.4), 0 0 30px rgba(11,191,191,0.2);
 }
 .footer-logo {
   display: block;
@@ -813,14 +942,16 @@ a { color:inherit; text-decoration:none; }
   .nav-links { display:none; }
   .nav { padding:0 1rem; height:64px; }
   .nav-burger { left:1rem; }
-  .hero { background-image: url('img/hero-trio-mobile.webp'); background-size: cover; background-position: center bottom; height:90vh; }
+  .hero { height:90vh; }
+  .hero-img { width:90%; max-width:500px; }
   .hero-content { margin-top: 6vh; }
   .nav-right { right:1rem; }
   .nav-logo img { height:100px; }
   .btn-cta { padding:0.5rem 1.2rem; font-size:0.6rem; }
   .cat-row { grid-template-columns:1fr; }
   .cat-block { min-height:45vh; }
-  .cat-full { min-height:40vh; }
+  .cat-full { padding: 3rem 2vw 1.5rem; }
+  .cat-full img { width: 95%; }
   .notre-vice-grid { grid-template-columns:1fr; gap:2.5rem; }
   .insta-grid { grid-template-columns: repeat(2, 1fr); }
   .visit-grid { grid-template-columns:1fr; gap:2.5rem; }
@@ -830,13 +961,30 @@ a { color:inherit; text-decoration:none; }
   .hero { height:85vh; }
   .hero-title { font-size:clamp(1.8rem,7vw,2.8rem); }
   .hero-content { margin-top: 0; }
+  .hero-img { width:95%; max-width:none; }
   .statement-text { font-size:clamp(2.5rem,10vw,4rem); }
 }
 
 /* ═══════ SCROLL REVEAL ═══════ */
 @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes slideInLeft { from { opacity:0; transform:translateX(-60px); } to { opacity:1; transform:translateX(0); } }
+@keyframes slideInRight { from { opacity:0; transform:translateX(60px); } to { opacity:1; transform:translateX(0); } }
+@keyframes scaleReveal { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
 .reveal { opacity:0; transform:translateY(30px); }
 .reveal.visible { animation:fadeUp 0.8s var(--ease) forwards; }
+
+/* Staggered category blocks */
+.cat-row .cat-block:nth-child(1) { transform:translateX(-60px); }
+.cat-row .cat-block:nth-child(2) { transform:translateX(60px); }
+.cat-row .cat-block:nth-child(1).visible { animation:slideInLeft 1s var(--ease) forwards; }
+.cat-row .cat-block:nth-child(2).visible { animation:slideInRight 1s 0.15s var(--ease) forwards; }
+
+/* Statement scale reveal */
+.statement .statement-text { transform:scale(0.88); }
+.statement .statement-text.visible { animation:scaleReveal 1.2s var(--ease) forwards; }
+
+/* Full-width category scale */
+.cat-full.visible { animation:scaleReveal 1s var(--ease) forwards; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
@@ -901,9 +1049,9 @@ a { color:inherit; text-decoration:none; }
     <span></span><span></span><span></span>
   </button>
   <div class="nav-links">
-    <a href="menu.html">Nos Cr\u00e9ations</a>
-    <a href="#notre-vice">Notre Vice</a>
-    <a href="#visit">Nous Trouver</a>
+    <a href="menu.html">NOS CRÉATIONS</a>
+    <a href="#notre-vice">NOTRE VICE</a>
+    <a href="#visit">NOUS TROUVER</a>
   </div>
   <a href="/" class="nav-logo">
     <img src="assets/Vice_Sweety_Logo.png" alt="Vice Sweety" />
@@ -918,8 +1066,15 @@ a { color:inherit; text-decoration:none; }
 <section class="hero">
   <div class="hero-content">
     <h1 class="hero-title">Trop beaux pour être vrais.</h1>
-    <p class="hero-sub">Trompe-l'œil, smoothies, cookies — faits main avec obsession à Marseille.</p>
+    <p class="hero-sub">Tu ne devineras jamais que c'est un gâteau.</p>
   </div>
+  <picture>
+    <source media="(max-width: 900px)" srcset="img/hero-trio-mobile.webp" />
+    <img class="hero-img" src="img/hero-trio.webp"
+         srcset="img/hero-trio-960w.webp 960w, img/hero-trio-1280w.webp 1280w, img/hero-trio.webp 1536w"
+         sizes="(max-width: 900px) 90vw, 70vw"
+         alt="Trio trompe-l'œil framboise, fraise, framboise" width="1536" height="1024" fetchpriority="high" />
+  </picture>
   <div class="hero-scroll">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
   </div>
@@ -927,7 +1082,7 @@ a { color:inherit; text-decoration:none; }
 
 <!-- ═══════ INTRO BAND ═══════ -->
 <section class="intro-band">
-  <h2 class="reveal">L'art du trompe-l'\u0153il</h2>
+  <h2 class="reveal">L'art du trompe-l'œil</h2>
   <p class="reveal">Des desserts qui ressemblent à des fruits parfaits. Tu coupes — et l'illusion se révèle : ganache veloutée, cœur fondant, saveurs qui te font fermer les yeux.</p>
   <div class="intro-features reveal">
     <div class="intro-feat"><strong>Admirer</strong><span>Trop joli pour y toucher</span></div>
@@ -961,14 +1116,14 @@ a { color:inherit; text-decoration:none; }
     <div class="cat-overlay">
       <span class="cat-tag">Nouveau</span>
       <h2 class="cat-title">Smoothies</h2>
-      <p class="cat-sub">Sunset dans un verre. Mangue, passion, fraîcheur tropicale.</p>
+      <p class="cat-sub">Mangue, passion, un coucher de soleil par gorgée.</p>
     </div>
   </a>
   <a href="menu.html" class="cat-block reveal">
     <img src="img/milkshake-fraise-1.webp" alt="Milkshake Fraise Vice Sweety" width="600" height="800" loading="lazy" />
     <div class="cat-overlay">
       <h2 class="cat-title">Milkshakes</h2>
-      <p class="cat-sub">Crémeux, rosé, surmonté de chantilly. L'addiction douce.</p>
+      <p class="cat-sub">Crémeux, rosé, surmonté de chantilly. Tu vas le poster avant de goûter.</p>
     </div>
   </a>
 </div>
@@ -981,9 +1136,9 @@ a { color:inherit; text-decoration:none; }
 <!-- ═══════ BLOC 2 — Trompe-l'œil full-width ═══════ -->
 <a href="menu.html" class="cat-full reveal">
   <img src="img/trompeloeil-lineup.webp"
-       srcset="img/trompeloeil-lineup-800w.webp 800w, img/trompeloeil-lineup-1280w.webp 1280w, img/trompeloeil-lineup.webp 2560w"
-       sizes="100vw"
-       alt="Les trompe-l'œil Vice Sweety — citron, passion, fraise, litchi, pêche, mandarine" width="2560" height="1440" loading="lazy" />
+       srcset="img/trompeloeil-lineup-800w.webp 800w, img/trompeloeil-lineup-1280w.webp 1280w, img/trompeloeil-lineup.webp 1600w"
+       sizes="(max-width: 900px) 95vw, 75vw"
+       alt="Les trompe-l'œil Vice Sweety — citron, passion, fraise, litchi, pêche, mandarine" width="1600" height="502" loading="lazy" />
   <div class="cat-overlay">
     <h2 class="cat-title">Trompe-l'œil</h2>
     <p class="cat-sub">Des fruits parfaits. Sauf que dedans, c'est encore mieux.</p>
@@ -996,7 +1151,7 @@ a { color:inherit; text-decoration:none; }
     <img src="img/cookie-bag.webp" alt="Cookie Vice Sweety" width="600" height="800" loading="lazy" />
     <div class="cat-overlay">
       <h2 class="cat-title">Cookies</h2>
-      <p class="cat-sub">Fondants, chocolatés, addictifs. Tu ne t'arrêteras pas à un.</p>
+      <p class="cat-sub">Fondant dedans. Croustillant dehors. Game over.</p>
     </div>
   </a>
   <a href="menu.html" class="cat-block reveal">
@@ -1004,7 +1159,7 @@ a { color:inherit; text-decoration:none; }
     <div class="cat-overlay">
       <span class="cat-tag">Best-seller</span>
       <h2 class="cat-title">Cookie Dough</h2>
-      <p class="cat-sub">La pâte à cookie crue. À la cuillère, sans culpabilité.</p>
+      <p class="cat-sub">La pâte à cookie crue. À la cuillère. Ton guilty pleasure.</p>
     </div>
   </a>
 </div>
@@ -1020,22 +1175,22 @@ a { color:inherit; text-decoration:none; }
     <img src="img/pancakes-2.webp" alt="Mini Pancakes Vice Sweety" width="600" height="800" loading="lazy" />
     <div class="cat-overlay">
       <h2 class="cat-title">Mini Pancakes</h2>
-      <p class="cat-sub">Dorés, nappés, garnis. La douceur qui se partage.</p>
+      <p class="cat-sub">Dorés, nappés, garnis. Brunch goals.</p>
     </div>
   </a>
   <a href="menu.html" class="cat-block reveal">
     <img src="img/crepes-2.webp" alt="Crêpes Vice Sweety" width="600" height="800" loading="lazy" />
     <div class="cat-overlay">
       <h2 class="cat-title">Crêpes</h2>
-      <p class="cat-sub">Nutella, fruits frais, chantilly. Tu choisis, on régale.</p>
+      <p class="cat-sub">Nutella, fruits frais, chantilly. Le dimanche parfait.</p>
     </div>
   </a>
 </div>
 
 <!-- ═══════ CTA ═══════ -->
 <section class="cta-section">
-  <div class="cta-title reveal">Impossible de résister.</div>
-  <p class="cta-sub reveal">Commande en ligne et récupère en boutique.</p>
+  <div class="cta-title reveal">Ton prochain vice.</div>
+  <p class="cta-sub reveal">Commande en ligne, récupère en 5 min à la boutique.</p>
   <a href="menu.html" class="btn-cta btn-cta-turquoise">Voir la carte →</a>
 </section>
 
@@ -1118,18 +1273,63 @@ a { color:inherit; text-decoration:none; }
 
 <!-- ═══════ JS ═══════ -->
 <script>
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
-});
-const burger = document.getElementById('burger');
-const mm = document.getElementById('mm');
-burger.addEventListener('click', () => mm.classList.toggle('open'));
-document.getElementById('mmClose').addEventListener('click', () => mm.classList.remove('open'));
-mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+(function(){
+  const nav = document.getElementById('nav');
+  const heroImg = document.querySelector('.hero-img');
+  const heroScroll = document.querySelector('.hero-scroll');
+  const hero = document.querySelector('.hero');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let heroReady = false;
+  if (heroImg) {
+    heroImg.addEventListener('animationend', () => { heroReady = true; }, { once: true });
+  }
+
+  /* ── Nav scroll state + parallax ── */
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      nav.classList.toggle('scrolled', sy > 60);
+
+      /* Hero parallax — image drifts up slower (after entrance anim) */
+      if (heroImg && !prefersReduced && heroReady) {
+        const heroH = hero.offsetHeight;
+        if (sy < heroH) {
+          heroImg.style.transform = 'translateX(-50%) translateY(' + (sy * 0.18) + 'px) scale(1)';
+        }
+      }
+
+      /* Hide scroll indicator after scrolling */
+      if (heroScroll) {
+        heroScroll.classList.toggle('hidden', sy > 80);
+      }
+
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ── Mobile menu ── */
+  const burger = document.getElementById('burger');
+  const mm = document.getElementById('mm');
+  burger.addEventListener('click', () => mm.classList.toggle('open'));
+  document.getElementById('mmClose').addEventListener('click', () => mm.classList.remove('open'));
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+
+  /* ── Intersection Observer — staggered reveals ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+})();
 </script>
 
 </body>
