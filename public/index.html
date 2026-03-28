@@ -521,16 +521,14 @@ a { color:inherit; text-decoration:none; }
   transform: translateX(-10px);
   transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
 }
-.cat-block:hover .cat-overlay::after,
-.cat-full:hover .cat-overlay::after {
+.cat-block:hover .cat-overlay::after {
   opacity: 1;
   transform: translateX(0);
 }
 .cat-sub {
   transition: transform 0.4s var(--ease);
 }
-.cat-block:hover .cat-sub,
-.cat-full:hover .cat-sub {
+.cat-block:hover .cat-sub {
   transform: translateY(-3px);
 }
 .cat-title {
@@ -563,49 +561,156 @@ a { color:inherit; text-decoration:none; }
   font-weight: 600;
 }
 
-.cat-full {
+/* ═══════ TROMPE-L'ŒIL SHOWCASE — SPLIT EDITORIAL ═══════ */
+.tl-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 85vh;
+  overflow: hidden;
+}
+
+/* — Left: Image — */
+.tl-photo {
   position: relative;
   overflow: hidden;
-  cursor: pointer;
+}
+.tl-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 6s var(--ease);
+}
+.tl-showcase:hover .tl-photo img {
+  transform: scale(1.04);
+}
+
+/* — Right: Content panel — */
+.tl-panel {
+  background: linear-gradient(170deg, #1a1025 0%, #231335 50%, #1a1025 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  text-decoration: none;
-  padding: 4rem 4vw 2rem;
-  background: linear-gradient(170deg, #1a1025 0%, #2a1035 40%, #1a1025 100%);
+  padding: 5rem 4rem;
+  position: relative;
+  overflow: hidden;
 }
-.cat-full::before {
+.tl-panel::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 80% at 30% 60%, rgba(230,59,122,0.1) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 70% at 70% 40%, rgba(11,191,191,0.07) 0%, transparent 70%);
+    radial-gradient(ellipse 50% 60% at 20% 80%, rgba(230,59,122,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 80% 20%, rgba(11,191,191,0.06) 0%, transparent 70%);
   pointer-events: none;
-  z-index: 0;
 }
-.cat-full img {
+.tl-panel-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--turquoise);
+  margin-bottom: 1.5rem;
   position: relative;
-  z-index: 1;
-  width: 90%;
-  max-width: 900px;
-  height: auto;
-  object-fit: contain;
-  transition: transform 0.6s var(--ease), filter 0.6s;
-  filter: brightness(1.05) saturate(1.15) drop-shadow(0 10px 40px rgba(230,59,122,0.2));
 }
-.cat-full:hover img {
-  filter: brightness(1.12) saturate(1.25) drop-shadow(0 15px 50px rgba(230,59,122,0.35));
-  transform: scale(1.03);
-}
-.cat-full .cat-overlay {
+.tl-panel-title {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  color: var(--cream);
+  line-height: 1.05;
+  margin: 0 0 1rem;
   position: relative;
-  z-index: 2;
-  background: none;
-  padding: 2rem 2rem 1rem;
-  justify-content: center;
-  inset: auto;
+}
+.tl-panel-sub {
+  font-family: var(--sans);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 380px;
+  position: relative;
+}
+
+/* — Flavor list — */
+.tl-flavors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+}
+.tl-flavor {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  text-decoration: none;
+  transition: border-color 0.3s;
+}
+.tl-flavor:hover {
+  border-color: rgba(230,59,122,0.3);
+}
+.tl-flavor-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s;
+}
+.tl-flavor:hover .tl-flavor-dot {
+  transform: scale(1.4);
+  box-shadow: 0 0 12px currentColor;
+}
+.tl-dot-citron { background: #f0d860; color: #f0d860; }
+.tl-dot-passion { background: #8b4570; color: #8b4570; }
+.tl-dot-fraise { background: #d4243b; color: #d4243b; }
+.tl-dot-litchi { background: #e06060; color: #e06060; }
+.tl-dot-peche { background: #e8a870; color: #e8a870; }
+.tl-dot-mandarine { background: #e87f20; color: #e87f20; }
+.tl-flavor-name {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--cream);
+}
+.tl-flavor-note {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.35);
+  margin-left: auto;
+  letter-spacing: 0.02em;
+}
+
+/* — CTA — */
+.tl-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 2.4rem;
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 60px;
+  text-decoration: none;
+  transition: all 0.4s var(--ease);
+  position: relative;
+  width: fit-content;
+}
+.tl-cta:hover {
+  background: var(--hot-pink);
+  border-color: var(--hot-pink);
+  box-shadow: var(--glow-pink);
+  transform: translateY(-2px);
+}
+.tl-cta::after {
+  content: '→';
+  transition: transform 0.3s var(--ease);
+}
+.tl-cta:hover::after {
+  transform: translateX(4px);
 }
 
 /* ═══════ STATEMENTS ═══════ */
@@ -950,8 +1055,9 @@ a { color:inherit; text-decoration:none; }
   .btn-cta { padding:0.5rem 1.2rem; font-size:0.6rem; }
   .cat-row { grid-template-columns:1fr; }
   .cat-block { min-height:45vh; }
-  .cat-full { padding: 3rem 2vw 1.5rem; }
-  .cat-full img { width: 95%; }
+  .tl-showcase { grid-template-columns: 1fr; min-height: auto; }
+  .tl-photo { min-height: 70vw; }
+  .tl-panel { padding: 3rem 2rem; }
   .notre-vice-grid { grid-template-columns:1fr; gap:2.5rem; }
   .insta-grid { grid-template-columns: repeat(2, 1fr); }
   .visit-grid { grid-template-columns:1fr; gap:2.5rem; }
@@ -963,6 +1069,8 @@ a { color:inherit; text-decoration:none; }
   .hero-content { margin-top: 0; }
   .hero-img { width:95%; max-width:none; }
   .statement-text { font-size:clamp(2.5rem,10vw,4rem); }
+  .tl-flavors { grid-template-columns: 1fr; gap: 0.3rem; }
+  .tl-panel { padding: 2.5rem 1.5rem; }
 }
 
 /* ═══════ SCROLL REVEAL ═══════ */
@@ -984,7 +1092,7 @@ a { color:inherit; text-decoration:none; }
 .statement .statement-text.visible { animation:scaleReveal 1.2s var(--ease) forwards; }
 
 /* Full-width category scale */
-.cat-full.visible { animation:scaleReveal 1s var(--ease) forwards; }
+.tl-showcase .reveal.visible { animation:fadeUp 0.8s var(--ease) forwards; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
@@ -1134,17 +1242,56 @@ a { color:inherit; text-decoration:none; }
   <div class="statement-text reveal" lang="en">Too pretty to eat.</div>
 </section>
 
-<!-- ═══════ BLOC 2 — Trompe-l'œil full-width ═══════ -->
-<a href="menu.html" class="cat-full reveal">
-  <img src="img/trompeloeil-lineup.webp"
-       srcset="img/trompeloeil-lineup-800w.webp 800w, img/trompeloeil-lineup-1280w.webp 1280w, img/trompeloeil-lineup.webp 1600w"
-       sizes="(max-width: 900px) 95vw, 75vw"
-       alt="Les trompe-l'œil Vice Sweety — citron, passion, fraise, litchi, pêche, mandarine" width="1600" height="502" loading="lazy" />
-  <div class="cat-overlay">
-    <h2 class="cat-title">Trompe-l'œil</h2>
-    <p class="cat-sub">Des fruits parfaits. Sauf que dedans, c'est encore mieux.</p>
+<!-- ═══════ BLOC 2 — Trompe-l'œil Split Editorial ═══════ -->
+<section class="tl-showcase">
+  <div class="tl-photo reveal">
+    <picture>
+      <source media="(max-width: 900px)" srcset="img/trompeloeil-lineup-mobile.webp" />
+      <img src="img/trompeloeil-lineup.webp"
+           srcset="img/trompeloeil-lineup-800w.webp 700w, img/trompeloeil-lineup-1280w.webp 1024w, img/trompeloeil-lineup.webp 1400w"
+           sizes="(max-width: 900px) 100vw, 50vw"
+           alt="Les six trompe-l'œil Vice Sweety — citron, passion, fraise, litchi, pêche, mandarine" width="1400" height="1400" loading="lazy" />
+    </picture>
   </div>
-</a>
+  <div class="tl-panel">
+    <span class="tl-panel-label reveal">La collection</span>
+    <h2 class="tl-panel-title reveal">Nos Trompe&#8209;l'œil</h2>
+    <p class="tl-panel-sub reveal">Des gâteaux si réalistes qu'on hésite à les couper. Tu choisis un fruit — dedans, c'est ganache, mousse et fondant.</p>
+    <div class="tl-flavors reveal">
+      <a href="menu.html" class="tl-flavor">
+        <span class="tl-flavor-dot tl-dot-citron"></span>
+        <span class="tl-flavor-name">Citron</span>
+        <span class="tl-flavor-note">Acidulé</span>
+      </a>
+      <a href="menu.html" class="tl-flavor">
+        <span class="tl-flavor-dot tl-dot-passion"></span>
+        <span class="tl-flavor-name">Passion</span>
+        <span class="tl-flavor-note">Exotique</span>
+      </a>
+      <a href="menu.html" class="tl-flavor">
+        <span class="tl-flavor-dot tl-dot-fraise"></span>
+        <span class="tl-flavor-name">Fraise</span>
+        <span class="tl-flavor-note">Classique</span>
+      </a>
+      <a href="menu.html" class="tl-flavor">
+        <span class="tl-flavor-dot tl-dot-litchi"></span>
+        <span class="tl-flavor-name">Litchi</span>
+        <span class="tl-flavor-note">Floral</span>
+      </a>
+      <a href="menu.html" class="tl-flavor">
+        <span class="tl-flavor-dot tl-dot-peche"></span>
+        <span class="tl-flavor-name">Pêche</span>
+        <span class="tl-flavor-note">Solaire</span>
+      </a>
+      <a href="menu.html" class="tl-flavor">
+        <span class="tl-flavor-dot tl-dot-mandarine"></span>
+        <span class="tl-flavor-name">Mandarine</span>
+        <span class="tl-flavor-note">Peps</span>
+      </a>
+    </div>
+    <a href="menu.html" class="tl-cta reveal">Découvrir la collection</a>
+  </div>
+</section>
 
 <!-- ═══════ BLOC 3 — Cookies + Cookie Dough ═══════ -->
 <div class="cat-row">
