@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vice Sweety — Audit Award-Winner</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Abril+Fatface&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Space Grotesk', sans-serif; background:#0a0a0a; color:#e0e0e0; line-height:1.7; }
+.container { max-width:900px; margin:0 auto; padding:3rem 2rem 6rem; }
+
+/* Header */
+.audit-header { text-align:center; padding:4rem 0 3rem; border-bottom:1px solid rgba(255,255,255,0.06); margin-bottom:3rem; }
+.audit-header h1 { font-family:'Abril Fatface', serif; font-size:clamp(2rem, 5vw, 3.5rem); color:#fff; margin-bottom:0.5rem; }
+.audit-header .subtitle { font-size:0.85rem; color:#888; letter-spacing:0.15em; text-transform:uppercase; }
+.audit-header .date { font-size:0.75rem; color:#555; margin-top:1rem; }
+
+/* Score global */
+.global-score { text-align:center; padding:3rem 2rem; background:linear-gradient(135deg, rgba(255,105,180,0.08), rgba(64,224,208,0.08)); border-radius:16px; margin-bottom:3rem; border:1px solid rgba(255,255,255,0.05); }
+.score-number { font-family:'Abril Fatface', serif; font-size:5rem; color:#FF69B4; line-height:1; }
+.score-label { font-size:0.75rem; color:#888; letter-spacing:0.2em; text-transform:uppercase; margin-top:0.5rem; }
+.score-verdict { font-size:1.1rem; color:#ccc; margin-top:1rem; font-weight:300; }
+
+/* Sections */
+.section { margin-bottom:3rem; }
+.section-header { display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; padding-bottom:0.8rem; border-bottom:1px solid rgba(255,255,255,0.06); }
+.section-score { font-family:'Abril Fatface', serif; font-size:1.8rem; min-width:60px; text-align:center; }
+.section-score.high { color:#40E0D0; }
+.section-score.mid { color:#f5b041; }
+.section-score.low { color:#e74c3c; }
+.section-title { font-family:'Abril Fatface', serif; font-size:1.4rem; color:#fff; }
+.section-subtitle { font-size:0.7rem; color:#666; letter-spacing:0.15em; text-transform:uppercase; }
+
+/* Items */
+.item { padding:1.2rem 0; border-bottom:1px solid rgba(255,255,255,0.03); }
+.item:last-child { border-bottom:none; }
+.item-header { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.4rem; }
+.badge { display:inline-block; padding:0.15rem 0.6rem; border-radius:999px; font-size:0.6rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
+.badge.win { background:rgba(64,224,208,0.15); color:#40E0D0; }
+.badge.fix { background:rgba(245,176,65,0.15); color:#f5b041; }
+.badge.critical { background:rgba(231,76,60,0.15); color:#e74c3c; }
+.badge.pomelli { background:rgba(255,105,180,0.15); color:#FF69B4; }
+.item-title { font-weight:600; color:#fff; font-size:0.95rem; }
+.item-desc { font-size:0.9rem; color:#999; font-weight:300; padding-left:0; }
+.item-action { font-size:0.85rem; color:#40E0D0; font-weight:400; margin-top:0.3rem; }
+
+/* Priority matrix */
+.priority-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; }
+.priority-card { padding:1.2rem; border-radius:12px; border:1px solid rgba(255,255,255,0.05); }
+.priority-card h4 { font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.8rem; }
+.priority-card.p0 { background:rgba(231,76,60,0.06); }
+.priority-card.p0 h4 { color:#e74c3c; }
+.priority-card.p1 { background:rgba(245,176,65,0.06); }
+.priority-card.p1 h4 { color:#f5b041; }
+.priority-card.p2 { background:rgba(64,224,208,0.06); }
+.priority-card.p2 h4 { color:#40E0D0; }
+.priority-card.p3 { background:rgba(255,105,180,0.06); }
+.priority-card.p3 h4 { color:#FF69B4; }
+.priority-card li { font-size:0.82rem; color:#aaa; margin-bottom:0.4rem; list-style:none; padding-left:1rem; position:relative; }
+.priority-card li::before { content:'→'; position:absolute; left:0; color:#555; }
+
+/* Responsive */
+@media (max-width:600px) {
+  .priority-grid { grid-template-columns:1fr; }
+  .score-number { font-size:3.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="audit-header">
+  <h1>Vice Sweety — Audit Créatif</h1>
+  <div class="subtitle">Regard Award-Winner · Direction Artistique & UX</div>
+  <div class="date">28 mars 2026 · Version locale (pré-déploiement)</div>
+</div>
+
+<!-- ═══════ SCORE GLOBAL ═══════ -->
+<div class="global-score">
+  <div class="score-number">6.8</div>
+  <div class="score-label">Score global / 10</div>
+  <div class="score-verdict">Une identité forte et un univers visuel très cohérent — mais l'exécution web ne rend pas encore justice à la qualité de la marque. Le site a le squelette d'un award-winner, il lui manque la chair.</div>
+</div>
+
+<!-- ═══════ 1. HERO ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-score mid">7/10</div>
+    <div>
+      <div class="section-title">Hero</div>
+      <div class="section-subtitle">Première impression · 3 secondes pour convaincre</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">Le trio litchi-fraise-framboise est magnifique</span></div>
+    <div class="item-desc">Trois textures différentes (écailles, miroir, drupéoles), même rouge, fond crème — c'est éditorial, minimal, premium. Le passage du gradient criard au fond crème avec photo produit est un upgrade massif.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Le titre utilise --deep mais cette variable n'existe pas</span></div>
+    <div class="item-desc">Dans le CSS, <code>color: var(--deep)</code> n'est pas défini dans le :root — le texte du hero est probablement invisible ou par défaut. Il faut <code>var(--deep-purple)</code> ou <code>var(--text)</code>.</div>
+    <div class="item-action">→ Bug critique : le hero title est potentiellement invisible. À corriger immédiatement.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Le bouton CTA utilise aussi var(--deep)</span></div>
+    <div class="item-desc">Même problème pour .btn-hero — background et border pointent vers une variable inexistante.</div>
+    <div class="item-action">→ Remplacer par var(--deep-purple) partout.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Le scroll indicator SVG est encore en stroke="#fff" (blanc)</span></div>
+    <div class="item-desc">Le SVG du chevron dans le HTML est codé en dur en blanc alors que le hero a maintenant un fond crème. Il sera invisible.</div>
+    <div class="item-action">→ Changer stroke="#fff" en stroke="currentColor" pour hériter du CSS.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Responsive mobile : margin-top écrase le contenu</span></div>
+    <div class="item-desc">Le hero-content a margin-top:15vh, mais sur mobile (max-width:900px) il passe à -3vh et sur 500px à 0. La transition est brutale. Avec le fond image en "contain", sur mobile les fruits deviennent minuscules.</div>
+    <div class="item-action">→ Sur mobile, passer à background-size:cover avec position:center bottom, et réduire la taille de l'espace vide.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge pomelli">Pomelli</span><span class="item-title">Générer une version portrait (9:16) du trio pour mobile</span></div>
+    <div class="item-desc">Un hero qui marche sur desktop ET mobile nécessite deux images. La version mobile doit cadrer les fruits en plus gros, verticalement.</div>
+    <div class="item-action">→ Prompt Pomelli pour un cadrage portrait rapproché + CSS art direction avec &lt;picture&gt; et media queries.</div>
+  </div>
+</div>
+
+<!-- ═══════ 2. IDENTITÉ VISUELLE ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-score high">8.5/10</div>
+    <div>
+      <div class="section-title">Identité Visuelle & Branding</div>
+      <div class="section-subtitle">Logo · Palette · Typographie · Packagings</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">Le logo script néon est parfait pour la marque</span></div>
+    <div class="item-desc">L'écriture cursive rose sur fond sombre = instantanément lisible, mémorisable, instagrammable. Le trait de soulignement ajoute du mouvement. C'est du branding solide.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">Les packagings Pomelli sont au niveau award</span></div>
+    <div class="item-desc">Le sac cookie (noir + flamants roses), le pot cookie dough (transparent + palmiers), les gobelets smoothie/milkshake — tout est cohérent. Le pattern palmier/flamant fonctionne à toutes les échelles. C'est le genre de packaging qu'on photographie avant de consommer.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">La palette rose × turquoise × deep purple est distinctive</span></div>
+    <div class="item-desc">C'est une palette Miami Vice modernisée. Pas générique, pas déjà vue partout. Le deep purple (#1a0a2e) comme base sombre est un choix malin — plus sophistiqué qu'un noir pur.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">La typo display (Abril Fatface) fait "blog lifestyle", pas "dessert premium"</span></div>
+    <div class="item-desc">Abril Fatface est très utilisée dans le design food/lifestyle et commence à être datée. Pour une marque qui veut le positionnement ultra-premium de ses trompe-l'œil, une display plus unique serait un upgrade. Alternatives : Playfair Display pour le côté éditorial, ou une sans-serif condensée bold pour un look plus contemporain.</div>
+    <div class="item-action">→ À considérer pour V2. Pas urgent mais c'est ce qui sépare un "beau site" d'un site award-winner.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Quatre polices Google Fonts = performance</span></div>
+    <div class="item-desc">Abril Fatface + Bebas Neue + Space Grotesk + JetBrains Mono = 4 familles chargées. Or, Bebas Neue n'est utilisé que pour .heading (jamais appelé dans le HTML visible). JetBrains Mono est utilisé uniquement pour des micro-éléments (boutons, labels).</div>
+    <div class="item-action">→ Supprimer Bebas Neue (inutilisé). Considérer remplacer JetBrains Mono par Space Grotesk en weight 600 pour les labels.</div>
+  </div>
+</div>
+
+<!-- ═══════ 3. PHOTOGRAPHIE PRODUIT ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-score high">8/10</div>
+    <div>
+      <div class="section-title">Photographie Produit</div>
+      <div class="section-subtitle">Images Pomelli · Cohérence · Qualité</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">Le trio hero est au niveau éditorial magazine</span></div>
+    <div class="item-desc">Le litchi-fraise-framboise sur fond crème = digne d'un shoot pour Vogue Food. La lumière directionnelle, les ombres douces, les reflets spéculaires — tout est là.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">Les packagings dans leur environnement sont très crédibles</span></div>
+    <div class="item-desc">Le smoothie sunset en bord de plage, le milkshake devant les bougainvillées, la crêpe sur la terrasse — c'est du lifestyle aspirationnel. Ça donne envie. C'est le job.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge critical">Alerte</span><span class="item-title">Le hero-flatlay (section trompe-l'œil) casse l'illusion</span></div>
+    <div class="item-desc">L'image hero-flatlay.webp (la vue du dessus avec tous les trompe-l'œil) est la plus faible du site. Les produits sont petits, le fond est un beige terne, la composition manque de tension. Comparé au trio hero qui est chirurgical, ce flat lay fait amateur.</div>
+    <div class="item-action">→ Régénérer avec Pomelli : même angle bas que le trio hero, fond crème identique, 5-6 produits en ligne. Ou mieux : une photo de la vitrine avec les trompe-l'œil individuels sur leurs socles blancs.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">La vitrine-boutique est un render AI visible</span></div>
+    <div class="item-desc">L'image de la section "Notre Vice" ressemble clairement à un rendu 3D (lumières trop parfaites, textures trop lisses sur les socles blancs, reflets irréels). Pour la section qui raconte votre histoire, il faut de l'authenticité.</div>
+    <div class="item-action">→ Pomelli : photo lifestyle de l'atelier de fabrication, mains qui glacent un trompe-l'œil, close-up du travail artisanal. Ou ta vraie boutique si elle existe.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge pomelli">Pomelli</span><span class="item-title">Les images Instagram sont les mêmes que les catégories</span></div>
+    <div class="item-desc">La grille Instagram recycle smoothie-sunset-1, cookie-dough-2, pancakes-1, crepes-1. Sur un award-winner, cette section montrerait du contenu unique — style "behind the scenes", process de fabrication, clients, ambiance boutique.</div>
+    <div class="item-action">→ Générer 4 images lifestyle uniques : 1) mains qui tiennent un smoothie sur fond plage, 2) close-up glaçage miroir en cours, 3) table avec amis et desserts, 4) devanture boutique.</div>
+  </div>
+</div>
+
+<!-- ═══════ 4. UX / ARCHITECTURE ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-score mid">6/10</div>
+    <div>
+      <div class="section-title">UX & Architecture</div>
+      <div class="section-subtitle">Navigation · Flow · Conversion · Mobile</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">La structure narrative est bonne</span></div>
+    <div class="item-desc">Hero (wow) → Intro (promesse) → Story (authenticité) → Catégories (produits) → Statements (personnalité) → CTA (conversion) → Instagram (social proof) → Visit (action). Le storytelling scroll est bien pensé.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge critical">Alerte</span><span class="item-title">Tout renvoie vers menu.html — c'est un entonnoir aveugle</span></div>
+    <div class="item-desc">Chaque catégorie (smoothies, milkshakes, cookies, cookie dough, trompe-l'œil, pancakes, crêpes) renvoie vers la même page menu.html. L'utilisateur qui clique sur "Cookie Dough" s'attend à voir la cookie dough, pas une page menu générale. C'est frustrant.</div>
+    <div class="item-action">→ Ajouter des ancres (menu.html#cookie-dough) ou mieux, des pages produit individuelles pour chaque catégorie. La page produit est le cœur de la conversion.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Pas de navigation principale visible</span></div>
+    <div class="item-desc">La navbar n'a qu'un burger menu et un bouton "Commander". Pas de liens vers les catégories, pas de "Notre Histoire", pas de "Nous Trouver". Sur desktop, tu as 1400px de largeur et tu n'en utilises que 200px. C'est du gaspillage d'espace et de conversion.</div>
+    <div class="item-action">→ Ajouter 3-4 liens texte dans la navbar desktop : Nos Créations · Notre Vice · Nous Trouver. Garder le burger pour mobile uniquement.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Le CTA "Prête à craquer ?" genré au féminin</span></div>
+    <div class="item-desc">Ça exclut 50% des clients potentiels. C'est un choix de positionnement possible, mais si ta cible est mixte, c'est un problème.</div>
+    <div class="item-action">→ "Prêt(e) à craquer ?" ou reformuler : "Le plaisir n'attend pas." / "Impossible de résister."</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">L'adresse est un placeholder</span></div>
+    <div class="item-desc">"47 Rue de la République, 13002 Marseille" — si c'est pas la vraie adresse, c'est un problème SEO et de confiance. Google indexe ça.</div>
+    <div class="item-action">→ Mettre la vraie adresse ou retirer la section si la boutique n'est pas encore ouverte.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Zéro micro-interactions</span></div>
+    <div class="item-desc">Les hover states sont basiques (scale 1.04 sur les images, translateY sur les boutons). Un site award-winner a des interactions qui racontent l'histoire : cursor personnalisé, parallax subtil sur le hero, animation du logo au scroll, reveal staggeré sur la grille Instagram.</div>
+    <div class="item-action">→ Phase 2 : ajouter du mouvement intentionnel. Le hero trio pourrait avoir un léger parallax (les fruits bougent plus lentement que le texte).</div>
+  </div>
+</div>
+
+<!-- ═══════ 5. COPYWRITING ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-score mid">7/10</div>
+    <div>
+      <div class="section-title">Copywriting</div>
+      <div class="section-subtitle">Ton · Personnalité · Persuasion</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">"Trop beaux pour être vrais" est une baseline parfaite</span></div>
+    <div class="item-desc">Ça résume tout en 5 mots : le trompe-l'œil, l'esthétique premium, la surprise. C'est mémorable et ça marche aussi bien en tagline qu'en hashtag.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">Le tutoiement + "plaisir coupable" installe le ton</span></div>
+    <div class="item-desc">Le "tu coupes — et l'illusion se révèle" est une phrase qui crée une expérience. Le "Vice" du nom est bien exploité. La personnalité de marque est claire : complice, séductrice, sans culpabilité.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">"Welcome to the Sweet Side" — le franglais maladroit</span></div>
+    <div class="item-desc">Le titre de la section intro est 100% anglais alors que tout le reste est en français avec des touches d'anglais ponctuel ("Too pretty to eat", "Made with love"). Ce titre ne mérite pas d'être en anglais — il n'a pas l'impact d'un statement. Ça fait forcé.</div>
+    <div class="item-action">→ Le remplacer par un titre français percutant : "L'art du trompe-l'œil" ou "Des créations qui se dévorent des yeux".</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Les descriptions de catégories sont trop similaires</span></div>
+    <div class="item-desc">"... qui font fermer les yeux" revient 2 fois. "Le plaisir coupable" revient 2 fois. Les descriptions des catégories sont interchangeables — elles ne différencient pas les produits entre eux.</div>
+    <div class="item-action">→ Réécrire chaque catégorie avec un angle unique : le smoothie = la couleur et le voyage, le cookie = la texture et l'addiction, le trompe-l'œil = l'illusion et la surprise.</div>
+  </div>
+</div>
+
+<!-- ═══════ 6. TECHNIQUE ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-score mid">5.5/10</div>
+    <div>
+      <div class="section-title">Performance & Technique</div>
+      <div class="section-subtitle">Vitesse · SEO · Accessibilité · Code</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge win">Win</span><span class="item-title">Single-file HTML = déploiement simple</span></div>
+    <div class="item-desc">Tout dans un seul fichier, pas de framework, pas de build step. Pour un site vitrine, c'est un bon choix pragmatique.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge critical">Alerte</span><span class="item-title">hero-trio.webp fait 7281×4096 et ~500KB</span></div>
+    <div class="item-desc">L'image du hero est massive. Sur mobile, on charge 7000px de large pour un écran de 400px. C'est un gaspillage de bande passante qui impacte directement le LCP (Largest Contentful Paint) — le métrique n°1 de Google pour le SEO.</div>
+    <div class="item-action">→ Générer 3 tailles (640w, 1280w, 2560w) + utiliser srcset et &lt;picture&gt; avec le format portrait mobile.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Aucune image n'a de lazy loading</span></div>
+    <div class="item-desc">Toutes les images du site se chargent en même temps. Les images sous le fold (catégories, Instagram, etc.) devraient avoir <code>loading="lazy"</code>.</div>
+    <div class="item-action">→ Ajouter loading="lazy" sur toutes les images sauf le hero et le logo.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Les images de catégorie n'ont pas de dimensions définies</span></div>
+    <div class="item-desc">Pas de width/height sur les balises &lt;img&gt;. Ça cause du CLS (Cumulative Layout Shift) — les éléments bougent pendant le chargement. Google pénalise ça.</div>
+    <div class="item-action">→ Ajouter width et height sur chaque &lt;img&gt; pour réserver l'espace.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Pas d'Open Graph / Twitter Cards</span></div>
+    <div class="item-desc">Quand quelqu'un partage le lien sur Instagram, WhatsApp, ou iMessage, il n'y a pas d'image de preview, pas de description formatée. C'est du branding gratuit perdu.</div>
+    <div class="item-action">→ Ajouter og:image (le trio hero), og:title, og:description dans le &lt;head&gt;.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><span class="badge fix">Fix</span><span class="item-title">Pas de schema.org pour la boutique</span></div>
+    <div class="item-desc">Le site a des horaires, une adresse, un téléphone — mais pas de données structurées. Google ne peut pas les afficher dans les résultats de recherche (le rich snippet avec horaires, téléphone, note).</div>
+    <div class="item-action">→ Ajouter un script JSON-LD type="LocalBusiness" avec les infos de la boutique.</div>
+  </div>
+</div>
+
+<!-- ═══════ PRIORITÉS ═══════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-score" style="color:#fff;">★</div>
+    <div>
+      <div class="section-title">Matrice de Priorités</div>
+      <div class="section-subtitle">Ce qu'il faut faire dans quel ordre</div>
+    </div>
+  </div>
+
+  <div class="priority-grid">
+    <div class="priority-card p0">
+      <h4>P0 — Bugs à corriger maintenant</h4>
+      <ul>
+        <li>Remplacer var(--deep) par var(--deep-purple) dans le hero (titre + bouton invisibles)</li>
+        <li>Changer stroke="#fff" en stroke="currentColor" sur le SVG scroll</li>
+        <li>Vérifier que l'adresse est correcte ou la retirer</li>
+      </ul>
+    </div>
+
+    <div class="priority-card p1">
+      <h4>P1 — Quick wins cette semaine</h4>
+      <ul>
+        <li>Ajouter lazy loading sur les images</li>
+        <li>Ajouter les balises Open Graph</li>
+        <li>Remplacer "Welcome to the Sweet Side"</li>
+        <li>Ajouter des liens dans la navbar desktop</li>
+        <li>Optimiser hero-trio.webp (responsive srcset)</li>
+      </ul>
+    </div>
+
+    <div class="priority-card p2">
+      <h4>P2 — Pomelli cette semaine</h4>
+      <ul>
+        <li>Régénérer le hero-flatlay (section trompe-l'œil)</li>
+        <li>Remplacer vitrine-boutique par un vrai atelier</li>
+        <li>4 images Instagram lifestyle uniques</li>
+        <li>Version portrait du trio pour mobile</li>
+      </ul>
+    </div>
+
+    <div class="priority-card p3">
+      <h4>P3 — Upgrade V2</h4>
+      <ul>
+        <li>Pages produit individuelles par catégorie</li>
+        <li>Micro-interactions et parallax hero</li>
+        <li>Schema.org LocalBusiness</li>
+        <li>Réécrire les descriptions de catégories</li>
+        <li>Explorer une typo display plus distinctive</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ VERDICT FINAL ═══════ -->
+<div class="section" style="margin-top:2rem; padding:2rem; background:linear-gradient(135deg, rgba(255,105,180,0.05), rgba(64,224,208,0.05)); border-radius:16px; border:1px solid rgba(255,255,255,0.05);">
+  <div class="section-title" style="margin-bottom:1rem;">Verdict Final</div>
+  <div class="item-desc" style="font-size:1rem; color:#ccc;">
+    Vice Sweety a une identité de marque plus forte que 95% des food brands sur le marché. Le logo, la palette, les packagings Pomelli, le naming — tout ça c'est du A+. Le problème c'est que le site web ne traduit pas encore cette qualité. Le hero avec le trio est un grand pas en avant, mais il y a des bugs CSS qui rendent des éléments invisibles, des images à optimiser, et surtout il manque des images lifestyle uniques qui racontent l'histoire au-delà des produits packshot.<br><br>
+    La bonne nouvelle : avec Pomelli, tout est possible. 4-5 sessions de génération bien ciblées (atelier, lifestyle Instagram, hero mobile, trompe-l'œil full-width) et le site passe de 6.8 à 8.5+. Les corrections CSS sont triviales — c'est quelques minutes de code. Le vrai travail c'est l'image.<br><br>
+    <span style="color:#40E0D0; font-weight:500;">Le site a le potentiel d'un Awwwards Honorable Mention dans sa version actuelle, et d'un Site of the Day avec les upgrades V2.</span>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
