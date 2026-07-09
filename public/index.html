@@ -6,7 +6,7 @@
 <title>Presqu'île Sécurité — La veille · Saint-Tropez</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:ital,wght@0,300;0,400;0,500;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --lin:#F3EFE6;          /* fond principal */
@@ -28,12 +28,12 @@
   html{scroll-behavior:smooth}
   body{
     background:var(--lin);color:var(--encre);
-    font-family:'Manrope',system-ui,sans-serif;
+    font-family:'Jost',system-ui,sans-serif;
     font-size:17px;line-height:1.65;font-weight:400;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;
   }
   body.locked{overflow:hidden}
-  h1,h2,h3{font-family:'Italiana',serif;font-weight:400;line-height:1.02;letter-spacing:.01em}
+  h1,h2,h3{font-family:'Bodoni Moda',serif;font-weight:400;line-height:1.06;letter-spacing:0}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1280px;margin:0 auto;padding:0 40px}
 
@@ -65,7 +65,7 @@
     transition:opacity .9s var(--ease),visibility .9s;
   }
   .loader.out{opacity:0;visibility:hidden}
-  .loader .lmark{font-family:'Italiana',serif;font-size:clamp(1.6rem,4vw,2.6rem);letter-spacing:.14em;overflow:hidden;color:var(--encre)}
+  .loader .lmark{font-family:'Bodoni Moda',serif;font-size:clamp(1.6rem,4vw,2.6rem);letter-spacing:.14em;overflow:hidden;color:var(--encre)}
   .loader .lmark span{display:inline-block;animation:rise 1.1s var(--ease) both .2s}
   @keyframes rise{from{transform:translateY(110%)}to{transform:none}}
   .loader .lsub{font-family:'Spline Sans Mono',monospace;font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gris)}
@@ -84,7 +84,7 @@
   header.on{background:rgba(243,239,230,.85);backdrop-filter:blur(18px);padding:16px 0;border-color:var(--l-faible)}
   .nav{display:flex;align-items:center;justify-content:space-between}
   .logo{display:flex;flex-direction:column;line-height:1.1}
-  .logo .l1{font-family:'Italiana',serif;font-size:1.3rem;letter-spacing:.1em}
+  .logo .l1{font-family:'Bodoni Moda',serif;font-size:1.3rem;letter-spacing:.1em}
   .logo .l2{font-family:'Spline Sans Mono',monospace;font-size:.54rem;letter-spacing:.52em;text-transform:uppercase;color:var(--gris);margin-top:4px}
   .links{display:flex;gap:38px}
   .links a{font-family:'Spline Sans Mono',monospace;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gris);transition:color .3s}
@@ -105,8 +105,12 @@
       radial-gradient(80% 70% at 0% 100%,rgba(138,106,51,.07),transparent 55%),
       var(--lin)}
   .radar-bg{
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-56%);
-    width:min(1000px,130vw);opacity:.9;z-index:1;will-change:transform;
+    position:absolute;top:44%;right:-4%;transform:translateY(-50%);
+    width:min(660px,48vw);opacity:.9;z-index:1;will-change:transform;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 28%),linear-gradient(180deg,#000 62%,transparent 96%);
+    -webkit-mask-composite:source-in;
+    mask-image:linear-gradient(90deg,transparent 0%,#000 28%),linear-gradient(180deg,#000 62%,transparent 96%);
+    mask-composite:intersect;
   }
   .grid-ring{fill:none;stroke:rgba(20,35,46,.08);stroke-width:1}
   .coast{fill:none;stroke:rgba(20,35,46,.4);stroke-width:1.3}
@@ -125,12 +129,13 @@
     text-transform:uppercase;color:var(--laiton);display:flex;align-items:center;gap:16px;margin-bottom:34px;
   }
   .h-kicker::before{content:"";width:44px;height:1px;background:var(--laiton)}
-  .hero h1{font-size:clamp(3.4rem,10.5vw,9.5rem);text-transform:uppercase;letter-spacing:.02em;color:var(--encre)}
+  .hero h1{font-size:clamp(3.4rem,10.5vw,9.5rem);text-transform:uppercase;letter-spacing:.01em;color:var(--encre)}
   .hero h1 .line{display:block;overflow:hidden}
   .hero h1 .line span{display:inline-block;transform:translateY(115%);transition:transform 1.2s var(--ease)}
   body.ready .hero h1 .line:nth-child(1) span{transform:none;transition-delay:.15s}
   body.ready .hero h1 .line:nth-child(2) span{transform:none;transition-delay:.3s}
-  .hero h1 .fine{font-style:normal;color:var(--laiton)}
+  .hero h1 .fine{font-style:italic;color:var(--laiton);text-transform:none}
+  .fine{font-style:italic}
   .hero-sub{
     display:flex;justify-content:space-between;align-items:flex-end;gap:48px;
     margin-top:52px;padding-top:34px;border-top:1px solid var(--l-encre);flex-wrap:wrap;
@@ -139,7 +144,7 @@
   .hero-sub p b{color:var(--encre);font-weight:500}
   .h-stats{display:flex;gap:44px}
   .hs{display:flex;flex-direction:column;gap:5px}
-  .hs .v{font-family:'Italiana',serif;font-size:1.9rem;color:var(--encre)}
+  .hs .v{font-family:'Bodoni Moda',serif;font-size:1.9rem;color:var(--encre)}
   .hs .k{font-family:'Spline Sans Mono',monospace;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gris)}
   .h-cta{display:flex;gap:18px;margin-top:44px;flex-wrap:wrap}
   .btn-mag{
@@ -164,7 +169,7 @@
   .marquee{border-block:1px solid var(--l-encre);background:var(--encre);overflow:hidden;padding:26px 0}
   .mq-track{display:inline-flex;white-space:nowrap;animation:mq 36s linear infinite;will-change:transform}
   .mq-track span{
-    font-family:'Italiana',serif;font-size:clamp(1.4rem,3vw,2.2rem);letter-spacing:.06em;
+    font-family:'Bodoni Moda',serif;font-size:clamp(1.4rem,3vw,2.2rem);letter-spacing:.06em;
     text-transform:uppercase;color:var(--lin);display:inline-flex;align-items:center;
   }
   .mq-track i{font-style:normal;color:var(--laiton-pale);margin:0 44px;font-size:.8em}
@@ -249,7 +254,7 @@
     radial-gradient(80% 100% at 50% 100%,rgba(49,101,92,.07),transparent 60%),
     var(--lin-chaud);border-block:1px solid var(--l-encre);text-align:center}
   .manifeste blockquote{
-    font-family:'Italiana',serif;font-size:clamp(1.9rem,5vw,3.9rem);line-height:1.25;
+    font-family:'Bodoni Moda',serif;font-size:clamp(1.9rem,5vw,3.9rem);line-height:1.25;
     max-width:1000px;margin:0 auto;color:var(--encre);
   }
   .manifeste blockquote .w{display:inline-block;opacity:.14;transition:opacity .6s ease}
@@ -264,7 +269,7 @@
   .c-lignes{margin-top:52px;border-top:1px solid var(--l-encre)}
   .c-l{padding:26px 4px;border-bottom:1px solid var(--l-encre);display:flex;flex-direction:column;gap:8px}
   .c-l .k{font-family:'Spline Sans Mono',monospace;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--laiton)}
-  .c-l .v{font-family:'Italiana',serif;font-size:clamp(1.4rem,2.6vw,2rem);color:var(--encre)}
+  .c-l .v{font-family:'Bodoni Moda',serif;font-size:clamp(1.4rem,2.6vw,2rem);color:var(--encre)}
   .c-l .v a{position:relative}
   .c-l .v a::after{content:"";position:absolute;left:0;bottom:-3px;width:0;height:1px;background:var(--laiton);transition:width .4s var(--ease)}
   .c-l .v a:hover::after{width:100%}
@@ -278,7 +283,7 @@
   }
   .f-champ input,.f-champ select,.f-champ textarea{
     width:100%;background:transparent;border:none;color:var(--encre);
-    font-family:'Manrope',sans-serif;font-size:1.15rem;font-weight:300;padding:4px 0;
+    font-family:'Jost',sans-serif;font-size:1.15rem;font-weight:300;padding:4px 0;
   }
   .f-champ input::placeholder,.f-champ textarea::placeholder{color:#A9AFB5}
   .f-champ select{appearance:none;cursor:pointer}
@@ -294,7 +299,7 @@
   /* --- footer géant --- */
   footer.pied{background:var(--lin-chaud);border-top:1px solid var(--l-encre);padding:90px 0 40px;overflow:hidden}
   .pied-giant{
-    font-family:'Italiana',serif;font-size:clamp(3rem,12vw,11rem);text-transform:uppercase;
+    font-family:'Bodoni Moda',serif;font-size:clamp(3rem,12vw,11rem);text-transform:uppercase;
     line-height:.95;letter-spacing:.02em;color:transparent;
     -webkit-text-stroke:1px rgba(20,35,46,.3);white-space:nowrap;text-align:center;
     transition:color .6s ease;user-select:none;
@@ -321,7 +326,10 @@
     .item .tag{display:none}
     .item-body-in{padding-left:60px}
     .scroll-cue{display:none}
-    .radar-bg{opacity:.45}
+    .radar-bg{
+      right:50%;transform:translate(50%,-50%);width:min(640px,120vw);opacity:.28;
+      -webkit-mask-image:none;mask-image:none;
+    }
   }
   @media(max-width:600px){
     .wrap{padding:0 24px}
@@ -385,31 +393,36 @@
     <circle class="grid-ring" cx="300" cy="300" r="70"/>
     <line class="grid-ring" x1="300" y1="20" x2="300" y2="580"/>
     <line class="grid-ring" x1="20" y1="300" x2="580" y2="300"/>
-    <path class="coast-fill" d="M80,470 L120,430 Q150,400 190,395 Q230,390 250,360 Q262,340 258,310 Q255,285 275,265 Q300,240 340,245 Q380,250 400,225 Q415,205 445,200 Q480,195 505,215 L530,235 L530,540 L80,540 Z"/>
-    <path class="coast" d="M80,470 L120,430 Q150,400 190,395 Q230,390 250,360 Q262,340 258,310 Q255,285 275,265 Q300,240 340,245 Q380,250 400,225 Q415,205 445,200 Q480,195 505,215 L530,235"/>
+    <path class="coast-fill" d="M420,20 C400,70 448,110 436,160 C424,210 372,224 340,262 C316,290 322,318 352,336 C388,357 436,344 452,386 C468,428 420,458 396,500 C378,532 388,566 396,580 L580,580 L580,20 Z"/>
+    <path class="coast" d="M420,20 C400,70 448,110 436,160 C424,210 372,224 340,262 C316,290 322,318 352,336 C388,357 436,344 452,386 C468,428 420,458 396,500 C378,532 388,566 396,580"/>
     <g class="sweep">
-      <path d="M300,300 L300,20 A280,280 0 0 1 440,57 Z" fill="url(#cone)"/>
-      <line x1="300" y1="300" x2="300" y2="20" stroke="rgba(138,106,51,.4)" stroke-width="1.2"/>
+      <path d="M300,300 L300,90 A210,210 0 0 1 405,118 Z" fill="url(#cone)"/>
+      <line x1="300" y1="300" x2="300" y2="90" stroke="rgba(138,106,51,.32)" stroke-width="1.1"/>
     </g>
     <defs>
       <linearGradient id="cone" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="rgba(138,106,51,.12)"/>
+        <stop offset="0" stop-color="rgba(138,106,51,.09)"/>
         <stop offset="1" stop-color="rgba(138,106,51,0)"/>
       </linearGradient>
     </defs>
     <g>
-      <circle class="pt" cx="330" cy="290" r="4.5"/><circle class="pt-halo" cx="330" cy="290" r="4"/>
-      <text class="pt-label main" x="344" y="286">Saint-Tropez</text>
-      <circle class="pt" cx="310" cy="380" r="3.5"/><circle class="pt-halo" cx="310" cy="380" r="4" style="animation-delay:.8s"/>
-      <text class="pt-label" x="324" y="384">Ramatuelle</text>
-      <circle class="pt" cx="245" cy="345" r="3.5"/><circle class="pt-halo" cx="245" cy="345" r="4" style="animation-delay:1.6s"/>
-      <text class="pt-label" x="178" y="349">Gassin</text>
-      <circle class="pt" cx="215" cy="270" r="3.5"/><circle class="pt-halo" cx="215" cy="270" r="4" style="animation-delay:2.4s"/>
-      <text class="pt-label" x="142" y="274">Grimaud</text>
-      <circle class="pt" cx="285" cy="180" r="3.5"/><circle class="pt-halo" cx="285" cy="180" r="4" style="animation-delay:3.2s"/>
-      <text class="pt-label" x="299" y="176">Sainte-Maxime</text>
-      <circle class="pt" cx="215" cy="440" r="3.5"/><circle class="pt-halo" cx="215" cy="440" r="4" style="animation-delay:4s"/>
-      <text class="pt-label" x="100" y="444">La Croix-Valmer</text>
+      <circle class="pt" cx="446" cy="132" r="3.5"/><circle class="pt-halo" cx="446" cy="132" r="4" style="animation-delay:.8s"/>
+      <text class="pt-label" x="430" y="128" text-anchor="end">Sainte-Maxime</text>
+
+      <circle class="pt" cx="352" cy="300" r="3.5"/><circle class="pt-halo" cx="352" cy="300" r="4" style="animation-delay:1.6s"/>
+      <text class="pt-label" x="336" y="296" text-anchor="end">Grimaud</text>
+
+      <circle class="pt" cx="452" cy="342" r="4.5"/><circle class="pt-halo" cx="452" cy="342" r="4"/>
+      <text class="pt-label main" x="452" y="322" text-anchor="middle">Saint-Tropez</text>
+
+      <circle class="pt" cx="392" cy="404" r="3.5"/><circle class="pt-halo" cx="392" cy="404" r="4" style="animation-delay:2.4s"/>
+      <text class="pt-label" x="376" y="408" text-anchor="end">Gassin</text>
+
+      <circle class="pt" cx="462" cy="452" r="3.5"/><circle class="pt-halo" cx="462" cy="452" r="4" style="animation-delay:3.2s"/>
+      <text class="pt-label" x="462" y="474" text-anchor="middle">Ramatuelle</text>
+
+      <circle class="pt" cx="380" cy="512" r="3.5"/><circle class="pt-halo" cx="380" cy="512" r="4" style="animation-delay:4s"/>
+      <text class="pt-label" x="364" y="516" text-anchor="end">La Croix-Valmer</text>
     </g>
     <circle cx="300" cy="300" r="2.5" fill="rgba(20,35,46,.55)"/>
   </svg>
@@ -666,10 +679,10 @@
 
   /* ---- radar parallax ---- */
   const radar=document.getElementById('radar');
-  if(!reduced&&radar){
+  if(!reduced&&radar&&matchMedia('(min-width:1001px)').matches){
     addEventListener('scroll',()=>{
       const y=scrollY*.18;
-      radar.style.transform=`translate(-50%,calc(-56% + ${y}px)) scale(${1+scrollY*.00012})`;
+      radar.style.transform=`translateY(calc(-50% + ${y}px)) scale(${1+scrollY*.00012})`;
     },{passive:true});
   }
 
