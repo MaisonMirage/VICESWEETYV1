@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presqu'île Sécurité — La veille · Saint-Tropez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lin:#F3EFE6;          /* fond principal */
+    --lin-chaud:#EDE6D6;    /* panneaux */
+    --lin-pale:#F8F5EE;     /* surfaces claires */
+    --encre:#14232E;        /* encre marine */
+    --encre-douce:#2A3C49;
+    --laiton:#8A6A33;       /* accent laiton */
+    --laiton-pale:#A67C3D;
+    --lagune:#31655C;       /* vert lagune */
+    --gris:#6E7780;         /* texte secondaire */
+    --l-encre:rgba(20,35,46,.16);
+    --l-faible:rgba(20,35,46,.09);
+    --l-laiton:rgba(138,106,51,.3);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  ::selection{background:var(--encre);color:var(--lin)}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--lin);color:var(--encre);
+    font-family:'Manrope',system-ui,sans-serif;
+    font-size:17px;line-height:1.65;font-weight:400;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body.locked{overflow:hidden}
+  h1,h2,h3{font-family:'Italiana',serif;font-weight:400;line-height:1.02;letter-spacing:.01em}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 40px}
+
+  /* ============ GRAIN PAPIER ============ */
+  .grain{
+    position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:98;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain 7s steps(10) infinite;
+  }
+  @keyframes grain{
+    0%,100%{transform:translate(0,0)}10%{transform:translate(-3%,-2%)}30%{transform:translate(2%,-4%)}
+    50%{transform:translate(-4%,3%)}70%{transform:translate(3%,2%)}90%{transform:translate(-2%,4%)}
+  }
+
+  /* ============ CURSEUR ============ */
+  .cur-dot,.cur-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:200;border-radius:50%;transform:translate(-50%,-50%)}
+  .cur-dot{width:6px;height:6px;background:var(--encre)}
+  .cur-ring{
+    width:36px;height:36px;border:1px solid var(--l-laiton);
+    transition:width .3s var(--ease),height .3s var(--ease),border-color .3s,background .3s;
+  }
+  body.cur-hover .cur-ring{width:64px;height:64px;border-color:var(--laiton);background:rgba(138,106,51,.06)}
+  @media(hover:none),(pointer:coarse){.cur-dot,.cur-ring{display:none}}
+
+  /* ============ PRELOADER ============ */
+  .loader{
+    position:fixed;inset:0;z-index:300;background:var(--lin);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;
+    transition:opacity .9s var(--ease),visibility .9s;
+  }
+  .loader.out{opacity:0;visibility:hidden}
+  .loader .lmark{font-family:'Italiana',serif;font-size:clamp(1.6rem,4vw,2.6rem);letter-spacing:.14em;overflow:hidden;color:var(--encre)}
+  .loader .lmark span{display:inline-block;animation:rise 1.1s var(--ease) both .2s}
+  @keyframes rise{from{transform:translateY(110%)}to{transform:none}}
+  .loader .lsub{font-family:'Spline Sans Mono',monospace;font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gris)}
+  .loader .lbar{width:min(300px,60vw);height:1px;background:var(--l-faible);position:relative;overflow:hidden}
+  .loader .lbar i{position:absolute;inset:0;background:var(--laiton);transform-origin:left;transform:scaleX(0);transition:transform .2s linear}
+  .loader .lnum{font-family:'Spline Sans Mono',monospace;font-size:.72rem;color:var(--laiton);letter-spacing:.2em}
+
+  /* ============ PROGRESS ============ */
+  .progress{position:fixed;top:0;left:0;height:2px;background:var(--laiton);width:0;z-index:150}
+
+  /* ============ HEADER ============ */
+  header{
+    position:fixed;inset:0 0 auto;z-index:100;padding:26px 0;
+    transition:.45s var(--ease);border-bottom:1px solid transparent;
+  }
+  header.on{background:rgba(243,239,230,.85);backdrop-filter:blur(18px);padding:16px 0;border-color:var(--l-faible)}
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .logo{display:flex;flex-direction:column;line-height:1.1}
+  .logo .l1{font-family:'Italiana',serif;font-size:1.3rem;letter-spacing:.1em}
+  .logo .l2{font-family:'Spline Sans Mono',monospace;font-size:.54rem;letter-spacing:.52em;text-transform:uppercase;color:var(--gris);margin-top:4px}
+  .links{display:flex;gap:38px}
+  .links a{font-family:'Spline Sans Mono',monospace;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gris);transition:color .3s}
+  .links a:hover{color:var(--encre)}
+  .links a b{color:var(--laiton);font-weight:400;margin-right:8px}
+  .cta-nav{
+    font-family:'Spline Sans Mono',monospace;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+    border:1px solid var(--encre);color:var(--encre);padding:13px 26px;border-radius:40px;
+    transition:.35s;
+  }
+  .cta-nav:hover{background:var(--encre);color:var(--lin)}
+  .burger{display:none;background:none;border:1px solid var(--l-encre);color:var(--encre);padding:10px 14px;border-radius:40px;cursor:pointer;font-family:'Spline Sans Mono',monospace;font-size:.62rem;letter-spacing:.2em}
+
+  /* ============ HERO ============ */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;
+    background:
+      radial-gradient(100% 80% at 85% 0%,rgba(49,101,92,.08),transparent 55%),
+      radial-gradient(80% 70% at 0% 100%,rgba(138,106,51,.07),transparent 55%),
+      var(--lin)}
+  .radar-bg{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-56%);
+    width:min(1000px,130vw);opacity:.9;z-index:1;will-change:transform;
+  }
+  .grid-ring{fill:none;stroke:rgba(20,35,46,.08);stroke-width:1}
+  .coast{fill:none;stroke:rgba(20,35,46,.4);stroke-width:1.3}
+  .coast-fill{fill:rgba(20,35,46,.045)}
+  .sweep{transform-origin:300px 300px;animation:rot 11s linear infinite}
+  @keyframes rot{to{transform:rotate(360deg)}}
+  .pt{fill:var(--laiton)}
+  .pt-halo{fill:none;stroke:var(--laiton);stroke-width:1;opacity:0;animation:ping 5s ease-out infinite}
+  @keyframes ping{0%{opacity:.6;r:4}55%{opacity:0;r:24}100%{opacity:0;r:24}}
+  .pt-label{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.16em;fill:rgba(110,119,128,.95);text-transform:uppercase}
+  .pt-label.main{fill:var(--encre);font-size:11px}
+
+  .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:9vh}
+  .h-kicker{
+    font-family:'Spline Sans Mono',monospace;font-size:.64rem;letter-spacing:.44em;
+    text-transform:uppercase;color:var(--laiton);display:flex;align-items:center;gap:16px;margin-bottom:34px;
+  }
+  .h-kicker::before{content:"";width:44px;height:1px;background:var(--laiton)}
+  .hero h1{font-size:clamp(3.4rem,10.5vw,9.5rem);text-transform:uppercase;letter-spacing:.02em;color:var(--encre)}
+  .hero h1 .line{display:block;overflow:hidden}
+  .hero h1 .line span{display:inline-block;transform:translateY(115%);transition:transform 1.2s var(--ease)}
+  body.ready .hero h1 .line:nth-child(1) span{transform:none;transition-delay:.15s}
+  body.ready .hero h1 .line:nth-child(2) span{transform:none;transition-delay:.3s}
+  .hero h1 .fine{font-style:normal;color:var(--laiton)}
+  .hero-sub{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:48px;
+    margin-top:52px;padding-top:34px;border-top:1px solid var(--l-encre);flex-wrap:wrap;
+  }
+  .hero-sub p{max-width:460px;color:var(--gris);font-size:1.02rem;font-weight:300}
+  .hero-sub p b{color:var(--encre);font-weight:500}
+  .h-stats{display:flex;gap:44px}
+  .hs{display:flex;flex-direction:column;gap:5px}
+  .hs .v{font-family:'Italiana',serif;font-size:1.9rem;color:var(--encre)}
+  .hs .k{font-family:'Spline Sans Mono',monospace;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gris)}
+  .h-cta{display:flex;gap:18px;margin-top:44px;flex-wrap:wrap}
+  .btn-mag{
+    position:relative;display:inline-flex;align-items:center;gap:14px;
+    font-family:'Spline Sans Mono',monospace;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+    padding:20px 40px;border-radius:60px;border:1px solid var(--encre);color:var(--lin);
+    background:var(--encre);transition:.4s var(--ease);will-change:transform;cursor:pointer;
+  }
+  .btn-mag.ghost{background:transparent;color:var(--encre);border-color:var(--l-laiton)}
+  .btn-mag:hover{background:var(--encre-douce);border-color:var(--encre-douce);color:var(--lin)}
+  .btn-mag.ghost:hover{background:transparent;border-color:var(--laiton);color:var(--laiton)}
+  .btn-mag .fl{transition:transform .4s var(--ease)}
+  .btn-mag:hover .fl{transform:translateX(6px)}
+  .scroll-cue{
+    position:absolute;bottom:40px;right:40px;z-index:3;
+    font-family:'Spline Sans Mono',monospace;font-size:.56rem;letter-spacing:.4em;text-transform:uppercase;
+    color:var(--gris);writing-mode:vertical-rl;display:flex;align-items:center;gap:14px;
+  }
+  .scroll-cue::after{content:"";width:1px;height:52px;background:linear-gradient(var(--laiton),transparent)}
+
+  /* ============ MARQUEE ============ */
+  .marquee{border-block:1px solid var(--l-encre);background:var(--encre);overflow:hidden;padding:26px 0}
+  .mq-track{display:inline-flex;white-space:nowrap;animation:mq 36s linear infinite;will-change:transform}
+  .mq-track span{
+    font-family:'Italiana',serif;font-size:clamp(1.4rem,3vw,2.2rem);letter-spacing:.06em;
+    text-transform:uppercase;color:var(--lin);display:inline-flex;align-items:center;
+  }
+  .mq-track i{font-style:normal;color:var(--laiton-pale);margin:0 44px;font-size:.8em}
+  @keyframes mq{to{transform:translateX(-50%)}}
+
+  /* ============ CHAPITRES ============ */
+  section.chap{padding:150px 0;position:relative}
+  .chap-head{display:grid;grid-template-columns:auto 1fr;gap:46px;align-items:start;margin-bottom:80px}
+  .chap-num{
+    font-family:'Spline Sans Mono',monospace;font-size:.66rem;letter-spacing:.3em;color:var(--laiton);
+    text-transform:uppercase;padding-top:16px;white-space:nowrap;
+  }
+  .chap-head h2{font-size:clamp(2.6rem,6vw,5rem);text-transform:uppercase;max-width:900px;color:var(--encre)}
+  .chap-head h2 .fine{color:var(--laiton)}
+  .chap-intro{grid-column:2;color:var(--gris);max-width:560px;margin-top:24px;font-weight:300;font-size:1.05rem}
+
+  /* --- prestations : lignes expansibles --- */
+  .liste{border-top:1px solid var(--l-encre)}
+  .item{border-bottom:1px solid var(--l-encre);transition:background .4s}
+  .item-head{
+    display:grid;grid-template-columns:70px 1fr auto auto;gap:30px;align-items:center;
+    padding:34px 8px;cursor:pointer;user-select:none;
+  }
+  .item .n{font-family:'Spline Sans Mono',monospace;font-size:.7rem;color:var(--laiton);letter-spacing:.2em}
+  .item h3{font-size:clamp(1.5rem,3.4vw,2.5rem);text-transform:uppercase;letter-spacing:.03em;transition:color .3s,transform .45s var(--ease);color:var(--encre)}
+  .item .tag{font-family:'Spline Sans Mono',monospace;font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gris);border:1px solid var(--l-encre);padding:7px 16px;border-radius:30px;white-space:nowrap}
+  .item .plus{
+    width:40px;height:40px;border:1px solid var(--l-laiton);border-radius:50%;
+    display:grid;place-items:center;color:var(--laiton);font-size:1.1rem;font-weight:300;
+    transition:transform .45s var(--ease),background .3s,color .3s;
+  }
+  .item:hover{background:rgba(138,106,51,.04)}
+  .item:hover h3{transform:translateX(10px)}
+  .item.open .plus{transform:rotate(45deg);background:var(--encre);border-color:var(--encre);color:var(--lin)}
+  .item-body{max-height:0;overflow:hidden;transition:max-height .6s var(--ease)}
+  .item-body-in{padding:0 8px 40px 100px;max-width:760px;color:var(--gris);font-weight:300;font-size:1rem}
+  .item-body-in b{color:var(--encre);font-weight:500}
+
+  /* --- duo signature --- */
+  .duo{background:var(--encre);border-block:1px solid var(--l-encre);color:var(--lin)}
+  .duo-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:90px;align-items:center}
+  .duo h2{font-size:clamp(2.4rem,5.4vw,4.4rem);text-transform:uppercase;color:var(--lin)}
+  .duo h2 .fine{color:#C9A96A}
+  .duo-badge{
+    display:inline-block;font-family:'Spline Sans Mono',monospace;font-size:.58rem;letter-spacing:.34em;
+    text-transform:uppercase;color:var(--encre);background:#C9A96A;padding:9px 20px;border-radius:30px;margin-bottom:30px;
+  }
+  .duo p.dp{color:#A9B6BF;margin-top:26px;font-weight:300;font-size:1.06rem;max-width:520px}
+  .duo p.dp b{color:var(--lin);font-weight:500}
+  .duo-liste{list-style:none;border-top:1px solid rgba(243,239,230,.14)}
+  .duo-liste li{
+    display:flex;gap:22px;align-items:baseline;padding:24px 4px;
+    border-bottom:1px solid rgba(243,239,230,.14);font-size:1.02rem;color:#C6CFD6;font-weight:300;
+    transition:padding-left .35s var(--ease);
+  }
+  .duo-liste li:hover{padding-left:16px}
+  .duo-liste li .li-n{font-family:'Spline Sans Mono',monospace;font-size:.62rem;color:#C9A96A;letter-spacing:.2em;flex:none}
+
+  /* --- engagements sticky --- */
+  .eng-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:90px;align-items:start}
+  .eng-side{position:sticky;top:140px}
+  .eng-side h2{font-size:clamp(2.4rem,5vw,4.2rem);text-transform:uppercase;color:var(--encre)}
+  .eng-side p{color:var(--gris);margin-top:24px;max-width:380px;font-weight:300}
+  .eng-cards{display:flex;flex-direction:column;gap:22px}
+  .eng-card{
+    border:1px solid var(--l-encre);border-radius:6px;padding:44px 42px;
+    background:var(--lin-pale);
+    transition:border-color .4s,transform .5s var(--ease);position:relative;overflow:hidden;
+  }
+  .eng-card::before{
+    content:"";position:absolute;top:0;left:0;height:100%;width:2px;background:var(--laiton);
+    transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease);
+  }
+  .eng-card:hover{border-color:var(--l-laiton);transform:translateX(8px)}
+  .eng-card:hover::before{transform:none}
+  .eng-card .en{font-family:'Spline Sans Mono',monospace;font-size:.6rem;letter-spacing:.3em;color:var(--laiton);text-transform:uppercase}
+  .eng-card h3{font-size:clamp(1.6rem,3vw,2.2rem);margin:16px 0 12px;text-transform:uppercase;color:var(--encre)}
+  .eng-card p{color:var(--gris);font-weight:300;font-size:.98rem}
+
+  /* --- citation plein écran --- */
+  .manifeste{padding:170px 0;background:
+    radial-gradient(80% 100% at 50% 100%,rgba(49,101,92,.07),transparent 60%),
+    var(--lin-chaud);border-block:1px solid var(--l-encre);text-align:center}
+  .manifeste blockquote{
+    font-family:'Italiana',serif;font-size:clamp(1.9rem,5vw,3.9rem);line-height:1.25;
+    max-width:1000px;margin:0 auto;color:var(--encre);
+  }
+  .manifeste blockquote .w{display:inline-block;opacity:.14;transition:opacity .6s ease}
+  .manifeste blockquote .w.lit{opacity:1}
+  .manifeste blockquote .gold{color:var(--laiton)}
+  .manifeste footer{font-family:'Spline Sans Mono',monospace;font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gris);margin-top:44px}
+
+  /* --- contact --- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start}
+  .c-big{font-size:clamp(2.6rem,5.6vw,4.6rem);text-transform:uppercase;color:var(--encre)}
+  .c-big .fine{color:var(--laiton)}
+  .c-lignes{margin-top:52px;border-top:1px solid var(--l-encre)}
+  .c-l{padding:26px 4px;border-bottom:1px solid var(--l-encre);display:flex;flex-direction:column;gap:8px}
+  .c-l .k{font-family:'Spline Sans Mono',monospace;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--laiton)}
+  .c-l .v{font-family:'Italiana',serif;font-size:clamp(1.4rem,2.6vw,2rem);color:var(--encre)}
+  .c-l .v a{position:relative}
+  .c-l .v a::after{content:"";position:absolute;left:0;bottom:-3px;width:0;height:1px;background:var(--laiton);transition:width .4s var(--ease)}
+  .c-l .v a:hover::after{width:100%}
+  .c-note{margin-top:26px;font-size:.82rem;color:var(--gris);font-weight:300;line-height:1.8}
+
+  form{display:flex;flex-direction:column}
+  .f-champ{position:relative;border-bottom:1px solid var(--l-encre);padding:26px 0 14px}
+  .f-champ label{
+    font-family:'Spline Sans Mono',monospace;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gris);
+    display:block;margin-bottom:10px;transition:color .3s;
+  }
+  .f-champ input,.f-champ select,.f-champ textarea{
+    width:100%;background:transparent;border:none;color:var(--encre);
+    font-family:'Manrope',sans-serif;font-size:1.15rem;font-weight:300;padding:4px 0;
+  }
+  .f-champ input::placeholder,.f-champ textarea::placeholder{color:#A9AFB5}
+  .f-champ select{appearance:none;cursor:pointer}
+  .f-champ select option{background:var(--lin-pale);color:var(--encre)}
+  .f-champ textarea{resize:vertical;min-height:90px}
+  .f-champ input:focus,.f-champ select:focus,.f-champ textarea:focus{outline:none}
+  .f-champ::after{content:"";position:absolute;bottom:-1px;left:0;width:0;height:1px;background:var(--laiton);transition:width .5s var(--ease)}
+  .f-champ:focus-within::after{width:100%}
+  .f-champ:focus-within label{color:var(--laiton)}
+  form .btn-mag{margin-top:44px;justify-content:center}
+  .f-note{font-family:'Spline Sans Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);text-align:center;margin-top:20px}
+
+  /* --- footer géant --- */
+  footer.pied{background:var(--lin-chaud);border-top:1px solid var(--l-encre);padding:90px 0 40px;overflow:hidden}
+  .pied-giant{
+    font-family:'Italiana',serif;font-size:clamp(3rem,12vw,11rem);text-transform:uppercase;
+    line-height:.95;letter-spacing:.02em;color:transparent;
+    -webkit-text-stroke:1px rgba(20,35,46,.3);white-space:nowrap;text-align:center;
+    transition:color .6s ease;user-select:none;
+  }
+  .pied-giant:hover{color:rgba(20,35,46,.08)}
+  .pied-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-top:70px;padding-top:44px;border-top:1px solid var(--l-encre)}
+  .pied-col h5{font-family:'Spline Sans Mono',monospace;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--laiton);margin-bottom:16px}
+  .pied-col a,.pied-col span{display:block;color:var(--gris);font-size:.88rem;margin-bottom:9px;font-weight:300}
+  .pied-col a:hover{color:var(--encre)}
+  .pied-bas{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;font-family:'Spline Sans Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris)}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(36px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+
+  /* ============ RESPONSIVE ============ */
+  @media(max-width:1000px){
+    .links{display:none}.burger{display:block}
+    .chap-head{grid-template-columns:1fr;gap:16px}
+    .chap-intro{grid-column:1}
+    .duo-grid,.eng-grid,.contact-grid{grid-template-columns:1fr;gap:60px}
+    .eng-side{position:static}
+    .item-head{grid-template-columns:44px 1fr auto;gap:16px}
+    .item .tag{display:none}
+    .item-body-in{padding-left:60px}
+    .scroll-cue{display:none}
+    .radar-bg{opacity:.45}
+  }
+  @media(max-width:600px){
+    .wrap{padding:0 24px}
+    section.chap{padding:100px 0}
+    .hero-sub{flex-direction:column;align-items:flex-start;gap:30px}
+    .h-stats{gap:28px}
+    .item-body-in{padding-left:0}
+    .pied-giant{white-space:normal}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    .hero h1 .line span{transform:none}
+    .manifeste blockquote .w{opacity:1}
+    .loader{display:none}
+    body.locked{overflow:auto}
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- PRELOADER -->
+<div class="loader" id="loader">
+  <div class="lmark"><span>Presqu'île Sécurité</span></div>
+  <div class="lsub">Saint-Tropez — Veille active</div>
+  <div class="lbar"><i id="lbar"></i></div>
+  <div class="lnum" id="lnum">00</div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress"></div>
+<div class="cur-dot" id="cdot" aria-hidden="true"></div>
+<div class="cur-ring" id="cring" aria-hidden="true"></div>
+
+<header id="hd">
+  <div class="wrap nav">
+    <a href="#" class="logo">
+      <span class="l1">Presqu'île Sécurité</span>
+      <span class="l2">Saint-Tropez</span>
+    </a>
+    <nav class="links">
+      <a href="#prestations"><b>01</b>Prestations</a>
+      <a href="#duo"><b>02</b>Signature</a>
+      <a href="#engagements"><b>03</b>Engagements</a>
+      <a href="#contact"><b>04</b>Contact</a>
+    </nav>
+    <div style="display:flex;gap:14px;align-items:center">
+      <a href="#contact" class="cta-nav">Devis</a>
+      <button class="burger" aria-label="Menu" onclick="const l=document.querySelector('.links');const s=l.style;if(getComputedStyle(l).display==='none'){s.display='flex';s.position='fixed';s.inset='72px 24px auto auto';s.flexDirection='column';s.gap='22px';s.background='rgba(243,239,230,.98)';s.padding='30px';s.border='1px solid rgba(20,35,46,.12)';s.borderRadius='8px';s.zIndex='120'}else{s.display='none'}">Menu</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <svg class="radar-bg" id="radar" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle class="grid-ring" cx="300" cy="300" r="280"/>
+    <circle class="grid-ring" cx="300" cy="300" r="210"/>
+    <circle class="grid-ring" cx="300" cy="300" r="140"/>
+    <circle class="grid-ring" cx="300" cy="300" r="70"/>
+    <line class="grid-ring" x1="300" y1="20" x2="300" y2="580"/>
+    <line class="grid-ring" x1="20" y1="300" x2="580" y2="300"/>
+    <path class="coast-fill" d="M80,470 L120,430 Q150,400 190,395 Q230,390 250,360 Q262,340 258,310 Q255,285 275,265 Q300,240 340,245 Q380,250 400,225 Q415,205 445,200 Q480,195 505,215 L530,235 L530,540 L80,540 Z"/>
+    <path class="coast" d="M80,470 L120,430 Q150,400 190,395 Q230,390 250,360 Q262,340 258,310 Q255,285 275,265 Q300,240 340,245 Q380,250 400,225 Q415,205 445,200 Q480,195 505,215 L530,235"/>
+    <g class="sweep">
+      <path d="M300,300 L300,20 A280,280 0 0 1 440,57 Z" fill="url(#cone)"/>
+      <line x1="300" y1="300" x2="300" y2="20" stroke="rgba(138,106,51,.4)" stroke-width="1.2"/>
+    </g>
+    <defs>
+      <linearGradient id="cone" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="rgba(138,106,51,.12)"/>
+        <stop offset="1" stop-color="rgba(138,106,51,0)"/>
+      </linearGradient>
+    </defs>
+    <g>
+      <circle class="pt" cx="330" cy="290" r="4.5"/><circle class="pt-halo" cx="330" cy="290" r="4"/>
+      <text class="pt-label main" x="344" y="286">Saint-Tropez</text>
+      <circle class="pt" cx="310" cy="380" r="3.5"/><circle class="pt-halo" cx="310" cy="380" r="4" style="animation-delay:.8s"/>
+      <text class="pt-label" x="324" y="384">Ramatuelle</text>
+      <circle class="pt" cx="245" cy="345" r="3.5"/><circle class="pt-halo" cx="245" cy="345" r="4" style="animation-delay:1.6s"/>
+      <text class="pt-label" x="178" y="349">Gassin</text>
+      <circle class="pt" cx="215" cy="270" r="3.5"/><circle class="pt-halo" cx="215" cy="270" r="4" style="animation-delay:2.4s"/>
+      <text class="pt-label" x="142" y="274">Grimaud</text>
+      <circle class="pt" cx="285" cy="180" r="3.5"/><circle class="pt-halo" cx="285" cy="180" r="4" style="animation-delay:3.2s"/>
+      <text class="pt-label" x="299" y="176">Sainte-Maxime</text>
+      <circle class="pt" cx="215" cy="440" r="3.5"/><circle class="pt-halo" cx="215" cy="440" r="4" style="animation-delay:4s"/>
+      <text class="pt-label" x="100" y="444">La Croix-Valmer</text>
+    </g>
+    <circle cx="300" cy="300" r="2.5" fill="rgba(20,35,46,.55)"/>
+  </svg>
+
+  <div class="wrap hero-inner">
+    <div class="h-kicker">Gardiennage · Protection · Saint-Tropez</div>
+    <h1 aria-label="La presqu'île sous bonne garde">
+      <span class="line"><span>La presqu'île</span></span>
+      <span class="line"><span>sous <em class="fine">bonne garde.</em></span></span>
+    </h1>
+    <div class="hero-sub">
+      <p>Gardiennage de propriétés, sécurité d'événements privés et protection rapprochée sur le golfe de Saint-Tropez. <b>Une équipe locale, un réseau établi, une discrétion sans faille.</b></p>
+      <div class="h-stats">
+        <div class="hs"><span class="v">24/7</span><span class="k">Veille</span></div>
+        <div class="hs"><span class="v">CNAPS</span><span class="k">Agréée</span></div>
+        <div class="hs"><span class="v">8</span><span class="k">Communes</span></div>
+      </div>
+    </div>
+    <div class="h-cta">
+      <a href="#contact" class="btn-mag" data-mag>Demander un devis <span class="fl">→</span></a>
+      <a href="#prestations" class="btn-mag ghost" data-mag>Nos prestations</a>
+    </div>
+  </div>
+  <div class="scroll-cue">Défiler</div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span>Gardiennage de villas<i>◆</i>Événements privés<i>◆</i>Protection rapprochée<i>◆</i>Surveillance nautique<i>◆</i>Rondes de nuit<i>◆</i>Sécurité &amp; chauffeur privé<i>◆</i></span>
+    <span>Gardiennage de villas<i>◆</i>Événements privés<i>◆</i>Protection rapprochée<i>◆</i>Surveillance nautique<i>◆</i>Rondes de nuit<i>◆</i>Sécurité &amp; chauffeur privé<i>◆</i></span>
+  </div>
+</div>
+
+<!-- ================= PRESTATIONS ================= -->
+<section class="chap" id="prestations">
+  <div class="wrap">
+    <div class="chap-head rv">
+      <span class="chap-num">Dossier 01</span>
+      <h2>Chaque bien, chaque nuit, <span class="fine">son dispositif.</span></h2>
+      <p class="chap-intro">Des agents formés et agréés, un interlocuteur unique, un dispositif dimensionné au besoin réel. Cliquez pour dérouler.</p>
+    </div>
+
+    <div class="liste rv">
+      <div class="item">
+        <div class="item-head" data-acc>
+          <span class="n">01</span><h3>Gardiennage de propriétés</h3>
+          <span class="tag">Résidentiel</span><span class="plus">+</span>
+        </div>
+        <div class="item-body"><div class="item-body-in">Villas et résidences, <b>occupées ou fermées hors saison</b>. Rondes intérieures et extérieures, gestion des accès et des prestataires, ouverture et fermeture saisonnière, levée de doute sur alarme. Compte rendu après chaque passage.</div></div>
+      </div>
+      <div class="item">
+        <div class="item-head" data-acc>
+          <span class="n">02</span><h3>Sécurité événementielle</h3>
+          <span class="tag">Événementiel</span><span class="plus">+</span>
+        </div>
+        <div class="item-body"><div class="item-body-in">Soirées privées, mariages, réceptions. <b>Filtrage des accès, gestion des listes d'invités</b>, encadrement discret, coordination avec traiteurs, voituriers et équipes du lieu. Le dispositif se fond dans l'événement.</div></div>
+      </div>
+      <div class="item">
+        <div class="item-head" data-acc>
+          <span class="n">03</span><h3>Protection rapprochée</h3>
+          <span class="tag">Personnes</span><span class="plus">+</span>
+        </div>
+        <div class="item-body"><div class="item-body-in">Accompagnement de personnalités et de clientèle exigeante. <b>Agents dédiés</b>, préparation des itinéraires et des déplacements, présence sobre et professionnelle, en ville comme en soirée.</div></div>
+      </div>
+      <div class="item">
+        <div class="item-head" data-acc>
+          <span class="n">04</span><h3>Surveillance nautique</h3>
+          <span class="tag">Port &amp; mer</span><span class="plus">+</span>
+        </div>
+        <div class="item-body"><div class="item-body-in">Veille sur les yachts et leurs abords, <b>présence à quai</b>, surveillance des propriétés en bord de mer, liaison directe avec les équipages et les capitaineries.</div></div>
+      </div>
+      <div class="item">
+        <div class="item-head" data-acc>
+          <span class="n">05</span><h3>Rondes &amp; levée de doute</h3>
+          <span class="tag">Continu</span><span class="plus">+</span>
+        </div>
+        <div class="item-body"><div class="item-body-in">Passages programmés ou aléatoires, contrôle des installations, <b>intervention rapide sur alerte</b>, rapport systématique avec horodatage.</div></div>
+      </div>
+      <div class="item">
+        <div class="item-head" data-acc>
+          <span class="n">06</span><h3>Audit de sûreté</h3>
+          <span class="tag">Conseil</span><span class="plus">+</span>
+        </div>
+        <div class="item-body"><div class="item-body-in">Évaluation des vulnérabilités de votre bien : accès, clôtures, éclairage, angles morts, habitudes. <b>Recommandations concrètes et hiérarchisées</b>, avec ou sans mise en œuvre par nos équipes.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DUO ================= -->
+<section class="chap duo" id="duo">
+  <div class="wrap duo-grid">
+    <div class="rv">
+      <span class="duo-badge">Dossier 02 — Notre signature</span>
+      <h2>Sécurité &amp; chauffeur, <span class="fine">un seul interlocuteur.</span></h2>
+      <p class="dp">Notre association avec un service de <b>transport privé haut de gamme solidement implanté sur la presqu'île</b> nous permet de coordonner protection et déplacements sans friction. Une exigence commune : discrétion, ponctualité, fiabilité.</p>
+    </div>
+    <ul class="duo-liste rv">
+      <li><span class="li-n">A</span>Un agent pour veiller, un chauffeur pour vous conduire</li>
+      <li><span class="li-n">B</span>Transferts aéroport, héliport et port sécurisés</li>
+      <li><span class="li-n">C</span>Coordination complète des soirées : arrivées, départs, accès</li>
+      <li><span class="li-n">D</span>Séjours clés en main pour la clientèle de passage</li>
+      <li><span class="li-n">E</span>Un seul devis, une seule équipe, zéro friction</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= ENGAGEMENTS ================= -->
+<section class="chap" id="engagements">
+  <div class="wrap eng-grid">
+    <div class="eng-side rv">
+      <span class="chap-num">Dossier 03</span>
+      <h2 style="margin-top:18px">Ce que nous <span style="color:var(--laiton)">garantissons.</span></h2>
+      <p>Trois engagements non négociables, sur lesquels repose chaque mission que nous acceptons.</p>
+    </div>
+    <div class="eng-cards">
+      <div class="eng-card rv">
+        <span class="en">Engagement 01</span>
+        <h3>Cadre légal strict</h3>
+        <p>Entreprise autorisée CNAPS, agents titulaires de la carte professionnelle, assurances à jour. La conformité n'est pas une option — c'est le socle.</p>
+      </div>
+      <div class="eng-card rv">
+        <span class="en">Engagement 02</span>
+        <h3>Réactivité locale</h3>
+        <p>Basés sur la presqu'île, nous connaissons chaque route, chaque quartier, chaque saison. Nos délais d'intervention s'en ressentent — surtout en été.</p>
+      </div>
+      <div class="eng-card rv">
+        <span class="en">Engagement 03</span>
+        <h3>Discrétion absolue</h3>
+        <p>Confidentialité contractuelle, agents formés au contact d'une clientèle exigeante. Une présence efficace, jamais ostentatoire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MANIFESTE ================= -->
+<section class="manifeste">
+  <div class="wrap">
+    <blockquote id="quote">La meilleure sécurité est celle qu'on ne remarque pas — <span class="gold">jusqu'au jour où l'on en a besoin.</span></blockquote>
+    <footer>Notre conviction — Presqu'île Sécurité</footer>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="chap" id="contact">
+  <div class="wrap contact-grid">
+    <div class="rv">
+      <span class="chap-num">Dossier 04</span>
+      <h2 class="c-big" style="margin-top:18px">Parlons de <span class="fine">votre besoin.</span></h2>
+      <div class="c-lignes">
+        <div class="c-l"><span class="k">Téléphone</span><span class="v"><a href="tel:+33600000000">+33 6 00 00 00 00</a></span></div>
+        <div class="c-l"><span class="k">Email</span><span class="v"><a href="mailto:contact@presquile-securite.fr">contact@presquile-securite.fr</a></span></div>
+        <div class="c-l"><span class="k">Zone</span><span class="v">Saint-Tropez &amp; le golfe</span></div>
+      </div>
+      <p class="c-note">Saint-Tropez · Ramatuelle · Gassin · Grimaud · Port Grimaud · Cogolin · Sainte-Maxime · La Croix-Valmer — et au-delà sur demande. Devis gratuit, réponse sous 24 h.</p>
+    </div>
+
+    <form class="rv" onsubmit="return envoyer(event)">
+      <div class="f-champ"><label for="nom">Nom</label><input id="nom" type="text" required placeholder="Votre nom"></div>
+      <div class="f-champ"><label for="tel">Téléphone</label><input id="tel" type="tel" placeholder="Votre numéro"></div>
+      <div class="f-champ"><label for="email">Email</label><input id="email" type="email" required placeholder="vous@exemple.fr"></div>
+      <div class="f-champ"><label for="type">Type de besoin</label>
+        <select id="type">
+          <option>Gardiennage de propriété</option>
+          <option>Sécurité événementielle</option>
+          <option>Protection rapprochée</option>
+          <option>Surveillance nautique / port</option>
+          <option>Rondes &amp; levée de doute</option>
+          <option>Sécurité + chauffeur privé</option>
+          <option>Autre / à définir ensemble</option>
+        </select>
+      </div>
+      <div class="f-champ"><label for="msg">Message</label><textarea id="msg" placeholder="Lieu, dates, nature du besoin… quelques lignes suffisent."></textarea></div>
+      <button type="submit" class="btn-mag" data-mag>Envoyer ma demande <span class="fl">→</span></button>
+      <p class="f-note">Confidentiel — jamais partagé</p>
+    </form>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="pied">
+  <div class="wrap">
+    <div class="pied-giant" aria-hidden="true">Presqu'île</div>
+    <div class="pied-grid">
+      <div class="pied-col">
+        <h5>Prestations</h5>
+        <a href="#prestations">Gardiennage</a>
+        <a href="#prestations">Événementiel</a>
+        <a href="#prestations">Protection rapprochée</a>
+        <a href="#duo">Sécurité + chauffeur</a>
+      </div>
+      <div class="pied-col">
+        <h5>Entreprise</h5>
+        <a href="#engagements">Engagements</a>
+        <a href="#contact">Contact &amp; devis</a>
+        <a href="#top">Haut de page</a>
+      </div>
+      <div class="pied-col">
+        <h5>Coordonnées</h5>
+        <span>+33 6 00 00 00 00</span>
+        <span>contact@presquile-securite.fr</span>
+        <span>Saint-Tropez, Var</span>
+      </div>
+    </div>
+    <div class="pied-bas">
+      <span>© 2026 Presqu'île Sécurité — CNAPS n° [à compléter]</span>
+      <span>Mentions légales · Confidentialité</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- preloader ---- */
+  const loader=document.getElementById('loader'),lbar=document.getElementById('lbar'),lnum=document.getElementById('lnum');
+  if(reduced){document.body.classList.remove('locked');document.body.classList.add('ready');}
+  else{
+    let p=0;
+    const t=setInterval(()=>{
+      p=Math.min(100,p+Math.random()*14);
+      lbar.style.transform=`scaleX(${p/100})`;
+      lnum.textContent=String(Math.floor(p)).padStart(2,'0');
+      if(p>=100){
+        clearInterval(t);
+        setTimeout(()=>{
+          loader.classList.add('out');
+          document.body.classList.remove('locked');
+          document.body.classList.add('ready');
+        },350);
+      }
+    },90);
+  }
+
+  /* ---- curseur ---- */
+  const dot=document.getElementById('cdot'),ring=document.getElementById('cring');
+  let mx=0,my=0,rx=0,ry=0;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});
+  (function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(loop)})();
+  document.querySelectorAll('a,button,[data-acc]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('cur-hover'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('cur-hover'));
+  });
+
+  /* ---- header + progress ---- */
+  const hd=document.getElementById('hd'),prog=document.getElementById('progress');
+  addEventListener('scroll',()=>{
+    hd.classList.toggle('on',scrollY>50);
+    const h=document.documentElement;
+    prog.style.width=(scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';
+  },{passive:true});
+
+  /* ---- radar parallax ---- */
+  const radar=document.getElementById('radar');
+  if(!reduced&&radar){
+    addEventListener('scroll',()=>{
+      const y=scrollY*.18;
+      radar.style.transform=`translate(-50%,calc(-56% + ${y}px)) scale(${1+scrollY*.00012})`;
+    },{passive:true});
+  }
+
+  /* ---- reveal ---- */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+  }),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  /* ---- accordéons ---- */
+  document.querySelectorAll('[data-acc]').forEach(head=>{
+    head.addEventListener('click',()=>{
+      const item=head.parentElement,body=item.querySelector('.item-body'),open=item.classList.contains('open');
+      document.querySelectorAll('.item.open').forEach(o=>{o.classList.remove('open');o.querySelector('.item-body').style.maxHeight='0'});
+      if(!open){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px'}
+    });
+  });
+
+  /* ---- citation mot à mot ---- */
+  const q=document.getElementById('quote');
+  if(q){
+    const nodes=[...q.childNodes];q.textContent='';
+    nodes.forEach(n=>{
+      const gold=n.nodeType===1&&n.classList.contains('gold');
+      (n.textContent||'').split(/\s+/).filter(Boolean).forEach(w=>{
+        const s=document.createElement('span');s.className='w'+(gold?' gold':'');s.textContent=w;
+        q.appendChild(s);q.appendChild(document.createTextNode(' '));
+      });
+    });
+    const ws=q.querySelectorAll('.w');
+    if(reduced){ws.forEach(w=>w.classList.add('lit'));}
+    else{
+      const qio=new IntersectionObserver(es=>es.forEach(e=>{
+        if(e.isIntersecting){ws.forEach((w,i)=>setTimeout(()=>w.classList.add('lit'),i*55));qio.disconnect()}
+      }),{threshold:.5});
+      qio.observe(q);
+    }
+  }
+
+  /* ---- boutons magnétiques ---- */
+  if(!reduced&&matchMedia('(hover:hover)').matches){
+    document.querySelectorAll('[data-mag]').forEach(b=>{
+      b.addEventListener('mousemove',e=>{
+        const r=b.getBoundingClientRect();
+        b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.28}px)`;
+      });
+      b.addEventListener('mouseleave',()=>b.style.transform='');
+    });
+  }
+
+  /* ---- formulaire -> mail prérempli (rien n'est stocké) ---- */
+  window.envoyer=function(ev){
+    ev.preventDefault();
+    const g=id=>document.getElementById(id).value;
+    const corps=['Nom : '+g('nom'),'Téléphone : '+g('tel'),'Email : '+g('email'),'Besoin : '+g('type'),'',g('msg')].join('\n');
+    location.href='mailto:contact@presquile-securite.fr?subject='+encodeURIComponent('Demande de devis — '+g('type'))+'&body='+encodeURIComponent(corps);
+    return false;
+  };
+})();
+</script>
+</body>
+</html>
